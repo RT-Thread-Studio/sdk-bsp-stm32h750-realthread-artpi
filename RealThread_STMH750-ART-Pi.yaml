@@ -1,0 +1,193 @@
+---
+yaml_version: 3
+pkg_version: 0.1.0
+pkg_vendor: RealThread
+pkg_type: Board_Support_Packages
+board:
+  name: STM32H750-ART-Pi
+  version: Rev.A
+  vendor: RT-Thread
+  description_zh: ART-Pi 是 RT-Thread 团队经过半年的精心准备，专门为嵌入式软件工程师、开源创客设计的一款极具扩展功能的 DIY 开源硬件.
+  description_en: ART-Pi is a DIY open source hardware specially designed for embedded software engineers and open source makers after six months of careful preparation by RT-Thread team
+  small_image: documents/images/board_small.png
+  large_image: documents/images/board_large.png
+  sale_contact_cn: http://www.st.com/stonline/contactus/contacts/index.php
+  sale_contact_global: http://www.st.com/stonline/contactus/contacts/index.php
+  buy_url_cn: https://www.rt-thread.org/
+  buy_url_global: https://www.rt-thread.org/
+  price_cn: 9900.00 CNY
+  price_global: 1000.00 USD
+  debugger: ST-LINK
+  debug_interface: SWD
+  emulator_machine: ''
+chip:
+  device_vendor: STMicroelectronics
+  family_name: STM32
+  series_name: STM32H7
+  sub_series_name: STM32H750
+  chip_name: STM32H750XBHx
+  rx_name: PI9
+  tx_name: PA0
+  clock_source: HSE
+  source_freq: '25000000'
+  target_freq: '480000000'
+  uart_name: UART4
+docs:
+- file: documents/manuals/RT-Thread-ART-Pi.md
+  title: Rt-Thread ART Pi
+  category: manual
+- file: documents/sheet/STM32H750xx Datasheet.pdf
+  title: STM32h750xx Datasheet
+  category: sheet
+features:
+- STM32H750XBH6 microcontroller featuring 128 Kbytes of Flash memory, 1024 Kbytes of RAM in an TFBGA240 package
+- On-board ST-LINK/V2.1
+- USB OTG with Type-c- connector
+- SDIO TF Card slot
+- SDIO WIFI:AP6212
+- HDC UART BuleTooth:AP6212
+- RGB888 FPC connector
+- 32-Mbytes SDRAM
+- 16-Mbytes SPI FLASH
+- 8-Mbytes QSPI FLASH
+- D1 (blue) for 3.3 V power-on
+- "Two user LEDs: D2 (blue), D2 (red)"
+- "Two ST-LINK LEDs: D4 (blue), D4 (red)"
+- Two push-buttons (user and reset)
+features_zh:
+- STM32H750XBH6 microcontroller featuring 128 Kbytes of Flash memory, 1024 Kbytes of RAM in an TFBGA240 package
+- On-board ST-LINK/V2.1
+- USB OTG with Type-c- connector
+- SDIO TF Card slot
+- SDIO WIFI:AP6212
+- HDC UART BuleTooth:AP6212
+- RGB888 FPC connector
+- 32-Mbytes SDRAM
+- 16-Mbytes SPI FLASH
+- 8-Mbytes QSPI FLASH
+- D1 (blue) for 3.3 V power-on
+- "Two user LEDs: D2 (blue), D2 (red)"
+- "Two ST-LINK LEDs: D4 (blue), D4 (red)"
+- Two push-buttons (user and reset)
+template_projects:
+- project_name: art_pi_blink_led
+  project_description: creat this peoject if user choose rt-thread project
+  project_type: rt-thread|@full|@4.0.2
+  builtin_files:
+  - source_path_offset: projects/art_pi_blink_led
+    target_path_offset: ''
+    files_and_folders:
+    - ".settings"
+    - applications
+    - linkscripts
+    - ".config"
+    - ".cproject"
+    - ".gitignore"
+    - ".gitattributes"
+    - ".project"
+    - cconfig.h
+    - Kconfig
+    - makefile.targets
+    - README.md
+    - rtconfig.h
+    - rtconfig.py
+    - rtconfig_preinc.h
+    - SConscript
+    - SConstruct
+    - template.uvoptx
+    - template.uvprojx
+    - project.uvprojx
+  - source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders:
+    - libraries
+    - rt-thread
+  external_files:
+  - package_type: Chip_Support_Packages
+    package_vendor: RealThread
+    package_name: STM32H7
+    package_version: 0.1.9
+    source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders: []
+example_projects: 
+- project_name: art_pi_blink_led
+  project_description: creat this peoject if user choose rt-thread project
+  project_type: rt-thread|@full|@4.0.2
+  builtin_files:
+  - source_path_offset: projects/art_pi_blink_led
+    target_path_offset: ''
+    files_and_folders:
+    - ".settings"
+    - applications
+    - linkscripts
+    - ".config"
+    - ".cproject"
+    - ".gitignore"
+    - ".gitattributes"
+    - ".project"
+    - cconfig.h
+    - Kconfig
+    - makefile.targets
+    - README.md
+    - rtconfig.h
+    - rtconfig.py
+    - rtconfig_preinc.h
+    - SConscript
+    - SConstruct
+    - template.uvoptx
+    - template.uvprojx
+    - project.uvprojx
+  - source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders:
+    - libraries
+    - rt-thread
+  external_files:
+  - package_type: Chip_Support_Packages
+    package_vendor: RealThread
+    package_name: STM32H7
+    package_version: 0.1.9
+    source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders: []
+- project_name: art_pi_bootloader
+  project_description: creat this peoject if user choose rt-thread project
+  project_type: rt-thread|@full|@4.0.2
+  builtin_files:
+  - source_path_offset: projects/art_pi_bootloader
+    target_path_offset: ''
+    files_and_folders:
+    - ".settings"
+    - applications
+    - linkscripts
+    - ".config"
+    - ".cproject"
+    - ".gitignore"
+    - ".gitattributes"
+    - ".project"
+    - cconfig.h
+    - Kconfig
+    - makefile.targets
+    - README.md
+    - rtconfig.h
+    - rtconfig.py
+    - rtconfig_preinc.h
+    - SConscript
+    - SConstruct
+    - template.uvoptx
+    - template.uvprojx
+    - project.uvprojx
+  - source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders:
+    - libraries
+    - rt-thread
+  external_files:
+  - package_type: Chip_Support_Packages
+    package_vendor: RealThread
+    package_name: STM32H7
+    package_version: 0.1.9
+    source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders: []
