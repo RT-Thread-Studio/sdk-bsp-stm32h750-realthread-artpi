@@ -515,9 +515,7 @@ void W25QXX_Write(uint8_t *pbuf, uint32_t addr, uint16_t size)
     sec_pos = addr / 4096;
     sec_off = addr % 4096;
     sec_rem = 4096 - sec_off;
-#ifdef DEBUG
-    printf("addr:%08X size:%hu\r\n", addr, size);
-#endif
+
     if (size <= sec_rem)
     {
         sec_rem = size;

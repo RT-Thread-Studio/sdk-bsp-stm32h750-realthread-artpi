@@ -5,7 +5,7 @@
 /* Program Entry, set to mark it as "used" and avoid gc */
 MEMORY
 {
-ROM (rx) : ORIGIN =0x08000000,LENGTH =2048k
+ROM (rx) : ORIGIN =0x08000000,LENGTH =128k
 RAM (rw) : ORIGIN =0x24000000,LENGTH =512k
 }
 ENTRY(Reset_Handler)
