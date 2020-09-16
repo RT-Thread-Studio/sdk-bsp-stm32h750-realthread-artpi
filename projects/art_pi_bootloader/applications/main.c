@@ -29,7 +29,6 @@ pFunction JumpToApplication;
 
 int main(void)
 {
-    int count = 10;
     /* set LED0 pin mode to output */
     rt_pin_mode(LED0_PIN, PIN_MODE_OUTPUT);
 
@@ -44,6 +43,7 @@ int main(void)
 
     JumpToApplication = (pFunction)(*(__IO uint32_t *)(APPLICATION_ADDRESS + 4));
     __set_MSP(*(__IO uint32_t *)APPLICATION_ADDRESS);
+
     JumpToApplication();
 
     return RT_EOK;

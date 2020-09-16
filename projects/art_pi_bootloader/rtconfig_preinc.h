@@ -6,7 +6,7 @@
 /* RT-Thread pre-include file */
 
 #define HAVE_CCONFIG_H
-#define RT_USING_NEWLIB
+#define RT_USING_MINILIBC
 #define STM32H750xx
 #define USE_HAL_DRIVER
 
