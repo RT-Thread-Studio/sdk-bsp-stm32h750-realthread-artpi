@@ -11,8 +11,6 @@
 #include "w25qxx.h"
 
 /*----------------------------------------------------------------------------*/
-//#define  DEBUG
-/*----------------------------------------------------------------------------*/
 #define W25QXX_MODE_SPI 0
 #define W25QXX_MODE_QPI 1
 
@@ -329,9 +327,7 @@ uint16_t W25QXX_MftrDeviceID(void)
         return MftrID;
     }
     MftrID = (pData[0] << 8) | pData[1];
-#ifdef DEBUG
-    rt_kprintf("MID: %04X\r\n", MftrID);
-#endif
+
     return MftrID;
 }
 
@@ -372,13 +368,7 @@ uint8_t W25QXX_UniqueID(void)
     {
         return 1;
     }
-#ifdef DEBUG
-    uint32_t id;
-    id = (w25qxx_uid[0] << 24) | (w25qxx_uid[1] << 16) | (w25qxx_uid[2] << 8) | w25qxx_uid[3];
-    rt_kprintf("UID: %08X", id);
-    id = (w25qxx_uid[4] << 24) | (w25qxx_uid[5] << 16) | (w25qxx_uid[6] << 8) | w25qxx_uid[7];
-    rt_kprintf("%08X\r\n", id);
-#endif
+
     return 0;
 }
 
@@ -704,69 +694,10 @@ void W25Q_Memory_Mapped_Enable(void)
  
   /* Configure the memory mapped mode */
   s_mem_mapped_cfg.TimeOutActivation = QSPI_TIMEOUT_COUNTER_DISABLE;
-  s_mem_mapped_cfg.TimeOutPeriod = 0; //1;
+  s_mem_mapped_cfg.TimeOutPeriod = 0;
  
   if (HAL_QSPI_MemoryMapped(&hqspi, &s_command, &s_mem_mapped_cfg) != HAL_OK)
   {
 
   }
-}
-
-
-/**
-* @brief QSPI MSP Initialization
-* This function configures the hardware resources used in this example
-* @param hqspi: QSPI handle pointer
-* @retval None
-*/
-void HAL_QSPI_MspInit(QSPI_HandleTypeDef* hqspi)
-{
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
-  if(hqspi->Instance==QUADSPI)
-  {
-  /* USER CODE BEGIN QUADSPI_MspInit 0 */
-
-  /* USER CODE END QUADSPI_MspInit 0 */
-    /* Peripheral clock enable */
-    __HAL_RCC_QSPI_CLK_ENABLE();
-  
-    __HAL_RCC_GPIOG_CLK_ENABLE();
-    __HAL_RCC_GPIOF_CLK_ENABLE();
-    /**QUADSPI GPIO Configuration    
-    PG6     ------> QUADSPI_BK1_NCS
-    PF6     ------> QUADSPI_BK1_IO3
-    PF7     ------> QUADSPI_BK1_IO2
-    PF8     ------> QUADSPI_BK1_IO0
-    PF10     ------> QUADSPI_CLK
-    PF9     ------> QUADSPI_BK1_IO1 
-    */
-    GPIO_InitStruct.Pin = GPIO_PIN_6;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF10_QUADSPI;
-    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-
-    GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_10;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF9_QUADSPI;
-    HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
-
-    GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF10_QUADSPI;
-    HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
-
-    /* QUADSPI interrupt Init */
-    HAL_NVIC_SetPriority(QUADSPI_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(QUADSPI_IRQn);
-  /* USER CODE BEGIN QUADSPI_MspInit 1 */
-
-  /* USER CODE END QUADSPI_MspInit 1 */
-  }
-
 }

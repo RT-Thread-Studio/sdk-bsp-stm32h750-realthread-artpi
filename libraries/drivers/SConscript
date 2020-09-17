@@ -7,8 +7,6 @@ Import('SDK_LIB')
 cwd = GetCurrentDir()
 # add general drivers
 src = Split('''
-board.c
-drv_clk.c
 drv_common.c
 drv_usart.c
 drv_gpio.c

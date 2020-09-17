@@ -29,13 +29,9 @@ extern "C"
 /*-------------------------- CHIP CONFIG END --------------------------*/
 
 /*-------------------------- ROM/RAM CONFIG BEGIN --------------------------*/
-
-#define ROM_START              ((uint32_t)0x08000000)
-#define ROM_SIZE               (128)
-#define ROM_END                ((uint32_t)(ROM_START + ROM_SIZE * 1024))
-// #define ROM_START              ((uint32_t)0x90000000) //whj
-// #define ROM_SIZE               (16384)
-// #define ROM_END                ((uint32_t)(ROM_START + ROM_SIZE * 1024))
+ #define ROM_START              ((uint32_t)0x90000000)
+ #define ROM_SIZE               (16384)
+ #define ROM_END                ((uint32_t)(ROM_START + ROM_SIZE * 1024))
 
 #define RAM_START              (0x24000000)
 #define RAM_SIZE               (512)
@@ -45,9 +41,9 @@ extern "C"
 
 /*-------------------------- CLOCK CONFIG BEGIN --------------------------*/
 
-#define BSP_CLOCK_SOURCE                  ("HSI")
+#define BSP_CLOCK_SOURCE                  ("HSE")
 #define BSP_CLOCK_SOURCE_FREQ_MHZ         ((int32_t)0)
-#define BSP_CLOCK_SYSTEM_FREQ_MHZ         ((int32_t)180)
+#define BSP_CLOCK_SYSTEM_FREQ_MHZ         ((int32_t)480)
 
 /*-------------------------- CLOCK CONFIG END --------------------------*/
 

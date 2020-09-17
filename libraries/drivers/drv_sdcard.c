@@ -11,7 +11,7 @@
 
 #include <rtthread.h>
 
-#ifdef BSP_USING_SDCARD
+#ifdef ART_PI_USING_SDCARD
 
 #include <dfs_fs.h>
 #include "drv_sdio.h"
