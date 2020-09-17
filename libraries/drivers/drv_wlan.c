@@ -208,7 +208,8 @@ static void wifi_init_thread_entry(void *parameter)
 
         /* set wifi work mode */
         rt_wlan_set_mode(RT_WLAN_DEVICE_STA_NAME, RT_WLAN_STATION);
-        rt_wlan_set_mode(RT_WLAN_DEVICE_AP_NAME, RT_WLAN_AP);
+        /* NEED TODO !!! */
+        /* rt_wlan_set_mode(RT_WLAN_DEVICE_AP_NAME, RT_WLAN_AP); */
 
         init_flag = 1;
     }
