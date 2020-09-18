@@ -79,6 +79,7 @@ template_projects:
     files_and_folders:
     - ".settings"
     - applications
+    - board
     - linkscripts
     - ".config"
     - ".cproject"
@@ -120,6 +121,7 @@ example_projects:
     files_and_folders:
     - ".settings"
     - applications
+    - board
     - linkscripts
     - ".config"
     - ".cproject"
@@ -160,6 +162,7 @@ example_projects:
     files_and_folders:
     - ".settings"
     - applications
+    - board
     - linkscripts
     - ".config"
     - ".cproject"
