@@ -1,14 +1,13 @@
 import os
-import rtconfig
 from building import *
-
-Import('SDK_LIB')
 
 cwd = GetCurrentDir()
 
 # add general drivers
-src = Split('''
-board.c
+src = Glob('*.c')
+
+# add cubemx drivers
+src += Split('''
 CubeMX_Config/Core/Src/stm32h7xx_hal_msp.c
 ''')
 
