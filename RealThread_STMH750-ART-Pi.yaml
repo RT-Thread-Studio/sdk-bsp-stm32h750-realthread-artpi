@@ -80,7 +80,6 @@ template_projects:
     - ".settings"
     - applications
     - board
-    - linkscripts
     - ".config"
     - ".cproject"
     - ".gitignore"
@@ -122,7 +121,6 @@ example_projects:
     - ".settings"
     - applications
     - board
-    - linkscripts
     - ".config"
     - ".cproject"
     - ".gitignore"
@@ -163,7 +161,6 @@ example_projects:
     - ".settings"
     - applications
     - board
-    - linkscripts
     - ".config"
     - ".cproject"
     - ".gitignore"
