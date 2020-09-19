@@ -1,2 +1,2 @@
-/rt-thread/tools/*.pyc
-/libraries/STM32H7xx_HAL/CMSIS/Device/ST/STM32H7xx/Source/Templates/gcc/*.o
+*.pyc
+*.o
