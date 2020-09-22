@@ -54,7 +54,8 @@ class BspParser(object):
             return False
         return True
 
-    def get_builtin_file_from_project(self, project):
+    @staticmethod
+    def get_builtin_file_from_project(project):
         internal_files_folders_list = []
         try:
             builtin_files_dict_list = project["builtin_files"]
@@ -66,4 +67,3 @@ class BspParser(object):
         except Exception as e:
             logging.error("BSP parser error:{0}".format(e))
             return []
-
