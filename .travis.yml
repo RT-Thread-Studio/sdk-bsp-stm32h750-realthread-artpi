@@ -1,22 +1,33 @@
-language: c
+jobs:
+    include:
+        - language: c
 
-notifications:
-  email: false
+          notifications:
+            email: false
 
-before_script:
-# travis has changed to 64-bit and we require 32-bit compatibility libraries
-  - sudo apt-get update
-  # clang
-  - "sudo apt-get -qq install gcc-multilib libc6:i386 libgcc1:i386 libstdc++5:i386 libstdc++6:i386 libsdl-dev scons || true"
-  - "[ $RTT_TOOL_CHAIN = 'sourcery-arm' ] && wget -q https://github.com/RT-Thread/toolchains-ci/releases/download/arm-2017q2-v6/gcc-arm-none-eabi-6-2017-q2-update-linux.tar.bz2 && sudo tar xjf gcc-arm-none-eabi-6-2017-q2-update-linux.tar.bz2 -C /opt && export RTT_EXEC_PATH=/opt/gcc-arm-none-eabi-6-2017-q2-update/bin && /opt/gcc-arm-none-eabi-6-2017-q2-update/bin/arm-none-eabi-gcc --version || true"
-  - export RTT_ROOT=`pwd`
-  - "[ x$RTT_CC == x ] && export RTT_CC='gcc' || true"
+          before_script:
+          # travis has changed to 64-bit and we require 32-bit compatibility libraries
+            - sudo apt-get update
+            # clang
+            - "sudo apt-get -qq install gcc-multilib libc6:i386 libgcc1:i386 libstdc++5:i386 libstdc++6:i386 libsdl-dev scons || true"
+            - "[ $RTT_TOOL_CHAIN = 'sourcery-arm' ] && wget -q https://github.com/RT-Thread/toolchains-ci/releases/download/arm-2017q2-v6/gcc-arm-none-eabi-6-2017-q2-update-linux.tar.bz2 && sudo tar xjf gcc-arm-none-eabi-6-2017-q2-update-linux.tar.bz2 -C /opt && export RTT_EXEC_PATH=/opt/gcc-arm-none-eabi-6-2017-q2-update/bin && /opt/gcc-arm-none-eabi-6-2017-q2-update/bin/arm-none-eabi-gcc --version || true"
+            - export RTT_ROOT=`pwd`
+            - "[ x$RTT_CC == x ] && export RTT_CC='gcc' || true"
 
-env:
-  - RTT_BSP='projects/art_pi_blink_led' RTT_TOOL_CHAIN='sourcery-arm'
-  - RTT_BSP='projects/art_pi_bootloader' RTT_TOOL_CHAIN='sourcery-arm'
+          env:
+            - RTT_BSP='projects/art_pi_blink_led' RTT_TOOL_CHAIN='sourcery-arm'
+            - RTT_BSP='projects/art_pi_bootloader' RTT_TOOL_CHAIN='sourcery-arm'
 
-stage: compile
-script:
-  - scons -C $RTT_BSP
+          stage: compile
+          script:
+            - scons -C $RTT_BSP
 
+        - language: python
+          python: 3.7
+          install:
+            - pip install rt-thread-studio
+          before_script:
+            - sudo apt-get update
+          stage: check-yaml-format
+          script:
+            - python -c "from rt_thread_studio import bsp_checker;bsp_path = '.';checker = bsp_checker.BspChecker(bsp_path);checker.check();"
