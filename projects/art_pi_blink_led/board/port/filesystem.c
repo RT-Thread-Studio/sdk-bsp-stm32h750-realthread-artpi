@@ -13,17 +13,28 @@
 
 #ifdef BSP_USING_FS
 
+#if RT_DFS_ELM_MAX_SECTOR_SIZE < 4096
+    #error "Please define RT_DFS_ELM_MAX_SECTOR_SIZE more than 4096"
+#endif
+#if DFS_FILESYSTEMS_MAX < 4
+    #error "Please define DFS_FILESYSTEMS_MAX more than 4096"
+#endif
+#if DFS_FILESYSTEM_TYPES_MAX < 4
+    #error "Please define DFS_FILESYSTEM_TYPES_MAX more than 4096"
+#endif
+
 #include <dfs_fs.h>
 #include "dfs_romfs.h"
 #include "drv_sdio.h"
-
+#include "fal.h"
 #define DBG_TAG "app.filesystem"
 #define DBG_LVL DBG_INFO
 #include <rtdbg.h>
 
 static const struct romfs_dirent _romfs_root[] = {
-    {ROMFS_DIRENT_DIR, "flash", RT_NULL, 0},
-    {ROMFS_DIRENT_DIR, "sdcard", RT_NULL, 0}
+    {ROMFS_DIRENT_DIR, "flash",  RT_NULL, 0},
+    {ROMFS_DIRENT_DIR, "sdcard", RT_NULL, 0},
+    {ROMFS_DIRENT_DIR, "img",    RT_NULL, 0}
 };
 
 const struct romfs_dirent romfs_root = {
@@ -103,7 +114,35 @@ int mount_init(void)
         LOG_E("rom mount to '/' failed!");
     }
 #ifdef BSP_USING_SPI_FLASH_FS
-    /* TODO */
+    struct rt_device *flash_dev = RT_NULL ;
+
+#ifndef RT_USING_WIFI
+    fal_init();
+#endif
+
+    flash_dev = fal_blk_device_create("filesystem");
+    if (flash_dev)
+    {
+        LOG_D("Create a block device on the filesystem partition of flash successful.");
+        if (dfs_mount(flash_dev->parent.name, "/flash", "elm", 0, 0) != 0)
+        {
+            LOG_W("mount to '/flash' failed! try to mkfs %s",flash_dev->parent.name);
+            dfs_mkfs("elm",flash_dev->parent.name);
+            if (dfs_mount(flash_dev->parent.name, "/flash", "elm", 0, 0) == 0)
+            {
+                LOG_I("mount to '/flash' success!");
+            }
+        }
+        else
+        {
+            LOG_I("mount to '/flash' success!");
+        }
+    }
+    else
+    {
+        LOG_E("Can't create a block device on filesystem partition.");
+    }
+
 #endif
 
 #ifdef BSP_USING_SDCARD_FS
