@@ -22,12 +22,10 @@ jobs:
           script:
             - scons -C $RTT_BSP
 
-
         - language: python
           python: 3.7
           install:
             - pip install rt-thread-studio
-            -
           before_script:
             - sudo apt-get update
           stage: check-yaml-format
