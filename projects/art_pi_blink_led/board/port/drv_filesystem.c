@@ -11,14 +11,26 @@
 
 #include <rtthread.h>
 
-#ifdef ART_PI_USING_SDCARD
+#ifdef BSP_USING_FS
 
 #include <dfs_fs.h>
+#include "dfs_romfs.h"
 #include "drv_sdio.h"
 
-#define DBG_TAG "app.card"
+#define DBG_TAG "app.filesystem"
 #define DBG_LVL DBG_INFO
 #include <rtdbg.h>
+
+static const struct romfs_dirent _romfs_root[] = {
+    {ROMFS_DIRENT_DIR, "flash", RT_NULL, 0},
+    {ROMFS_DIRENT_DIR, "sdcard", RT_NULL, 0}
+};
+
+const struct romfs_dirent romfs_root = {
+    ROMFS_DIRENT_DIR, "/", (rt_uint8_t *)_romfs_root, sizeof(_romfs_root)/sizeof(_romfs_root[0])
+};
+
+#ifdef BSP_USING_SDCARD_FS
 
 /* SD Card hot plug detection pin */
 #define SD_CHECK_PIN GET_PIN(D, 5)
@@ -26,7 +38,7 @@
 static void _sdcard_mount(void)
 {
     rt_device_t device;
-    
+
     device = rt_device_find("sd0");
     if (device == NULL)
     {
@@ -37,13 +49,13 @@ static void _sdcard_mount(void)
     }
     if (device != RT_NULL)
     {
-        if (dfs_mount("sd0", "/", "elm", 0, 0) == RT_EOK)
+        if (dfs_mount("sd0", "/sdcard", "elm", 0, 0) == RT_EOK)
         {
-            LOG_I("sd card mount to '/'");
+            LOG_I("sd card mount to '/sdcard'");
         }
         else
         {
-            LOG_W("sd card mount to '/' failed!");
+            LOG_W("sd card mount to '/sdcard' failed!");
         }
     }
 }
@@ -51,8 +63,8 @@ static void _sdcard_mount(void)
 static void _sdcard_unmount(void)
 {
     rt_thread_mdelay(200);
-    dfs_unmount("/");
-    LOG_I("Unmount \"/\"");
+    dfs_unmount("/sdcard");
+    LOG_I("Unmount \"/sdcard\"");
 
     mmcsd_wait_cd_changed(0);
     sdcard_change();
@@ -82,8 +94,19 @@ static void sd_mount(void *parameter)
     }
 }
 
-int stm32_sdcard_mount(void)
+#endif /* BSP_USING_SDCARD_FS */
+
+int mount_init(void)
 {
+    if (dfs_mount(RT_NULL, "/", "rom", 0, &(romfs_root)) != 0)
+    {
+        LOG_E("rom mount to '/' failed!");
+    }
+#ifdef BSP_USING_SPI_FLASH_FS
+    /* TODO */
+#endif
+
+#ifdef BSP_USING_SDCARD_FS
     rt_thread_t tid;
 
     rt_pin_mode(SD_CHECK_PIN, PIN_MODE_INPUT_PULLUP);
@@ -99,7 +122,8 @@ int stm32_sdcard_mount(void)
         LOG_E("create sd_mount thread err!");
     }
     return RT_EOK;
+#endif
 }
-INIT_APP_EXPORT(stm32_sdcard_mount);
+INIT_APP_EXPORT(mount_init);
 
-#endif /* ART_PI_USING_SDCARD */
+#endif /* BSP_USING_FS */

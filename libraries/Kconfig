@@ -69,13 +69,22 @@ menu "Onboard Peripheral"
         select RT_USING_WIFI
         default n
 
-    config BSP_USING_SDCARD
-        bool "Enable SDCARD"
-        select BSP_USING_SDIO
-        select BSP_USING_SDIO1
+    menuconfig BSP_USING_FS
+        bool "Enable filesystem"
         select RT_USING_DFS
-        select RT_USING_DFS_ELMFAT
+        select RT_USING_DFS_ROMFS
         default n
+        if BSP_USING_FS
+            config BSP_USING_SDCARD_FS
+                bool "Enable SDCARD filesystem"
+				select BSP_USING_SDIO
+				select BSP_USING_SDIO1
+				select RT_USING_DFS_ELMFAT
+                default n
+            config BSP_USING_SPI_FLASH_FS
+                bool "Enable SPI FLASH filesystem"
+                default n
+        endif
 
 endmenu
 

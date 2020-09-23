@@ -12,7 +12,6 @@ drv_usart.c
 drv_gpio.c
 drv_spi.c
 drv_sdio.c
-drv_sdcard.c
 drv_wlan.c
 drv_mpu.c
 drv_sdram.c

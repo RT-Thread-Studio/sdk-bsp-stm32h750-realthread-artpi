@@ -9,6 +9,7 @@ src = Glob('*.c')
 # add cubemx drivers
 src += Split('''
 CubeMX_Config/Core/Src/stm32h7xx_hal_msp.c
+port/drv_filesystem.c
 ''')
 
 path = [cwd]
