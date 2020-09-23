@@ -26,9 +26,10 @@ jobs:
         - language: python
           python: 3.7
           install:
-            - pip install PyYAML
+            - pip install rt-thread-studio
+            -
           before_script:
             - sudo apt-get update
-
+          stage: check-yaml-format
           script:
-            - python .ci_script/checker.py
+            - python -c "from rt_thread_studio import bsp_checker;bsp_path = '.';checker = bsp_checker.BspChecker(bsp_path);checker.check();"
