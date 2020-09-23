@@ -56,7 +56,7 @@ menu "Onboard Peripheral"
 
     config BSP_USING_USB_TO_USART
         bool "Enable Debuger USART (uart4)"
-        select ART_PI_USING_UART
+        select BSP_USING_UART
         select BSP_USING_UART4
         default n
 
