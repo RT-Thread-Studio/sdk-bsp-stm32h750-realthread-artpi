@@ -59,4 +59,7 @@
 <stringAttribute key="org.rtthread.studio.debug.gdbjtag.stlink.gdbServerExecutable" value="${rtt_install_path}/repo/Extract/Debugger_Support_Packages/STMicroelectronics/ST-LINK_Debugger/1.2.0/ST-LINK_gdbserver.exe"/>
 <booleanAttribute key="org.rtthread.studio.debug.gdbjtag.stlink.useRemoteTarget" value="true"/>
 <stringAttribute key="process_factory_id" value="org.eclipse.cdt.dsf.gdb.GdbProcessFactory"/>
+<stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.externalLoader" value="${rtt_install_path}repo/Extract/Board_Support_Packages/RealThread/STM32H750-ART-Pi/0.3.0/debug/flm/ART-Pi_W25Q128.stldr"/>
+<booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.isUseInternal" value="true"/>
+<booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.externalLoaderButton" value="true"/>
 </launchConfiguration>
