@@ -65,7 +65,7 @@ features_zh:
 - 32-Mbytes SDRAM
 - 16-Mbytes SPI FLASH
 - 8-Mbytes QSPI FLASH
-- D1 (blue) for 3.3 V power-on
+- D3 (blue) for 3.3 V power-on
 - "Two user LEDs: D2 (blue), D2 (red)"
 - "Two ST-LINK LEDs: D4 (blue), D4 (red)"
 - Two push-buttons (user and reset)
