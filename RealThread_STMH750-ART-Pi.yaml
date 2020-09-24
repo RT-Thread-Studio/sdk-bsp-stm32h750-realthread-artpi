@@ -4,7 +4,7 @@ pkg_version: 0.3.0
 pkg_vendor: RealThread
 pkg_type: Board_Support_Packages
 board:
-  name: STM32H750-ART-Pi
+  name: STM32H750-RT-ART-PI
   version: Rev.A
   vendor: RT-Thread
   description_zh: ART-Pi 是 RT-Thread 团队经过半年的精心准备，专门为嵌入式软件工程师、开源创客设计的一款极具扩展功能的 DIY 开源硬件.
