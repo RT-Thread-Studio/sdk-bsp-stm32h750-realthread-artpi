@@ -90,6 +90,19 @@ menu "Onboard Peripheral"
                 select RT_USING_SFUD
                 default n
         endif
+        
+    config BSP_USING_AUDIO
+        bool "Enable AUDIO"
+        select RT_USING_I2C
+        select RT_USING_I2C_BITOPS
+        select RT_USING_AUDIO
+        select BSP_USING_SAI2
+        default n
+        if BSP_USING_AUDIO
+			config BSP_USING_SAI2
+			    bool "Use SAI2"
+        		default y
+        endif
 
 endmenu
 
