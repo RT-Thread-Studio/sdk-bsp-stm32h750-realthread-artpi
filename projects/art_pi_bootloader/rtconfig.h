@@ -54,9 +54,6 @@
 /* RT-Thread Components */
 
 #define RT_USING_COMPONENTS_INIT
-#define RT_USING_USER_MAIN
-#define RT_MAIN_THREAD_STACK_SIZE 2048
-#define RT_MAIN_THREAD_PRIORITY 10
 
 /* C++ features */
 
@@ -200,6 +197,7 @@
 /* On-chip Peripheral */
 
 #define BSP_USING_GPIO
+#define BSP_USING_UART
 #define BSP_USING_UART4
 /* end of On-chip Peripheral */
 /* end of Hardware Drivers Config */
