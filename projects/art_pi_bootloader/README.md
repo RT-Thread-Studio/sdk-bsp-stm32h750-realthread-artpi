@@ -1,30 +1,58 @@
-## RT-Thread Studio 工程使用说明
+# BootLoader 例程
 
-> 本项目为了测试，使用 windows 的**符号链接模式**来关联项目目录（BSP_ROOT）外的文件夹，可能在 git 管理或跨 PC 访问时存在问题，建议使用下面的步骤修复工程
+## 简介
 
-### STEP1 新建符号链接
+本例程主要的功能是让程序从 `0x08000000`跳转到`0x90000000`。
+STM32H750 的片上 ROM 大小为128K，无法满足一般的程序开发，必须使用 XIP 的方式运行程序。所以需要使用 BootLoader 来跳转到 XIP(0x90000000) 地址。
+这个例程也可以作为您开发更多高级 bootloader 功能的基础工程。
 
-进入当前文件夹下，以管理员权限打开 windows 命令行 ，执行 mklink 命令，分别为 `rt-thread` 及 `libraries` 文件创建符号链接，成功后有如下的日志提示
+## 硬件说明
 
-```
-E:\program\RTT\art-pi-sdk\projects\eclipse>mklink /D rt-thread ..\..\rt-thread
-为 rt-thread <<===>> ..\..\rt-thread 创建的符号链接
+<img src="E:\project\art-pi-sdk-github\sdk-bsp-stm32h750-realthread-artpi\projects\art_pi_bootloader\figures\qspi_flash.png" alt="qspi_flash" style="zoom:50%;" />
 
-E:\program\RTT\art-pi-sdk\projects\eclipse>mklink /D libraries ..\..\libraries
-为 libraries <<===>> ..\..\libraries 创建的符号链接
+如上图所示，QSPI_FLASH 与单片机的 QSPI 外设引脚相连。
 
-E:\program\RTT\art-pi-sdk\projects\eclipse>
-```
+## 软件说明
 
-### STEP2 更新 Eclipse 工程配置
+源代码位于 `/projects/art_pi_bootloader/applications/main.c` 中。
 
-对于符号链接的项目，需要在使用前执行如下命令，重新更新 eclipse 工程配置（主要是一些绝对路径地址）
+在 main 函数中，实现了跳转。
 
 ```
-scons --target=eclipse
+int main(void)
+{
+    /* set LED0 pin mode to output */
+    rt_pin_mode(LED0_PIN, PIN_MODE_OUTPUT);
+
+    W25QXX_Init();
+
+    W25Q_Memory_Mapped_Enable();
+
+    SCB_DisableICache();
+    SCB_DisableDCache();
+
+    SysTick->CTRL = 0;
+
+    JumpToApplication = (pFunction)(*(__IO uint32_t *)(APPLICATION_ADDRESS + 4));
+    __set_MSP(*(__IO uint32_t *)APPLICATION_ADDRESS);
+
+    JumpToApplication();
+
+    return RT_EOK;
+}
 ```
 
-### STEP3 导入 RT-Studio
 
-选择导入->Studio 项目->项目工程路径即可
 
+## 运行
+### 编译&下载
+
+编译完成后，将开发板的 ST-Link USB 口与 PC 机连接，然后将固件下载至开发板。
+
+### 运行效果
+
+上电之后会执行 bootloader 程序之后就会跳转执行 QSPI FLASH 中的可执行程序
+
+## 注意事项
+
+1. 如果 QSPI FLASH 中没有可执行程序，那么 MCU 在执行跳转指令后就会停止运行。
