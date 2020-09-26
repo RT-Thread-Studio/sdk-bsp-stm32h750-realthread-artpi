@@ -58,6 +58,15 @@ menu "Onboard Peripheral"
         select BSP_USING_UART
         select BSP_USING_UART4
         default n
+    
+    config PHY_USING_LAN8720A
+        bool
+    
+    menuconfig BSP_USING_ETH
+        bool "Enable Ethernet"
+        select RT_USING_LWIP
+        select PHY_USING_LAN8720A
+        default n
 
     config BSP_USING_WIFI
         bool "Enable wifi (AP6212)"
