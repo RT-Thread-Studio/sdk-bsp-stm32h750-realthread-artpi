@@ -233,11 +233,11 @@ example_projects:
     source_path_offset: ''
     target_path_offset: ''
     files_and_folders: []
-- project_name: art_pi_gateway
+- project_name: industry_io_gatway
   project_description: creat this peoject if user choose rt-thread project
   project_type: rt-thread|@full|@4.0.2
   builtin_files:
-  - source_path_offset: projects/art_pi_gateway
+  - source_path_offset: projects/industry_io_gatway
     target_path_offset: ''
     files_and_folders:
     - ".settings"

@@ -18,6 +18,7 @@ jobs:
             - RTT_BSP='projects/art_pi_blink_led' RTT_TOOL_CHAIN='sourcery-arm'
             - RTT_BSP='projects/art_pi_bootloader' RTT_TOOL_CHAIN='sourcery-arm'
             - RTT_BSP='projects/art_pi_wifi' RTT_TOOL_CHAIN='sourcery-arm'
+            - RTT_BSP='projects/industry_io_gatway' RTT_TOOL_CHAIN='sourcery-arm'
 
           stage: compile
           script:
