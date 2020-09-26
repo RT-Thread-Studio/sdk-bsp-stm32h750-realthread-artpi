@@ -169,6 +169,7 @@ example_projects:
     - cconfig.h
     - Kconfig
     - makefile.targets
+    - packages
     - README.md
     - rtconfig.h
     - rtconfig.py
@@ -209,6 +210,7 @@ example_projects:
     - cconfig.h
     - Kconfig
     - makefile.targets
+    - packages
     - README.md
     - rtconfig.h
     - rtconfig.py
