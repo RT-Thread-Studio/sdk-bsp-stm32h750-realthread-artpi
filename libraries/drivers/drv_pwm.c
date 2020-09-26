@@ -194,6 +194,8 @@ static rt_err_t drv_pwm_get(TIM_HandleTypeDef *htim, struct rt_pwm_configuration
     if (htim->Instance == TIM15 || htim->Instance == TIM16 || htim->Instance == TIM17)
 #elif defined(SOC_SERIES_STM32F1) || defined(SOC_SERIES_STM32F0) || defined(SOC_SERIES_STM32G0)
     if (0)
+#elif defined(SOC_SERIES_STM32H7)
+        if (htim->Instance == TIM5)
 #endif
     {
 #if !defined(SOC_SERIES_STM32F0) && !defined(SOC_SERIES_STM32G0)
@@ -239,6 +241,8 @@ static rt_err_t drv_pwm_set(TIM_HandleTypeDef *htim, struct rt_pwm_configuration
     if (htim->Instance == TIM15 || htim->Instance == TIM16 || htim->Instance == TIM17)
 #elif defined(SOC_SERIES_STM32F1) || defined(SOC_SERIES_STM32F0) || defined(SOC_SERIES_STM32G0)
     if (0)
+#elif defined(SOC_SERIES_STM32H7)
+    if (htim->Instance == TIM5)
 #endif
     {
 #if !defined(SOC_SERIES_STM32F0) && !defined(SOC_SERIES_STM32G0)
