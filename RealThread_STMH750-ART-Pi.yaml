@@ -191,3 +191,43 @@ example_projects:
     source_path_offset: ''
     target_path_offset: ''
     files_and_folders: []
+- project_name: art_pi_wifi
+  project_description: creat this peoject if user choose rt-thread project
+  project_type: rt-thread|@full|@4.0.2
+  builtin_files:
+  - source_path_offset: projects/art_pi_wifi
+    target_path_offset: ''
+    files_and_folders:
+    - ".settings"
+    - applications
+    - board
+    - ".config"
+    - ".cproject"
+    - ".gitignore"
+    - ".gitattributes"
+    - ".project"
+    - cconfig.h
+    - Kconfig
+    - makefile.targets
+    - README.md
+    - rtconfig.h
+    - rtconfig.py
+    - rtconfig_preinc.h
+    - SConscript
+    - SConstruct
+    - template.uvoptx
+    - template.uvprojx
+    - project.uvprojx
+  - source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders:
+    - libraries
+    - rt-thread
+  external_files:
+  - package_type: Chip_Support_Packages
+    package_vendor: RealThread
+    package_name: STM32H7
+    package_version: 0.1.9
+    source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders: []
