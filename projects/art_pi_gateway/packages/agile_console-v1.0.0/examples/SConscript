@@ -1,0 +1,12 @@
+from building import *
+
+cwd     = GetCurrentDir()
+src     = []
+CPPPATH = [cwd]
+
+if GetDepend(['PKG_USING_AGILE_CONSOLE_SERIAL_EXAMPLE']):
+    src += Glob('agile_console_serial_be.c')
+
+group = DefineGroup('agile_console', src, depend = ['PKG_USING_AGILE_CONSOLE'], CPPPATH = CPPPATH)
+
+Return('group')
