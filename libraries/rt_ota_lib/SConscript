@@ -4,7 +4,7 @@ from building import *
 cwd = GetCurrentDir()
 src = []
 path = [cwd + '/inc']
-libs = ['']
+libs = []
 libpath = [cwd + '/libs']
 
 if rtconfig.CROSS_TOOL == 'gcc':
