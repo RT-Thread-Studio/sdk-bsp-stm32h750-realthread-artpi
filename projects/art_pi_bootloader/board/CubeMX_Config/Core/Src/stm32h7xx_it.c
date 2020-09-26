@@ -56,8 +56,7 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern SD_HandleTypeDef hsd1;
-extern SD_HandleTypeDef hsd2;
+
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -197,34 +196,6 @@ void SysTick_Handler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32h7xx.s).                    */
 /******************************************************************************/
-
-/**
-  * @brief This function handles SDMMC1 global interrupt.
-  */
-void SDMMC1_IRQHandler(void)
-{
-  /* USER CODE BEGIN SDMMC1_IRQn 0 */
-
-  /* USER CODE END SDMMC1_IRQn 0 */
-  HAL_SD_IRQHandler(&hsd1);
-  /* USER CODE BEGIN SDMMC1_IRQn 1 */
-
-  /* USER CODE END SDMMC1_IRQn 1 */
-}
-
-/**
-  * @brief This function handles SDMMC2 global interrupt.
-  */
-void SDMMC2_IRQHandler(void)
-{
-  /* USER CODE BEGIN SDMMC2_IRQn 0 */
-
-  /* USER CODE END SDMMC2_IRQn 0 */
-  HAL_SD_IRQHandler(&hsd2);
-  /* USER CODE BEGIN SDMMC2_IRQn 1 */
-
-  /* USER CODE END SDMMC2_IRQn 1 */
-}
 
 /* USER CODE BEGIN 1 */
 
