@@ -3,7 +3,6 @@ config SOC_STM32H750XB
     bool
     select SOC_SERIES_STM32H7
     select RT_USING_COMPONENTS_INIT
-    select RT_USING_USER_MAIN
     default y
 
 config SOC_SERIES_STM32H7
