@@ -39,6 +39,14 @@ extern "C"
 
 /*-------------------------- ROM/RAM CONFIG END --------------------------*/
 
+/*-------------------------- CLOCK CONFIG BEGIN --------------------------*/
+
+#define BSP_CLOCK_SOURCE                  ("HSE")
+#define BSP_CLOCK_SOURCE_FREQ_MHZ         ((int32_t)0)
+#define BSP_CLOCK_SYSTEM_FREQ_MHZ         ((int32_t)480)
+
+/*-------------------------- CLOCK CONFIG END --------------------------*/
+
 /*-------------------------- UART CONFIG BEGIN --------------------------*/
 
 /** After configuring corresponding UART or UART DMA, you can use it.
