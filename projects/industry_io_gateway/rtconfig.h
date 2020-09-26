@@ -343,13 +343,14 @@
 
 /* Board extended module */
 
+#define ART_PI_USING_INDUSTRY_IO
+#define PHY_USING_LAN8720A
+#define INDUSTRY_IO_USING_ETH
 /* end of Board extended module */
 
 /* Onboard Peripheral */
 
 #define BSP_USING_USB_TO_USART
-#define PHY_USING_LAN8720A
-#define BSP_USING_ETH
 /* end of Onboard Peripheral */
 
 /* On-chip Peripheral */
@@ -359,6 +360,7 @@
 #define BSP_USING_UART4
 #define BSP_USING_SDIO
 #define BSP_USING_SDIO1
+#define BSP_USING_ETH
 /* end of On-chip Peripheral */
 /* end of Hardware Drivers Config */
 
