@@ -91,6 +91,9 @@ menu "On-chip Peripheral"
             config BSP_USING_UART1
                 bool "Enable UART1"
                 default n
+            config BSP_USING_UART3
+                bool "Enable UART3"
+                default n
             config BSP_USING_UART4
                 bool "Enable UART4"
                 default n

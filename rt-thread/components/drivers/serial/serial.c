@@ -182,7 +182,7 @@ static int serial_fops_poll(struct dfs_fd *fd, struct rt_pollreq *req)
             mask |= POLLIN;
         rt_hw_interrupt_enable(level);
     }
-
+    mask|=POLLOUT;
     return mask;
 }
 
