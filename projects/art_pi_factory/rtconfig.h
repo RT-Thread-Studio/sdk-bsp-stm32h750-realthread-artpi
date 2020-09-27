@@ -326,7 +326,7 @@
 #define ADB_SERVICE_FILE_ENABLE
 #define ADB_FILESYNC_STACK_SIZE 2304
 #define ADB_FILESYNC_RECV_TIMEOUT 2000
-#define PKG_USING_ADBD_LATEST_VERSION
+#define PKG_USING_ADBD_V111
 /* end of tools packages */
 
 /* system packages */
