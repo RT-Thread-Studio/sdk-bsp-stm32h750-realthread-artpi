@@ -1,0 +1,9 @@
+from building import *
+
+cwd     = GetCurrentDir()
+src     = Glob('*.c') + Glob('*.cpp')
+CPPPATH = [cwd + '/../inc']
+
+group = DefineGroup('agile_telnet', src, depend = ['PKG_USING_AGILE_TELNET'], CPPPATH = CPPPATH)
+
+Return('group')

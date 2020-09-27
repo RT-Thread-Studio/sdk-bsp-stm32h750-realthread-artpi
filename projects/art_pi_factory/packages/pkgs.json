@@ -1,0 +1,42 @@
+[
+ {
+  "path": "/packages/iot/webnet", 
+  "ver": "v2.0.2", 
+  "name": "WEBNET"
+ }, 
+ {
+  "path": "/packages/iot/cJSON", 
+  "ver": "v1.0.2", 
+  "name": "CJSON"
+ }, 
+ {
+  "path": "/packages/iot/netutils", 
+  "ver": "v1.2.0", 
+  "name": "NETUTILS"
+ }, 
+ {
+  "path": "/packages/iot/btstack", 
+  "ver": "v0.0.1", 
+  "name": "BTSTACK"
+ }, 
+ {
+  "path": "/packages/tools/EasyFlash", 
+  "ver": "v4.1.0", 
+  "name": "EASYFLASH"
+ }, 
+ {
+  "path": "/packages/tools/adbd", 
+  "ver": "v1.1.1", 
+  "name": "ADBD"
+ }, 
+ {
+  "path": "/packages/system/fal", 
+  "ver": "v0.5.0", 
+  "name": "FAL"
+ }, 
+ {
+  "path": "/packages/system/littlefs", 
+  "ver": "v2.0.5", 
+  "name": "LITTLEFS"
+ }
+]

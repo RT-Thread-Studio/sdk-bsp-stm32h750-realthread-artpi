@@ -3,7 +3,6 @@ config SOC_STM32H750XB
     bool
     select SOC_SERIES_STM32H7
     select RT_USING_COMPONENTS_INIT
-    select RT_USING_USER_MAIN
     default y
 
 config SOC_SERIES_STM32H7
@@ -13,41 +12,25 @@ config SOC_SERIES_STM32H7
 
 menu "Board extended module"
 
-    menuconfig ART_PI_USING_ART_MEDIA
-        bool "ART-Media"
+    menuconfig ART_PI_USING_MEDIA_IO
+        bool "Media-IO"
         default n
-        if ART_PI_USING_ART_MEDIA
-            config ART_MEDIA_USING_NET_MUSIC_PLAYER
-                bool "Net Music Player"
-                default n
-            config ART_MEDIA_USING_AI_CAMERA
-                bool "AI Camera"
-                default n
-            menuconfig ART_MEDIA_PERIPHHERAL
-                bool "periphheral"
-                default n
-                if ART_MEDIA_PERIPHHERAL
-                    config ART_PI_USING_LCD_SPI
-                        bool "lcd_spi"
-                        default n
-                endif
+        if ART_PI_USING_MEDIA_IO
+
         endif
 
-    menuconfig ART_PI_USING_ART_INDUSTRIAL
-        bool "ART-Industrial"
+    menuconfig ART_PI_USING_INDUSTRY_IO
+        bool "Industry-IO"
         default n
-        if ART_PI_USING_ART_INDUSTRIAL
-            config ART_INDUSTRIAL_USING_GATEWAY
-                bool "Gateway"
-                default n
-            menuconfig ART_INDUSTRIAL_PERIPHHERAL
-                bool "periphheral"
-                default n
-                if ART_INDUSTRIAL_PERIPHHERAL
-                    config ART_PI_USING_LCD_SPI
-                        bool "lcd_spi"
-                        default n
-                endif
+        if ART_PI_USING_INDUSTRY_IO
+            config PHY_USING_LAN8720A
+                bool
+
+            config INDUSTRY_IO_USING_ETH
+                select BSP_USING_ETH
+                select PHY_USING_LAN8720A
+                bool "Enable Ethernet"
+                default y
         endif
 
 endmenu
@@ -67,6 +50,7 @@ menu "Onboard Peripheral"
         select BSP_USING_SPI
         select BSP_USING_SPI1
         select RT_USING_WIFI
+        select RT_USING_SAL
         default n
 
     menuconfig BSP_USING_FS
@@ -108,6 +92,9 @@ menu "On-chip Peripheral"
             config BSP_USING_UART1
                 bool "Enable UART1"
                 default n
+            config BSP_USING_UART3
+                bool "Enable UART3"
+                default n
             config BSP_USING_UART4
                 bool "Enable UART4"
                 default n
@@ -138,6 +125,11 @@ menu "On-chip Peripheral"
 
     config BSP_USING_SDRAM
         bool "Enable SDRAM"
+        default n
+    
+    menuconfig BSP_USING_ETH
+        bool "Enable Ethernet"
+        select RT_USING_LWIP
         default n
 
     config BSP_USING_LCD

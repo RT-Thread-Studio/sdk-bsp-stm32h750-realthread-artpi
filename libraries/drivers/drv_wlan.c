@@ -172,7 +172,7 @@ static void wifi_init_thread_entry(void *parameter)
 
     if (partition == RT_NULL)
     {
-        LOG_E("%s partition is not exist, please check your configuration!");
+        LOG_E("%s partition is not exist, please check your configuration!", WIFI_IMAGE_PARTITION_NAME);
         return;
     }
 
@@ -212,6 +212,10 @@ static void wifi_init_thread_entry(void *parameter)
         /* rt_wlan_set_mode(RT_WLAN_DEVICE_AP_NAME, RT_WLAN_AP); */
 
         init_flag = 1;
+    }
+    else
+    {
+        LOG_E("Wi-Fi image was NOT found on %s partition!", WIFI_IMAGE_PARTITION_NAME);
     }
 }
 

@@ -52,7 +52,7 @@ static rt_err_t stm32_adc_enabled(struct rt_adc_device *device, rt_uint32_t chan
 
     if (enabled)
     {
-#if defined(SOC_SERIES_STM32L4) || defined(SOC_SERIES_STM32G0)
+#if defined(SOC_SERIES_STM32L4) || defined(SOC_SERIES_STM32G0) || defined(SOC_SERIES_STM32H7)
         ADC_Enable(stm32_adc_handler);
 #else
         __HAL_ADC_ENABLE(stm32_adc_handler);
@@ -60,7 +60,7 @@ static rt_err_t stm32_adc_enabled(struct rt_adc_device *device, rt_uint32_t chan
     }
     else
     {
-#if defined(SOC_SERIES_STM32L4) || defined(SOC_SERIES_STM32G0)
+#if defined(SOC_SERIES_STM32L4) || defined(SOC_SERIES_STM32G0) || defined(SOC_SERIES_STM32H7)
         ADC_Disable(stm32_adc_handler);
 #else
         __HAL_ADC_DISABLE(stm32_adc_handler);
@@ -192,7 +192,12 @@ static rt_err_t stm32_get_adc_value(struct rt_adc_device *device, rt_uint32_t ch
 #endif
         return -RT_ERROR;
     }
+#if defined(SOC_SERIES_STM32H7)
+    ADC_ChanConf.Rank = ADC_REGULAR_RANK_1;
+#else
     ADC_ChanConf.Rank = 1;
+#endif
+
 #if defined(SOC_SERIES_STM32F0)
     ADC_ChanConf.SamplingTime = ADC_SAMPLETIME_71CYCLES_5;
 #elif defined(SOC_SERIES_STM32F1)
@@ -201,14 +206,30 @@ static rt_err_t stm32_get_adc_value(struct rt_adc_device *device, rt_uint32_t ch
     ADC_ChanConf.SamplingTime = ADC_SAMPLETIME_112CYCLES;
 #elif defined(SOC_SERIES_STM32L4)
     ADC_ChanConf.SamplingTime = ADC_SAMPLETIME_247CYCLES_5;
+#elif defined(SOC_SERIES_STM32H7)
+    ADC_ChanConf.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
 #endif
-#if defined(SOC_SERIES_STM32F2) || defined(SOC_SERIES_STM32F4) || defined(SOC_SERIES_STM32F7) || defined(SOC_SERIES_STM32L4)
+#if defined(SOC_SERIES_STM32F2) || defined(SOC_SERIES_STM32F4) || defined(SOC_SERIES_STM32F7) || defined(SOC_SERIES_STM32L4) || defined(SOC_SERIES_STM32H7)
     ADC_ChanConf.Offset = 0;
 #endif
 #ifdef SOC_SERIES_STM32L4
     ADC_ChanConf.OffsetNumber = ADC_OFFSET_NONE;
     ADC_ChanConf.SingleDiff = LL_ADC_SINGLE_ENDED;
+#elif defined(SOC_SERIES_STM32H7)
+    ADC_ChanConf.OffsetNumber = ADC_OFFSET_NONE;  /* ADC channel affected to offset number */
+    ADC_ChanConf.SingleDiff   = ADC_SINGLE_ENDED; /* ADC channel differential mode */
 #endif
+
+#if defined(SOC_SERIES_STM32H7)
+      /* Run the ADC linear calibration in single-ended mode */
+    if (HAL_ADCEx_Calibration_Start(stm32_adc_handler, ADC_CALIB_OFFSET_LINEARITY, ADC_SINGLE_ENDED) != HAL_OK)
+    {
+        LOG_E("ADC open linear calibration error!\n");
+        /* Calibration Error */
+        return -RT_ERROR;
+    }
+#endif
+
     HAL_ADC_ConfigChannel(stm32_adc_handler, &ADC_ChanConf);
 
     /* start ADC */
