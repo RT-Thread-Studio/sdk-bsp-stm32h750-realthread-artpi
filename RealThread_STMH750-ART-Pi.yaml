@@ -285,18 +285,21 @@ example_projects:
     - ".settings"
     - applications
     - board
+    - modules
     - ".config"
     - ".cproject"
     - ".gitignore"
     - ".gitattributes"
     - ".project"
     - cconfig.h
+    - common.h
     - Kconfig
     - makefile.targets
     - packages
     - README.md
     - rtconfig.h
     - rtconfig.py
+    - rtua.py
     - rtconfig_preinc.h
     - SConscript
     - SConstruct

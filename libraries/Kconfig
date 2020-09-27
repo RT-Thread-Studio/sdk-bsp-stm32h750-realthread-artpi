@@ -98,6 +98,9 @@ menu "On-chip Peripheral"
             config BSP_USING_UART4
                 bool "Enable UART4"
                 default n
+            config BSP_USING_UART6
+                bool "Enable UART6"
+                default n
         endif
 
     menuconfig BSP_USING_SPI
