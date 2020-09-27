@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.rtthread.studio.debug.gdbjtag.stlink.launchConfigurationType">
-<stringAttribute key="ilg.gnumcueclipse.debug.gdbjtag.svdPath" value=""/>
+<stringAttribute key="ilg.gnumcueclipse.debug.gdbjtag.svdPath" value="${rtt_install_path}\repo\Extract\Chip_Support_Packages\RealThread\STM32H7\0.1.9\debug\svd\STM32H750x.svd"/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.connectMode" value="NORMAL"/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.debugInterface" value="SWD"/>
 <intAttribute key="org.eclipse.cdt.debug.gdbjtag.core.delay" value="3"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.doHalt" value="false"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.doReset" value="false"/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.erase" value=""/>
-<booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.externalLoaderButton" value="false"/>
+<stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.externalLoader" value="${workspace_loc:/${ProjName}/board/stldr/ART-Pi_W25Q64.stldr}"/>
+<booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.externalLoaderButton" value="true"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.flashVerify" value="false"/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.imageFileName" value=""/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.imageOffset" value=""/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.initCommands" value=""/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.ipAddress" value="localhost"/>
+<booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.isUseInternal" value="false"/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.jtagDeviceId" value="org.eclipse.cdt.debug.gdbjtag.core.jtagdevice.genericDevice"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.loadImage" value="true"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.loadSymbols" value="true"/>
