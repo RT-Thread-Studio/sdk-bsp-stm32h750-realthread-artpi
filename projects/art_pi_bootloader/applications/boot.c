@@ -94,6 +94,17 @@ void rt_application_init(void)
     rt_thread_startup(tid);
 }
 
+void art_pi_boot_show_logo(void)
+{
+    rt_kprintf("\n   ___  ______  _____         ______  _   ______  _____  _____  _____ \n");
+    rt_kprintf("  / _ \\ | ___ \\|_   _|        | ___ \\(_)  | ___ \\/  _  \\/  _  \\|_   _|\n");
+    rt_kprintf(" / /_\\ \\| |_/ /  | |   ______ | |_/ / _   | |_/ /| | | || | | |  | |  \n");
+    rt_kprintf(" |  _  ||    /   | |  |______||  __/ | |  | ___ \\| | | || | | |  | |  \n");
+    rt_kprintf(" | | | || |\\ \\   | |          | |    | |  | |_/ /\\ \\_/ /\\ \\_/ /  | |  \n");
+    rt_kprintf(" \\_| |_/\\_| \\_|  \\_/          \\_|    |_|  \\____/  \\___/  \\___/   \\_/  \n");
+    rt_kprintf("\n Powered by RT-Thread.\n\n");
+}
+
 int rtthread_startup(void)
 {
     rt_hw_interrupt_disable();
@@ -104,8 +115,7 @@ int rtthread_startup(void)
     rt_hw_board_init();
 
     /* show bootloader bar */
-    //TODO please beautify it
-    rt_kprintf("\n----ART-Pi BOOT----\n");
+    art_pi_boot_show_logo();
 
     /* timer system initialization */
     rt_system_timer_init();
