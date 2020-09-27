@@ -24,7 +24,7 @@
 <intAttribute key="org.eclipse.cdt.debug.gdbjtag.core.portNumber" value="61235"/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.resetMode" value=" -hardRst"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.resetRun" value="true"/>
-<stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.runCommands" value="c&#13;&#10;b main"/>
+<stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.runCommands" value="monitor reset&#13;&#10;c&#13;&#10;b main"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.setPcRegister" value="false"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.setResume" value="true"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.setStopAt" value="true"/>
