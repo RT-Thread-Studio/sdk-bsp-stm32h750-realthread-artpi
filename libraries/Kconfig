@@ -50,6 +50,7 @@ menu "Onboard Peripheral"
         select BSP_USING_SPI
         select BSP_USING_SPI1
         select RT_USING_WIFI
+        select RT_USING_SAL
         default n
 
     menuconfig BSP_USING_FS
