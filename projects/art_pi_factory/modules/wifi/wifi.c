@@ -16,16 +16,18 @@ Modify:
 #include <netdev_ipaddr.h>
 #include <netdev.h>
 
+#include "wifi.h"
+
 #define DBG_TAG "wifi"
 #define DBG_LVL DBG_LOG
 #include <rtdbg.h>
 
-#define WIFI_DEV_NAME "w0"
-
 #define MAX_SSID_PASSWD_STR_LEN 50
 #define BT_SEND_TIMES 1
+#define BT_SEND_FAIL_RETRY 3
 
 extern int bt_stack_blufi_send(uint8_t *string, uint32_t length);
+extern int adb_socket_init(void);
 
 struct _wifi
 {
@@ -73,10 +75,10 @@ int wifi_is_ready(void)
     return rt_wlan_is_ready();
 }
 
-char* wifi_get_ip(void)
+char *wifi_get_ip(void)
 {
-    struct netdev * dev = netdev_get_by_name(WIFI_DEV_NAME);
-    if(dev)
+    struct netdev *dev = netdev_get_by_name(WIFI_DEVICE_NAME);
+    if (dev)
     {
         return inet_ntoa(dev->ip_addr);
     }
@@ -86,16 +88,26 @@ char* wifi_get_ip(void)
     }
 }
 
-static void wifi_ready_handler(void *param){
+static void wifi_ready_handler(void *param)
+{
     int cnt = BT_SEND_TIMES;
     char temp_string[100];
-    memset(temp_string,0,sizeof(temp_string));
-    while(cnt --){
+    //adb init
+    adb_socket_init();
+
+    //wifi status send
+    memset(temp_string, 0, sizeof(temp_string));
+    while (cnt--)
+    {
+        int retry_cnt = BT_SEND_FAIL_RETRY;
         uint8_t wifi_status = wifi_is_ready();
         char *wifi_ip = wifi_get_ip();
-        sprintf(temp_string, "{wifi:'%s', url:'%s'}", wifi_status?"on":"off",wifi_ip);
-        while(bt_stack_blufi_send(temp_string,strlen(temp_string))<0)
+        sprintf(temp_string, "{wifi:'%s', url:'%s'}", wifi_status ? "on" : "off", wifi_ip);
+        while (bt_stack_blufi_send(temp_string, strlen(temp_string)) < 0)
         {
+            if (retry_cnt == 0)
+                break;
+            retry_cnt--;
             rt_thread_mdelay(1000);
         }
         rt_thread_mdelay(5000);
@@ -108,5 +120,3 @@ int wifi_init(void)
     rt_wlan_register_event_handler(RT_WLAN_EVT_READY, wifi_ready_handler, NULL);
     return 0;
 }
-
-

@@ -228,5 +228,4 @@ int adb_socket_init(void)
 
     return ret;
 }
-INIT_APP_EXPORT(adb_socket_init);
 #endif

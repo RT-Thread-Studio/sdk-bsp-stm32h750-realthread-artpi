@@ -1,6 +1,8 @@
 #ifndef __WIFI_H
 #define __WIFI_H
 
+#define WIFI_DEVICE_NAME "w0"
+
 int wifi_init(void);
 int wifi_is_ready(void);
 char* wifi_get_ip(void);

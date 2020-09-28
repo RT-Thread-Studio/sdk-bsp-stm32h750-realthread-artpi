@@ -34,7 +34,6 @@ int main(void)
     sys_monitor_init();
     web_init();
     ftp_init();
-    rt_thread_mdelay(1000);
     bluetooth_init();
 
 
