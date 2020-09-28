@@ -29,6 +29,8 @@ Modify:
 extern int bt_stack_blufi_send(uint8_t *string, uint32_t length);
 extern int adb_socket_init(void);
 
+char wifi_status_str[100];
+
 struct _wifi
 {
     char ssid[MAX_SSID_PASSWD_STR_LEN];
@@ -88,22 +90,28 @@ char *wifi_get_ip(void)
     }
 }
 
+char *wifi_status_get(void)
+{
+    memset(wifi_status_str, 0, sizeof(wifi_status_str));
+    uint8_t wifi_status = wifi_is_ready();
+    char *wifi_ip = wifi_get_ip();
+    sprintf(wifi_status_str, "{wifi:'%s', url:'%s'}", wifi_status ? "on" : "off", wifi_ip);
+    return wifi_status_str;
+}
+
 static void wifi_ready_handler(void *param)
 {
     int cnt = BT_SEND_TIMES;
-    char temp_string[100];
     //adb init
     adb_socket_init();
 
     //wifi status send
-    memset(temp_string, 0, sizeof(temp_string));
+    memset(wifi_status_str, 0, sizeof(wifi_status_str));
     while (cnt--)
     {
+        char *wifi_status = wifi_status_get();
         int retry_cnt = BT_SEND_FAIL_RETRY;
-        uint8_t wifi_status = wifi_is_ready();
-        char *wifi_ip = wifi_get_ip();
-        sprintf(temp_string, "{wifi:'%s', url:'%s'}", wifi_status ? "on" : "off", wifi_ip);
-        while (bt_stack_blufi_send(temp_string, strlen(temp_string)) < 0)
+        while (bt_stack_blufi_send(wifi_status, strlen(wifi_status)) < 0)
         {
             if (retry_cnt == 0)
                 break;

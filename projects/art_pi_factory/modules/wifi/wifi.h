@@ -5,8 +5,8 @@
 
 int wifi_init(void);
 int wifi_is_ready(void);
-char* wifi_get_ip(void);
+char *wifi_get_ip(void);
 int wifi_connect(char *conn_str);
+char *wifi_status_get(void);
 
-#endif  /*__WIFI_H*/
- 
+#endif /*__WIFI_H*/
