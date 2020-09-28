@@ -1,0 +1,60 @@
+
+def GetCPPPATH(BSP_ROOT, RTT_ROOT):
+	CPPPATH=[
+		BSP_ROOT + "/.",
+		BSP_ROOT + "/applications",
+		BSP_ROOT + "/board",
+		BSP_ROOT + "/board/CubeMX_Config/Core/Inc",
+		BSP_ROOT + "/board/port",
+		BSP_ROOT + "/libraries/STM32H7xx_HAL/CMSIS/Device/ST/STM32H7xx/Include",
+		BSP_ROOT + "/libraries/STM32H7xx_HAL/CMSIS/Include",
+		BSP_ROOT + "/libraries/STM32H7xx_HAL/STM32H7xx_HAL_Driver/Inc",
+		BSP_ROOT + "/libraries/drivers",
+		BSP_ROOT + "/libraries/drivers/include",
+		BSP_ROOT + "/libraries/drivers/include/config",
+		BSP_ROOT + "/modules/api_export",
+		BSP_ROOT + "/modules/fs_operation",
+		BSP_ROOT + "/modules/init_module",
+		BSP_ROOT + "/modules/plugins",
+		BSP_ROOT + "/modules/web/cgi",
+		BSP_ROOT + "/packages/EasyFlash-v4.1.0/inc",
+		BSP_ROOT + "/packages/agile_console-v1.0.0/examples",
+		BSP_ROOT + "/packages/agile_console-v1.0.0/inc",
+		BSP_ROOT + "/packages/agile_telnet-v2.0.0/inc",
+		BSP_ROOT + "/packages/cJSON-v1.0.2",
+		BSP_ROOT + "/packages/fal-v0.5.0/inc",
+		BSP_ROOT + "/packages/littlefs-v2.2.1",
+		BSP_ROOT + "/packages/webnet-v2.0.2/inc",
+		RTT_ROOT + "/components/dfs/filesystems/devfs",
+		RTT_ROOT + "/components/dfs/filesystems/elmfat",
+		RTT_ROOT + "/components/dfs/filesystems/romfs",
+		RTT_ROOT + "/components/dfs/include",
+		RTT_ROOT + "/components/drivers/include",
+		RTT_ROOT + "/components/drivers/spi",
+		RTT_ROOT + "/components/drivers/spi/sfud/inc",
+		RTT_ROOT + "/components/finsh",
+		RTT_ROOT + "/components/libc/compilers/newlib",
+		RTT_ROOT + "/components/libc/libdl",
+		RTT_ROOT + "/components/libc/termios",
+		RTT_ROOT + "/components/net/lwip-2.0.2/src",
+		RTT_ROOT + "/components/net/lwip-2.0.2/src/arch/include",
+		RTT_ROOT + "/components/net/lwip-2.0.2/src/include",
+		RTT_ROOT + "/components/net/lwip-2.0.2/src/include/ipv4",
+		RTT_ROOT + "/components/net/lwip-2.0.2/src/include/netif",
+		RTT_ROOT + "/components/net/netdev/include",
+		RTT_ROOT + "/components/net/sal_socket/impl",
+		RTT_ROOT + "/components/net/sal_socket/include",
+		RTT_ROOT + "/components/net/sal_socket/include/dfs_net",
+		RTT_ROOT + "/components/net/sal_socket/include/socket",
+		RTT_ROOT + "/components/net/sal_socket/include/socket/sys_socket",
+		RTT_ROOT + "/include",
+		RTT_ROOT + "/libcpu/arm/common",
+		RTT_ROOT + "/libcpu/arm/cortex-m7",
+	]
+
+	return CPPPATH
+
+def GetCPPDEFINES():
+	CPPDEFINES=['STM32H750xx', 'HAVE_CCONFIG_H', 'LFS_CONFIG=lfs_config.h', 'RT_USING_NEWLIB', 'USE_HAL_DRIVER']
+	return CPPDEFINES
+

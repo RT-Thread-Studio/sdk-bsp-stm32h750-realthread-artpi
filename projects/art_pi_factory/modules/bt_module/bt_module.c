@@ -10,8 +10,8 @@ Author:    WKJay
 Modify:    
 *************************************************/
 #include <rtthread.h>
-
-#define DBG_TAG "wifi"
+#include "wifi.h"
+#define DBG_TAG "bt"
 #define DBG_LVL DBG_LOG
 #include <rtdbg.h>
 
@@ -27,6 +27,15 @@ void bluetooth_thread(void *param)
 int bluetooth_init(void)
 {
     int fd = -1;
+    rt_device_t wifi = NULL;
+    //wait for wifi is ready
+    while(wifi == NULL)
+    {
+        wifi = rt_device_find(WIFI_DEVICE_NAME);
+        rt_thread_mdelay(500); 
+    }
+    LOG_D("wifi init success,start bluetooth");
+    //wait for firmware is ready
     while(fd<0)
     {
         fd = open(BT_FIRMWARE_PATH,O_RDONLY);

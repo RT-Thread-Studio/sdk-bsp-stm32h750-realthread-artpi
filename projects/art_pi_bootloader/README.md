@@ -8,7 +8,7 @@ STM32H750 的片上 ROM 大小为128K，无法满足一般的程序开发，必�
 
 ## 硬件说明
 
-<img src="E:\project\art-pi-sdk-github\sdk-bsp-stm32h750-realthread-artpi\projects\art_pi_bootloader\figures\qspi_flash.png" alt="qspi_flash" style="zoom:50%;" />
+<img src="./figures\qspi_flash.png" alt="qspi_flash" style="zoom:50%;" />
 
 如上图所示，QSPI_FLASH 与单片机的 QSPI 外设引脚相连。
 

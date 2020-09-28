@@ -1,0 +1,12 @@
+import os
+import rtconfig
+from building import *
+
+src = Glob('*.c')
+
+cwd = GetCurrentDir()
+path =  [cwd]
+
+group = DefineGroup('init_module', src, depend = [''], CPPPATH = path)
+
+Return('group')
