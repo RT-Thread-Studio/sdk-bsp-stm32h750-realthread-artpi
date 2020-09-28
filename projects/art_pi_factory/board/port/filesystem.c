@@ -17,10 +17,10 @@
 #error "Please define RT_DFS_ELM_MAX_SECTOR_SIZE more than 4096"
 #endif
 #if DFS_FILESYSTEMS_MAX < 4
-#error "Please define DFS_FILESYSTEMS_MAX more than 4096"
+#error "Please define DFS_FILESYSTEMS_MAX more than 4"
 #endif
 #if DFS_FILESYSTEM_TYPES_MAX < 4
-#error "Please define DFS_FILESYSTEM_TYPES_MAX more than 4096"
+#error "Please define DFS_FILESYSTEM_TYPES_MAX more than 4"
 #endif
 
 #include <dfs_fs.h>
