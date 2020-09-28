@@ -80,6 +80,7 @@ template_projects:
     - ".settings"
     - applications
     - board
+    - figures
     - ".config"
     - ".cproject"
     - ".gitignore"
@@ -121,6 +122,7 @@ example_projects:
     - ".settings"
     - applications
     - board
+    - figures
     - ".config"
     - ".cproject"
     - ".gitignore"
@@ -161,6 +163,7 @@ example_projects:
     - ".settings"
     - applications
     - board
+    - figures
     - ".config"
     - ".cproject"
     - ".gitignore"
