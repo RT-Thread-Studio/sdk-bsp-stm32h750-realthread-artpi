@@ -12,7 +12,6 @@
 #include <rtdevice.h>
 #include "drv_common.h"
 #include <netdev_ipaddr.h>
-#include <ntp.h>
 #include <netdev.h>
 #include <dfs_fs.h>
 
@@ -26,14 +25,12 @@
 #define DBG_LVL DBG_LOG
 #include <rtdbg.h>
 
-extern int ftp_init(void);
 int main(void)
 {
     wifi_init();
     basic_init();
     sys_monitor_init();
     web_init();
-    ftp_init();
     bluetooth_init();
 
 
@@ -42,12 +39,6 @@ int main(void)
         rt_thread_mdelay(1000);
 
     }
-    //    while (ntp_sync_to_rtc(NULL) == 0)
-    //    {
-    //        rt_thread_mdelay(5000);
-    //    }
-    //    LOG_I("NTP sync success");
-
     return RT_EOK;
 }
 
