@@ -77,7 +77,6 @@
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//libraries/wlan_wiced_lib}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//modules/basic}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//modules/bt_module}&quot;" />
-                  <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//modules/ftp}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//modules/json_common}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//modules/monitor}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//modules/web}&quot;" />
@@ -228,7 +227,6 @@
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//libraries/wlan_wiced_lib}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//modules/basic}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//modules/bt_module}&quot;" />
-                  <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//modules/ftp}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//modules/json_common}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//modules/monitor}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//modules/web}&quot;" />
