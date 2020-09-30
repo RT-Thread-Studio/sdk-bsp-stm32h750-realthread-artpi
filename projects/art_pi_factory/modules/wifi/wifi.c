@@ -18,6 +18,7 @@ Modify:
 
 #include "wifi.h"
 
+#define DBG_COLOR
 #define DBG_TAG "wifi"
 #define DBG_LVL DBG_LOG
 #include <rtdbg.h>

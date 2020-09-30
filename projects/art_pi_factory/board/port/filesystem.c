@@ -135,21 +135,6 @@ int mount_init(void)
         {
             LOG_I("mount to '/flash' success!");
         }
-
-        //mount bt_image
-        // if (dfs_mount(bt_image->parent.name, "/bt", "elm", 0, 0) != 0)
-        // {
-        //     LOG_W("mount to '/bt' failed! try to mkfs %s", bt_image->parent.name);
-        //     dfs_mkfs("elm", bt_image->parent.name);
-        //     if (dfs_mount(bt_image->parent.name, "/bt", "elm", 0, 0) == 0)
-        //     {
-        //         LOG_I("mount to '/bt' success!");
-        //     }
-        // }
-        // else
-        // {
-        //     LOG_I("mount to '/bt' success!");
-        // }
     }
     else
     {

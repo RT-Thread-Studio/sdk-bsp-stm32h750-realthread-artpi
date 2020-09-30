@@ -11,16 +11,17 @@ Modify:
 *************************************************/
 #include <rtthread.h>
 #include <fal.h>
+#include <rt_ota.h>
 #include "wifi.h"
+
+#define DBG_COLOR
 #define DBG_TAG "bt"
 #define DBG_LVL DBG_LOG
 #include <rtdbg.h>
 
 #define BT_FIRMWARE_PARTITION_NAME "bt_image"
-#define BT_FIRMWARE_PATH "/bt/BCM43430A1.hcd"
-#define BT_DB_FILE_PATH "/bt/btstack_.tlv"
+static const struct fal_partition *bt_partition = RT_NULL;
 
-const uint8_t bt_image_magic[10] = {0x4C, 0xFC, 0x46, 0x00, 0x17, 0x21, 0x00, 0x42, 0x52, 0x43};
 extern void bt_stack_port_main(void);
 
 void bluetooth_thread(void *param)
@@ -30,51 +31,61 @@ void bluetooth_thread(void *param)
 
 int bluetooth_firmware_check(void)
 {
-    uint8_t magic[10];
-    struct fal_partition *bt_image = fal_partition_find(BT_FIRMWARE_PARTITION_NAME);
-    if (bt_image == NULL)
+    bt_partition = fal_partition_find(BT_FIRMWARE_PARTITION_NAME);
+    if (bt_partition == NULL)
     {
-        LOG_E("cannot find bt image partition");
+        LOG_E("%s partition is not exist, please check your configuration!", BT_FIRMWARE_PARTITION_NAME);
         return -1;
     }
-
-    if (fal_partition_read(bt_image, 0, magic, 10) < 0)
-    {
-        LOG_E("cannot read bt image partition");
-        return -1;
-    }
-
-    if (rt_memcmp(magic, bt_image_magic, 10) != 0)
-    {
-        LOG_W("cannot find bt firmware,please update bt firmware");
-        while(1)
+    { //update the bt_image
+        int result = 0;
+        /* verify OTA download partition */
+        if (rt_ota_init() >= 0 && rt_ota_part_fw_verify(fal_partition_find(RT_OTA_DL_PART_NAME)) >= 0)
         {
-            rt_thread_mdelay(1000);
+            /* do upgrade when check upgrade OK */
+            if (rt_ota_check_upgrade() && (result = rt_ota_upgrade()) < 0)
+            {
+                log_e("OTA upgrade failed!");
+                //TODO upgrade to safe image?
+            }
+            /* when upgrade success, erase download partition firmware.
+             * The purpose is to prevent other programs from using.
+             */
+            if (result >= 0)
+            {
+                fal_partition_erase(fal_partition_find(RT_OTA_DL_PART_NAME), 0, 4096);
+            }
         }
     }
-    else
+    //check firmware validity
+    if (rt_ota_part_fw_verify(bt_partition) < 0)
     {
-        LOG_I("Vertify bt firmware success");
-        return 0;
+        LOG_E("BT image was NOT found on %s partition!", BT_FIRMWARE_PARTITION_NAME);
+        return -1;
     }
+    return 0;
 }
 
 int bluetooth_init(void)
 {
     int fd = -1;
-    rt_device_t wifi = NULL,bt_firmware = NULL;
+    rt_device_t wifi = NULL, bt_firmware = NULL;
     //wait for wifi is ready
     while (wifi == NULL)
     {
         wifi = rt_device_find(WIFI_DEVICE_NAME);
         rt_thread_mdelay(500);
     }
-    LOG_D("wifi init success,start bluetooth");
+    LOG_D("bluetooth start init");
     //wait for firmware is ready
-    bluetooth_firmware_check();
+    if (bluetooth_firmware_check() < 0)
+    {
+        return -1;
+    }
     //create bt device fs
     bt_firmware = fal_char_device_create(BT_FIRMWARE_PARTITION_NAME);
-    if(bt_firmware == NULL){
+    if (bt_firmware == NULL)
+    {
         LOG_E("bt firmware device create failed");
         return -1;
     }
