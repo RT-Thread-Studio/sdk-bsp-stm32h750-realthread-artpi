@@ -13,6 +13,7 @@
 #include "web.h"
 #include <wlan_mgnt.h>
 
+#define DBG_COLOR
 #define DBG_TAG "web_init"
 #define DBG_LVL DBG_LOG
 #include <rtdbg.h>

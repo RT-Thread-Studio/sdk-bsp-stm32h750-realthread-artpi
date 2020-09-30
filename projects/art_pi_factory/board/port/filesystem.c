@@ -33,8 +33,7 @@
 
 static const struct romfs_dirent _romfs_root[] = {
     {ROMFS_DIRENT_DIR, "flash", RT_NULL, 0},
-    {ROMFS_DIRENT_DIR, "sdcard", RT_NULL, 0},
-    {ROMFS_DIRENT_DIR, "bt", RT_NULL, 0}};
+    {ROMFS_DIRENT_DIR, "sdcard", RT_NULL, 0}};
 
 const struct romfs_dirent romfs_root = {
     ROMFS_DIRENT_DIR, "/", (rt_uint8_t *)_romfs_root, sizeof(_romfs_root) / sizeof(_romfs_root[0])};
@@ -113,16 +112,14 @@ int mount_init(void)
     }
 #ifdef BSP_USING_SPI_FLASH_FS
     struct rt_device *flash_dev = RT_NULL;
-    struct rt_device *bt_image = RT_NULL;
 
 #ifndef RT_USING_WIFI
     fal_init();
 #endif
 
     flash_dev = fal_mtd_nor_device_create("filesystem");
-    bt_image = fal_blk_device_create("bt_image");
 
-    if (flash_dev && bt_image)
+    if (flash_dev)
     {
         //mount filesystem
         if (dfs_mount(flash_dev->parent.name, "/flash", "lfs", 0, 0) != 0)
@@ -137,21 +134,6 @@ int mount_init(void)
         else
         {
             LOG_I("mount to '/flash' success!");
-        }
-
-        //mount bt_image
-        if (dfs_mount(bt_image->parent.name, "/bt", "elm", 0, 0) != 0)
-        {
-            LOG_W("mount to '/bt' failed! try to mkfs %s", bt_image->parent.name);
-            dfs_mkfs("elm", bt_image->parent.name);
-            if (dfs_mount(bt_image->parent.name, "/bt", "elm", 0, 0) == 0)
-            {
-                LOG_I("mount to '/bt' success!");
-            }
-        }
-        else
-        {
-            LOG_I("mount to '/bt' success!");
         }
     }
     else

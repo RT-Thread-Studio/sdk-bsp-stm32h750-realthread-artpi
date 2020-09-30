@@ -173,7 +173,7 @@ int bt_stack_main(int argc, const char * argv[]){
     chipset->init(&transport_config);
 
     // set chipset name
-    btstack_chipset_bcm_set_device_name("BCM43430A1");
+    btstack_chipset_bcm_set_device_name("/dev/bt_image");
 
     // setup UART driver
     const btstack_uart_block_t * uart_driver = btstack_uart_block_posix_instance();

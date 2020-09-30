@@ -48,6 +48,8 @@
 #include <stddef.h>   /* NULL */
 #include <stdio.h> 
 #include <string.h>   /* memcpy */
+#include <rt_ota.h>
+#include <fal.h>
 
 #include "btstack_control.h"
 #include "btstack_debug.h"
@@ -106,7 +108,7 @@ static void chipset_set_bd_addr_command(bd_addr_t addr, uint8_t *hci_cmd_buffer)
 #ifdef HAVE_POSIX_FILE_IO
 
 static const char * hcd_file_path;
-static const char * hcd_folder_path = "/bt";
+static const char * hcd_folder_path = "";
 static int hcd_fd;
 static char matched_file[1000];
 
@@ -125,12 +127,18 @@ static void chipset_init(const void * config){
 static const uint8_t download_command[] = {0x2e, 0xfc, 0x00};
 
 static btstack_chipset_result_t chipset_next_command(uint8_t * hci_cmd_buffer){
+    static hcd_file_length;
     if (hcd_fd < 0){
+        fal_partition_t *hcd_part = fal_partition_find("bt_image");
         log_info("chipset-bcm: hcd_file_path open file %s", hcd_file_path);
         hcd_fd = open(hcd_file_path, O_RDONLY);
         if (hcd_fd < 0){
             log_error("chipset-bcm: can't open file %s", hcd_file_path);
             return BTSTACK_CHIPSET_NO_INIT_SCRIPT;
+        }
+        hcd_file_length = rt_ota_get_raw_fw_size(hcd_part);
+        if(hcd_file_path <= 0){
+             return BTSTACK_CHIPSET_NO_INIT_SCRIPT;
         }
     }
 
@@ -145,7 +153,7 @@ static btstack_chipset_result_t chipset_next_command(uint8_t * hci_cmd_buffer){
     do {
         // read command
         int res = read(hcd_fd, hci_cmd_buffer, 3);
-        if (res == 0){
+        if (init_script_offset == hcd_file_length){
             log_info("chipset-bcm: end of file, size %u", init_script_offset);
             close(hcd_fd);
             return BTSTACK_CHIPSET_DONE;
@@ -194,65 +202,75 @@ static int equal_ignore_case(const char *str1, const char *str2){
 #define MAX_DEVICE_NAME_LEN 25
 void btstack_chipset_bcm_set_device_name(const char * device_name){
     // ignore if file path already set
+    int fd = -1;
     if (hcd_file_path) {
         log_error("chipset-bcm: set device name called %s although path %s already set", device_name, hcd_file_path);
         return;
     } 
+    fd = open(device_name,O_RDONLY);
+    if(fd < 0 )
+    {
+        log_error("cannot open bluetooth firmware %s", device_name);
+        return;
+    }
+    close(fd);
+    hcd_file_path = device_name;
+
     // construct filename for long variant
-    if (strlen(device_name) > MAX_DEVICE_NAME_LEN){
-        log_error("chipset-bcm: device name %s too long", device_name);
-        return;
-    }
-    char filename_complete[MAX_DEVICE_NAME_LEN+5];
-    strcpy(filename_complete, device_name);
-    strcat(filename_complete, ".hcd");
-
-    // construct short variant without revision info
-    char filename_short[MAX_DEVICE_NAME_LEN+5];
-    strcpy(filename_short, device_name);
-    int len = strlen(filename_short);
-    while (len > 3){
-        char c = filename_short[len-1];
-        if (isdigit(c) == 0) break;
-        len--;
-    }    
-    if (len > 3){
-        filename_short[len-1] = 0;
-    }
-    strcat(filename_short, ".hcd");
-    log_info("chipset-bcm: looking for %s and %s", filename_short, filename_complete);
-
-    // find in folder
-    DIR *dirp = opendir(hcd_folder_path);
-    int match_short = 0;
-    int match_complete = 0;
-    if (!dirp){
-        log_error("chipset-bcm: could not get directory for %s", hcd_folder_path);
-        return;
-    }
-    while (true){
-        struct dirent *dp = readdir(dirp);
-        if (!dp) break;
-        if (equal_ignore_case(filename_complete, dp->d_name)){
-            match_complete = 1;
-            continue;
-        }
-        if (equal_ignore_case(filename_short, dp->d_name)){
-            match_short = 1;            
-        }
-    }
-    closedir(dirp);
-    if (match_complete){
-        sprintf(matched_file, "%s/%s", hcd_folder_path, filename_complete);
-        hcd_file_path = matched_file;
-        return;
-    }
-    if (match_short){
-        sprintf(matched_file, "%s/%s", hcd_folder_path, filename_short);
-        hcd_file_path = matched_file;
-        return;
-    }
-    log_error("chipset-bcm: could not find %s or %s, please provide .hcd file in %s", filename_complete, filename_short, hcd_folder_path);
+//    if (strlen(device_name) > MAX_DEVICE_NAME_LEN){
+//        log_error("chipset-bcm: device name %s too long", device_name);
+//        return;
+//    }
+//    char filename_complete[MAX_DEVICE_NAME_LEN+5];
+//    strcpy(filename_complete, device_name);
+//    //strcat(filename_complete, ".hcd");
+//
+//    // construct short variant without revision info
+//    char filename_short[MAX_DEVICE_NAME_LEN+5];
+//    strcpy(filename_short, device_name);
+//    int len = strlen(filename_short);
+//    while (len > 3){
+//        char c = filename_short[len-1];
+//        if (isdigit(c) == 0) break;
+//        len--;
+//    }
+//    if (len > 3){
+//        filename_short[len-1] = 0;
+//    }
+//   // strcat(filename_short, ".hcd");
+//    log_info("chipset-bcm: looking for %s and %s", filename_short, filename_complete);
+//
+//    // find in folder
+//    DIR *dirp = opendir(hcd_folder_path);
+//    int match_short = 0;
+//    int match_complete = 0;
+//    if (!dirp){
+//        log_error("chipset-bcm: could not get directory for %s", hcd_folder_path);
+//        return;
+//    }
+//    while (true){
+//        struct dirent *dp = readdir(dirp);
+//        if (!dp) break;
+//        if (equal_ignore_case(filename_complete, dp->d_name)){
+//            match_complete = 1;
+//            continue;
+//        }
+//        if (equal_ignore_case(filename_short, dp->d_name)){
+//            match_short = 1;
+//        }
+//    }
+//    closedir(dirp);
+//    if (match_complete){
+//        sprintf(matched_file, "%s/%s", hcd_folder_path, filename_complete);
+//        hcd_file_path = matched_file;
+//        return;
+//    }
+//    if (match_short){
+//        sprintf(matched_file, "%s/%s", hcd_folder_path, filename_short);
+//        hcd_file_path = matched_file;
+//        return;
+//    }
+//    log_error("chipset-bcm: could not find %s or %s, please provide firmware in %s", filename_complete, filename_short, hcd_folder_path);
 }
 
 #else
