@@ -14,7 +14,6 @@ Modify:
 #include <rt_ota.h>
 #include "wifi.h"
 
-#define DBG_COLOR
 #define DBG_TAG "bt"
 #define DBG_LVL DBG_LOG
 #include <rtdbg.h>
