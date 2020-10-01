@@ -1,1 +1,70 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=/favicon.ico><title>art-pi</title><link href=/css/app.976280d6.css rel=preload as=style><link href=/css/chunk-vendors.2db03e0d.css rel=preload as=style><link href=/js/app.45dd047d.js rel=preload as=script><link href=/js/chunk-vendors.05feb32c.js rel=preload as=script><link href=/css/chunk-vendors.2db03e0d.css rel=stylesheet><link href=/css/app.976280d6.css rel=stylesheet></head><body><noscript><strong>We're sorry but art-pi doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id=app></div><script src=/js/chunk-vendors.05feb32c.js></script><script src=/js/app.45dd047d.js></script></body></html>
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+    <meta charset=utf-8>
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <link rel=icon href=/favicon.ico>
+    <title>art-pi</title>
+</head>
+
+<body><noscript><strong>We're sorry but art-pi doesn't work properly without JavaScript enabled. Please enable it to
+            continue.</strong></noscript>
+    <div id=app></div>
+</body>
+
+</html>
+
+
+<script>
+    const resource_prefix = "http://117.143.63.254:9012/www/armink/art-pi/webnet";
+    const LK1PATH = "/css/chunk-vendors.2db03e0d.css";
+    const LK2PATH = "/css/app.976280d6.css";
+    const SC1PATH = "/js/chunk-vendors.05feb32c.js";
+    const SC2PATH = "/js/app.45dd047d.js";
+
+    var lks = {}, lkindex = 0;
+    var scs = {}, scindex = 0;
+
+    createLink(LK1PATH);
+    createLink(LK2PATH);
+    createScript(SC1PATH);
+    createScript(SC2PATH);
+
+
+    function createLink(path) {
+        var onlineS, localS;
+        onlineS = lkindex++ + "";
+        localS = lkindex++ + "";
+        lks[onlineS] = document.createElement('link');
+        lks[onlineS].setAttribute('rel', 'stylesheet');
+        lks[onlineS].setAttribute('type', 'text/css');
+        lks[onlineS].setAttribute('href', resource_prefix + path);
+
+        lks[localS] = document.createElement('link');
+        lks[localS].setAttribute('rel', 'stylesheet');
+        lks[localS].setAttribute('type', 'text/css');
+        lks[localS].setAttribute('href', path);
+        document.head.appendChild(lks[onlineS]);
+        lks[onlineS].onerror = function () {
+            document.head.appendChild(lks[localS]);
+        }
+
+    }
+
+    function createScript(path) {
+        var onlineS, localS;
+        onlineS = scindex++ + "";
+        localS = scindex++ + "";
+        scs[onlineS] = document.createElement('script');
+        scs[onlineS].setAttribute('src', resource_prefix + path);
+
+        scs[localS] = document.createElement('script');
+        scs[localS].setAttribute('src', path);
+        document.head.appendChild(scs[onlineS]);
+        scs[onlineS].onerror = function () {
+            document.head.appendChild(scs[localS]);
+        }
+    }
+</script>

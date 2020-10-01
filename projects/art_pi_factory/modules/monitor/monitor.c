@@ -16,7 +16,6 @@ Modify:
 #define SYS_MONITOR_INTERVAL_MS 1000
 #define NTP_SYNC_CYCLE_MINUTES 30
 
-#define DBG_COLOR
 #define DBG_TAG "monitor"
 #define DBG_LVL DBG_LOG
 #include <rtdbg.h>
