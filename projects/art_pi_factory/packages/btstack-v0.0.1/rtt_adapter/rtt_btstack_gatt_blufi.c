@@ -121,7 +121,7 @@ uint8_t bsal_blufi_push_data(struct basl_blufi_recv_data *blufi_data, uint8_t le
         blufi_data->recv_offset = 0;
         memset(blufi_data->buf, 0, blufi_data->alloc_len);
     }
-    printf("\r\n====length:%d   \r\n", length);
+    //printf("\r\n====length:%d   \r\n", length);
     memcpy(&blufi_data->buf[blufi_data->recv_offset], data, length);
     blufi_data->recv_offset += length;
     //check the data
@@ -138,13 +138,13 @@ int bt_stack_blufi_send(uint8_t *string, uint32_t length)
     counter_string_len = length;
     if (le_notification_enabled)
     {
-        printf("\r\n===start send string====\r\n");
+        //printf("\r\n===start send string====\r\n");
         send_buffer_complete = 0;
         send_buffer_index = 0;
     }
     else
     {
-        printf("\r\n===le_notification_enabled:%d can't send====\r\n", le_notification_enabled);
+        //printf("\r\n===le_notification_enabled:%d can't send====\r\n", le_notification_enabled);
         return -1;
     }
     return 0;
@@ -158,7 +158,7 @@ void bt_send_api(void)
     uint32_t temp_length = 0;
     // counter_string_len = sprintf(counter_string, "{wifi:'%s'}", wifi_status?"on":"off");
     temp_length = sprintf(temp_string, "{wifi:'%s', url:' http://%d.%d.%d.%d/index.html'}", wifi_status ? "on" : "off", ip_address[0], ip_address[1], ip_address[2], ip_address[3]);
-    printf("\r\n======counter_string_len:%d======\r\n", temp_length);
+    //printf("\r\n======counter_string_len:%d======\r\n", temp_length);
 
     bt_stack_blufi_send(temp_string, temp_length);
 }
@@ -218,7 +218,7 @@ static void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packe
             }
             att_server_notify(con_handle, ATT_CHARACTERISTIC_FF01_01_VALUE_HANDLE, (uint8_t *)(counter_string + send_buffer_index), send_length);
             send_buffer_index += send_length;
-            printf("\r\n====send length= %d ==left:%s===\r\n", send_length, (uint8_t *)(counter_string + send_buffer_index));
+            //printf("\r\n====send length= %d ==left:%s===\r\n", send_length, (uint8_t *)(counter_string + send_buffer_index));
             if (send_buffer_index >= counter_string_len)
             {
                 //send complete
@@ -250,7 +250,7 @@ static uint16_t att_read_callback(hci_con_handle_t connection_handle, uint16_t a
 {
     //    UNUSED(connection_handle);
     uint8_t string[] = {192, 168, 0, 1};
-    printf("\r\n read the att %x, %x, offset:%x,buffer:%p, buffer_size:%x\r\n", connection_handle, att_handle, offset, buffer, buffer_size);
+    //printf("\r\n read the att %x, %x, offset:%x,buffer:%p, buffer_size:%x\r\n", connection_handle, att_handle, offset, buffer, buffer_size);
 
     if (att_handle == ATT_CHARACTERISTIC_FF01_01_VALUE_HANDLE)
     {
@@ -275,15 +275,15 @@ static int att_write_callback(hci_con_handle_t connection_handle, uint16_t att_h
     UNUSED(offset);
     UNUSED(buffer_size);
 
-    printf("\r\n write the att %x, %x, offset:%x,buffer:%p, buffer_size:%x transaction_mode %d \r\n", connection_handle, att_handle, offset, buffer, buffer_size, transaction_mode);
+    //printf("\r\n write the att %x, %x, offset:%x,buffer:%p, buffer_size:%x transaction_mode %d \r\n", connection_handle, att_handle, offset, buffer, buffer_size, transaction_mode);
     if (att_handle == ATT_CHARACTERISTIC_FF01_01_CLIENT_CONFIGURATION_HANDLE)
     {
         le_notification_enabled = little_endian_read_16(buffer, 0) == GATT_CLIENT_CHARACTERISTICS_CONFIGURATION_NOTIFICATION;
-        printf("\r\n deal with the notify le_notification_enabled:%d %x, %x\r\n", le_notification_enabled, buffer[0], buffer[1]);
+        //printf("\r\n deal with the notify le_notification_enabled:%d %x, %x\r\n", le_notification_enabled, buffer[0], buffer[1]);
     }
     if (att_handle == ATT_CHARACTERISTIC_FF01_01_VALUE_HANDLE)
     {
-        printf("\r\n recv data: %s length :%d\r\n", buffer, buffer_size);
+        //printf("\r\n recv data: %s length :%d\r\n", buffer, buffer_size);
         uint8_t ret = bsal_blufi_push_data(&blufi_data, buffer_size, buffer);
         if (ret == 0xff)
         {
@@ -309,7 +309,7 @@ static int att_write_callback(hci_con_handle_t connection_handle, uint16_t att_h
                 }
             }
             //the data is ready
-            printf("\r\n BLUFI: THE RECEIVE DATA IS :%s \r\n", blufi_data.buf);
+            //printf("\r\n BLUFI: THE RECEIVE DATA IS :%s \r\n", blufi_data.buf);
         }
     }
 
