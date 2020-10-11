@@ -71,7 +71,7 @@
 
 int btstack_main(int argc, const char *argv[]);
 
-#define TLV_DB_PATH_PREFIX "btstack_"
+#define TLV_DB_PATH_PREFIX "/flash/btstack_"
 #define TLV_DB_PATH_POSTFIX ".tlv"
 static char tlv_db_path[100];
 static const btstack_tlv_t *tlv_impl;
