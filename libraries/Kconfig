@@ -157,7 +157,7 @@ menu "External Libraries"
         default n
 
     config ART_PI_USING_OTA_LIB
-        bool "Using RT-Thrad OTA Library"
+        bool "Using RT-Thread OTA Library"
         select PKG_USING_FAL
         select FAL_USING_SFUD_PORT
         select RT_USING_SFUD
