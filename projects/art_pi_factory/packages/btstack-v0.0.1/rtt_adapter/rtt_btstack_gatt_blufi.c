@@ -169,7 +169,7 @@ static void heartbeat_handler(struct btstack_timer_source *ts)
     if (send_buffer_complete == 1)
     {
         //tx complete no need
-        log_debug("\r\n === tx complete===\r\n ");
+        //printf("\r\n === tx complete===\r\n ");
         btstack_run_loop_set_timer(ts, HEARTBEAT_PERIOD_MS);
         btstack_run_loop_add_timer(ts);
         return;
