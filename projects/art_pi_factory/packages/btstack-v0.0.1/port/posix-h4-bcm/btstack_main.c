@@ -112,7 +112,7 @@ static int led_state = 0;
 void hal_led_toggle(void)
 {
     led_state = 1 - led_state;
-    log_debug("LED State %u\n", led_state);
+    printf("LED State %u\n", led_state);
 }
 
 static void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packet, uint16_t size)
@@ -126,7 +126,7 @@ static void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packe
         if (btstack_event_state_get_state(packet) != HCI_STATE_WORKING)
             break;
         gap_local_bd_addr(addr);
-        log_debug("BTstack up and running at %s\n", bd_addr_to_str(addr));
+        printf("BTstack up and running at %s\n", bd_addr_to_str(addr));
         // setup TLV
         //            strcpy(tlv_db_path, TLV_DB_PATH_PREFIX);
         //            strcat(tlv_db_path, bd_addr_to_str(addr));
@@ -155,7 +155,7 @@ int bt_stack_main(int argc, const char *argv[])
     // use logger: format HCI_DUMP_PACKETLOGGER, HCI_DUMP_BLUEZ or HCI_DUMP_STDOUT
     //const char * pklg_path = "/tmp/hci_dump.pklg";
     // hci_dump_open(NULL, HCI_DUMP_STDOUT);
-    // log_debug("Packet Log: %s\n", pklg_path);
+    // printf("Packet Log: %s\n", pklg_path);
 
     strcpy(tlv_db_path, TLV_DB_PATH_PREFIX);
     //   strcat(tlv_db_path, bd_addr_to_str(addr));
@@ -215,7 +215,7 @@ int bt_stack_main(int argc, const char *argv[])
     main_argv = argv;
 
     // phase #1 download firmware
-    log_debug("Phase 1: Download firmware\n");
+    printf("Phase 1: Download firmware\n");
 
     // phase #2 start main app
     btstack_chipset_bcm_download_firmware(uart_driver, transport_config.baudrate_main, &phase2);
@@ -256,11 +256,11 @@ static void phase2(int status)
 
     if (status)
     {
-        log_error("Download firmware failed\n");
+        printf("Download firmware failed\n");
         return;
     }
 
-    log_debug("Phase 2: Main app\n");
+    printf("Phase 2: Main app\n");
 
     // setup app
     btstack_main(main_argc, main_argv);
