@@ -5,6 +5,7 @@
 
 ## 硬件说明
 ![WIFI-OTA](./figures/wifi_hardware.png)
+
   AP6212是正基AMPAK推出的一款低功耗高性能的WiFi+BT4.2模块，该模块符合802.11b/g/n，其中WiFi功能采用SDIO接口，蓝牙采用UART/I2S/PCM接口，具有StationMode，SoftAP，P2P功能等。该芯片硬件电路连接方式如图所示。
 
 ## 软件说明
