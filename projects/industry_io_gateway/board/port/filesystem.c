@@ -14,13 +14,13 @@
 #ifdef BSP_USING_FS
 
 #if RT_DFS_ELM_MAX_SECTOR_SIZE < 4096
-    #error "Please define RT_DFS_ELM_MAX_SECTOR_SIZE more than 4096"
+#error "Please define RT_DFS_ELM_MAX_SECTOR_SIZE more than 4096"
 #endif
 #if DFS_FILESYSTEMS_MAX < 4
-    #error "Please define DFS_FILESYSTEMS_MAX more than 4"
+#error "Please define DFS_FILESYSTEMS_MAX more than 4"
 #endif
 #if DFS_FILESYSTEM_TYPES_MAX < 4
-    #error "Please define DFS_FILESYSTEM_TYPES_MAX more than 4"
+#error "Please define DFS_FILESYSTEM_TYPES_MAX more than 4"
 #endif
 
 #include <dfs_fs.h>
@@ -32,14 +32,11 @@
 #include <rtdbg.h>
 
 static const struct romfs_dirent _romfs_root[] = {
-    {ROMFS_DIRENT_DIR, "flash",  RT_NULL, 0},
-    {ROMFS_DIRENT_DIR, "sdcard", RT_NULL, 0},
-    {ROMFS_DIRENT_DIR, "img",    RT_NULL, 0}
-};
+    {ROMFS_DIRENT_DIR, "flash", RT_NULL, 0},
+    {ROMFS_DIRENT_DIR, "sdcard", RT_NULL, 0}};
 
 const struct romfs_dirent romfs_root = {
-    ROMFS_DIRENT_DIR, "/", (rt_uint8_t *)_romfs_root, sizeof(_romfs_root)/sizeof(_romfs_root[0])
-};
+    ROMFS_DIRENT_DIR, "/", (rt_uint8_t *)_romfs_root, sizeof(_romfs_root) / sizeof(_romfs_root[0])};
 
 #ifdef BSP_USING_SDCARD_FS
 
@@ -86,14 +83,14 @@ static void sd_mount(void *parameter)
 {
     rt_uint8_t re_sd_check_pin = 1;
     rt_thread_mdelay(200);
-    if(rt_pin_read(SD_CHECK_PIN))
+    if (rt_pin_read(SD_CHECK_PIN))
     {
         _sdcard_mount();
     }
     while (1)
     {
         rt_thread_mdelay(200);
-        if(!re_sd_check_pin && (re_sd_check_pin = rt_pin_read(SD_CHECK_PIN)) != 0)
+        if (!re_sd_check_pin && (re_sd_check_pin = rt_pin_read(SD_CHECK_PIN)) != 0)
         {
             _sdcard_mount();
         }
@@ -114,21 +111,22 @@ int mount_init(void)
         LOG_E("rom mount to '/' failed!");
     }
 #ifdef BSP_USING_SPI_FLASH_FS
-    struct rt_device *flash_dev = RT_NULL ;
+    struct rt_device *flash_dev = RT_NULL;
 
 #ifndef RT_USING_WIFI
     fal_init();
 #endif
 
-    flash_dev = fal_blk_device_create("filesystem");
+    flash_dev = fal_mtd_nor_device_create("filesystem");
+
     if (flash_dev)
     {
-        LOG_D("Create a block device on the filesystem partition of flash successful.");
-        if (dfs_mount(flash_dev->parent.name, "/flash", "elm", 0, 0) != 0)
+        //mount filesystem
+        if (dfs_mount(flash_dev->parent.name, "/flash", "lfs", 0, 0) != 0)
         {
-            LOG_W("mount to '/flash' failed! try to mkfs %s",flash_dev->parent.name);
-            dfs_mkfs("elm",flash_dev->parent.name);
-            if (dfs_mount(flash_dev->parent.name, "/flash", "elm", 0, 0) == 0)
+            LOG_W("mount to '/flash' failed! try to mkfs %s", flash_dev->parent.name);
+            dfs_mkfs("lfs", flash_dev->parent.name);
+            if (dfs_mount(flash_dev->parent.name, "/flash", "lfs", 0, 0) == 0)
             {
                 LOG_I("mount to '/flash' success!");
             }
@@ -140,7 +138,7 @@ int mount_init(void)
     }
     else
     {
-        LOG_E("Can't create a block device on filesystem partition.");
+        LOG_E("Can't create  block device  filesystem or bt_image partition.");
     }
 
 #endif
@@ -151,7 +149,7 @@ int mount_init(void)
     rt_pin_mode(SD_CHECK_PIN, PIN_MODE_INPUT_PULLUP);
 
     tid = rt_thread_create("sd_mount", sd_mount, RT_NULL,
-                           1024, RT_THREAD_PRIORITY_MAX - 2, 20);
+                           2048, RT_THREAD_PRIORITY_MAX - 2, 20);
     if (tid != RT_NULL)
     {
         rt_thread_startup(tid);
