@@ -9,8 +9,8 @@ board:
   vendor: RT-Thread
   description_zh: ART-Pi 是 RT-Thread 团队经过半年的精心准备，专门为嵌入式软件工程师、开源创客设计的一款极具扩展功能的 DIY 开源硬件.
   description_en: ART-Pi is a DIY open source hardware specially designed for embedded software engineers and open source makers after six months of careful preparation by RT-Thread team
-  small_image: documents/images/board_small.png
-  large_image: documents/images/board_large.png
+  small_image: documents/figures/board_small.png
+  large_image: documents/figures/board_large.png
   sale_contact_cn: http://www.st.com/stonline/contactus/contacts/index.php
   sale_contact_global: http://www.st.com/stonline/contactus/contacts/index.php
   buy_url_cn: https://www.rt-thread.org/
@@ -33,10 +33,10 @@ chip:
   target_freq: '480000000'
   uart_name: UART4
 docs:
-- file: documents/manuals/RT-Thread-ART-Pi.md
-  title: Rt-Thread ART Pi
+- file: documents/UM3001-RT-Thread ART-Pi 快速上手.md
+  title: RT-Thread ART-Pi 快速上手
   category: manual
-- file: documents/sheet/STM32H750xx Datasheet.pdf
+- file: documents/board/STM32H7/STM32H750xx Datasheet.pdf
   title: STM32h750xx Datasheet
   category: sheet
 features:
