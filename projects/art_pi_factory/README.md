@@ -58,4 +58,13 @@ wifi和蓝牙固件的上传方式相同，可以通过终端进行ymodem传输�
 
 开发板主页依赖于外网资源，请确保开发板连接的无线网能够接入互联网。
 
+## 许可声明
+
+This package contains a snapshot of the BTstack Bluetooth Stack by BlueKitchen GmbH.
+It is free for non-commercial use. For commercial use, please contact BlueKitchen at contact@bluekitchen-gmbh.com。
+
+---------------------------
+
+本例程中包含了BTstack Bluetooth Stack,需要注意的是，BTstack 非商业用途是免费的。但是，对于商业用途，<a href="mailto:contact@bluekitchen-gmbh.com">请联系BTstack官方</a>以获得商业合作。
+
 
