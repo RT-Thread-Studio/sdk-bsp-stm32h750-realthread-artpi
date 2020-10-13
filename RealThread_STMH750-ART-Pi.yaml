@@ -77,27 +77,7 @@ template_projects:
   - source_path_offset: projects/art_pi_blink_led
     target_path_offset: ''
     files_and_folders:
-    - ".settings"
-    - applications
-    - board
-    - figures
-    - ".config"
-    - ".cproject"
-    - ".gitignore"
-    - ".gitattributes"
-    - ".project"
-    - cconfig.h
-    - Kconfig
-    - makefile.targets
-    - README.md
-    - rtconfig.h
-    - rtconfig.py
-    - rtconfig_preinc.h
-    - SConscript
-    - SConstruct
-    - template.uvoptx
-    - template.uvprojx
-    - project.uvprojx
+    - "*"
   - source_path_offset: ''
     target_path_offset: ''
     files_and_folders:
@@ -119,27 +99,7 @@ example_projects:
   - source_path_offset: projects/art_pi_blink_led
     target_path_offset: ''
     files_and_folders:
-    - ".settings"
-    - applications
-    - board
-    - figures
-    - ".config"
-    - ".cproject"
-    - ".gitignore"
-    - ".gitattributes"
-    - ".project"
-    - cconfig.h
-    - Kconfig
-    - makefile.targets
-    - README.md
-    - rtconfig.h
-    - rtconfig.py
-    - rtconfig_preinc.h
-    - SConscript
-    - SConstruct
-    - template.uvoptx
-    - template.uvprojx
-    - project.uvprojx
+    - "*"
   - source_path_offset: ''
     target_path_offset: ''
     files_and_folders:
@@ -160,28 +120,7 @@ example_projects:
   - source_path_offset: projects/art_pi_bootloader
     target_path_offset: ''
     files_and_folders:
-    - ".settings"
-    - applications
-    - board
-    - figures
-    - ".config"
-    - ".cproject"
-    - ".gitignore"
-    - ".gitattributes"
-    - ".project"
-    - cconfig.h
-    - Kconfig
-    - makefile.targets
-    - packages
-    - README.md
-    - rtconfig.h
-    - rtconfig.py
-    - rtconfig_preinc.h
-    - SConscript
-    - SConstruct
-    - template.uvoptx
-    - template.uvprojx
-    - project.uvprojx
+    - "*"
   - source_path_offset: ''
     target_path_offset: ''
     files_and_folders:
@@ -202,27 +141,7 @@ example_projects:
   - source_path_offset: projects/art_pi_wifi
     target_path_offset: ''
     files_and_folders:
-    - ".settings"
-    - applications
-    - board
-    - ".config"
-    - ".cproject"
-    - ".gitignore"
-    - ".gitattributes"
-    - ".project"
-    - cconfig.h
-    - Kconfig
-    - makefile.targets
-    - packages
-    - README.md
-    - rtconfig.h
-    - rtconfig.py
-    - rtconfig_preinc.h
-    - SConscript
-    - SConstruct
-    - template.uvoptx
-    - template.uvprojx
-    - project.uvprojx
+    - "*"
   - source_path_offset: ''
     target_path_offset: ''
     files_and_folders:
@@ -243,28 +162,7 @@ example_projects:
   - source_path_offset: projects/art_pi_factory
     target_path_offset: ''
     files_and_folders:
-    - ".settings"
-    - applications
-    - board
-    - modules
-    - ".config"
-    - ".cproject"
-    - ".gitignore"
-    - ".gitattributes"
-    - ".project"
-    - cconfig.h
-    - Kconfig
-    - makefile.targets
-    - packages
-    - README.md
-    - rtconfig.h
-    - rtconfig.py
-    - rtconfig_preinc.h
-    - SConscript
-    - SConstruct
-    - template.uvoptx
-    - template.uvprojx
-    - project.uvprojx
+    - "*"
   - source_path_offset: ''
     target_path_offset: ''
     files_and_folders:
@@ -285,30 +183,7 @@ example_projects:
   - source_path_offset: projects/industry_io_gateway
     target_path_offset: ''
     files_and_folders:
-    - ".settings"
-    - applications
-    - board
-    - modules
-    - ".config"
-    - ".cproject"
-    - ".gitignore"
-    - ".gitattributes"
-    - ".project"
-    - cconfig.h
-    - common.h
-    - Kconfig
-    - makefile.targets
-    - packages
-    - README.md
-    - rtconfig.h
-    - rtconfig.py
-    - rtua.py
-    - rtconfig_preinc.h
-    - SConscript
-    - SConstruct
-    - template.uvoptx
-    - template.uvprojx
-    - project.uvprojx
+    - "*"
   - source_path_offset: ''
     target_path_offset: ''
     files_and_folders:
