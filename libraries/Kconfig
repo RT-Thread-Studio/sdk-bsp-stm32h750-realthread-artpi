@@ -53,9 +53,10 @@ menu "Onboard Peripheral"
         select RT_USING_SAL
         default n
 
-    config BSP_USING_DCMI
+    config BSP_USING_OV2640
         bool "Enable camera (ov2640)"
         select BSP_USING_DCMI
+        select BSP_USING_OV2640
         default n
 
     menuconfig BSP_USING_FS
@@ -145,6 +146,11 @@ menu "On-chip Peripheral"
         select BSP_USING_GPIO
         select BSP_USING_SDRAM
         select RT_USING_MEMHEAP
+        default n
+
+    config BSP_USING_DCMI
+        bool "Enable DCMI"
+        select BSP_USING_DCMI
         default n
 
 endmenu

@@ -10,7 +10,7 @@
 
 #include "board.h"
 
-#if defined(BSP_USING_DCMI)
+#if defined(BSP_USING_OV2640)
 
 #include <dfs_posix.h>
 #include <drv_ov2640.h>
@@ -32,8 +32,8 @@ struct rt_i2c_bus_device *i2c_bus  = RT_NULL;
 #define JPEG_LINE_SIZE  2 * 1024
 
 static rt_uint32_t *jpeg_data_buf = RT_NULL;
-static rt_uint32_t JPEG_LINE0_BUF[JPEG_LINE_SIZE * 2] __attribute__((section(".RxDecripSection")));
-static rt_uint32_t JPEG_LINE1_BUF[JPEG_LINE_SIZE * 2] __attribute__((section(".TxDecripSection")));
+static rt_uint32_t JPEG_LINE0_BUF[JPEG_LINE_SIZE * 2];
+static rt_uint32_t JPEG_LINE1_BUF[JPEG_LINE_SIZE * 2];
 
 #if defined(CAMERA_DUMP)
 #define __is_print(ch) ((unsigned int)((ch) - ' ') < 127u - ' ')
