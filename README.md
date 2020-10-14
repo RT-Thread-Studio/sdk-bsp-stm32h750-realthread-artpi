@@ -15,10 +15,10 @@ $ sdk-bsp-stm32h750-realthread-artpi
 ├── debug
 ├── documents
 │   ├── RT-Thread 编程指南.pdf
-│   ├── UM3001-RT-Thread ART-Pi 快速上手.md
-│   ├── UM3002-RT-Thread ART-Pi 开发手册.md
-│   ├── UM3003-RT-Thread ART-Pi BT_WIFI 模块固件下载手册.md
-│   ├── UM3004-RT-Thread ART-Pi 代码贡献手册.md
+│   ├── UM5001-RT-Thread ART-Pi 快速上手.md
+│   ├── UM5002-RT-Thread ART-Pi 开发手册.md
+│   ├── UM5003-RT-Thread ART-Pi BT_WIFI 模块固件下载手册.md
+│   ├── UM5004-RT-Thread ART-Pi 代码贡献手册.md
 │   ├── board
 │   └── figures
 ├── libraries
@@ -52,30 +52,25 @@ $ sdk-bsp-stm32h750-realthread-artpi
   wifi 固件，BT 固件，rbl 打包工具等
 ## 使用
 
-sdk-bsp-stm32h750-realthread-artpi 支持 RT-Thread Studio 和 MDK 开发.
-
-在 [ART-Pi SDK仓库](https://github.com/RT-Thread-Studio/sdk-bsp-stm32h750-realthread-artpi) 下载 sdk-bsp-stm32h750-realthread-artpi.zip
-
-![sdk_download](documents/figures/sdk_download.png)
+sdk-bsp-stm32h750-realthread-artpi 支持 RT-Thread Studio 和 MDK 开发
 
 ### RT-Thread Studio 开发
 
 
-1. 打开 RT-Thread Studio 的包管理器
+1. 打开 RT-Thread Studio 的包管理器,安装 ART-PI SDK 资源包
 
-  ![sdk_manager](documents/figures/sdk_manager.png)
+  <img src="documents/figures/sdk_manager.png" alt="sdk_manager" style="zoom: 67%;" />
 
-2. 导入 zip 格式的离线 SDK 包
-    <img src="documents\figures\resource_pack.png" alt="image-20200926142827648" style="zoom: 67%;" />
 
-3. 导入完成后 选择基于 BSP 创建工程即可
+2. 安装完成后 选择基于 BSP 创建工程即可
     <img src="documents\figures\creat_project.png" alt="image-20200926143024666" style="zoom:50%;" />
 
 ### MDK 开发
+1. 在 [ART-Pi SDK仓库](https://github.com/RT-Thread-Studio/sdk-bsp-stm32h750-realthread-artpi) 下载 SDK
 
-1. 进入工程目录。如：sdk-bsp-stm32h750-realthread-artpi\projects\art_pi_blink_led
+2. 进入工程目录。如：sdk-bsp-stm32h750-realthread-artpi\projects\art_pi_blink_led
 
-2. 以管理员权限打开 windows 命令行 ，执行 mklink 命令，分别为 `rt-thread` 及 `libraries` 文件创建符号链接
+3. 以管理员权限打开 windows 命令行 ，执行 mklink 命令，分别为 `rt-thread` 及 `libraries` 文件创建符号链接
 
    ```
    E:\project\sdk-bsp-stm32h750-realthread-artpi\projects\art_pi_blink_led>mklink /D rt-thread ..\..\rt-thread
@@ -86,12 +81,12 @@ sdk-bsp-stm32h750-realthread-artpi 支持 RT-Thread Studio 和 MDK 开发.
    
    E:\project\sdk-bsp-stm32h750-realthread-artpi\projects>
    ```
-3. 使用 [ENV](https://club.rt-thread.org/ask/question/5699.html) 工具执行 scons --target=MDK5 即可
+4. 使用 [ENV](https://club.rt-thread.org/ask/question/5699.html) 工具执行 scons --target=MDK5 即可
    
 
 ## ART-Pi 交流平台
 
-ART-Pi  是一个开源创意硬件平台，期待有更多的小伙伴能一起发现更多的乐趣，在使用过程中若您有任何的想法，建议您通过一下方式来联系到我们。
+ART-Pi  是一个开源创意硬件平台，期待有更多的小伙伴能一起发现更多的乐趣，在使用过程中若您有任何的想法和建议，建议您通过以下方式来联系到我们。
 
 RT-Thread [社区论坛](https://club.rt-thread.org/)。
 
@@ -101,5 +96,5 @@ ART-Pi 官方交流 QQ 群(1016035998)。
 
 ## 贡献代码
 
-如果您对 ART-Pi 感兴趣，并有一些好玩的项目愿意与大家分享，欢迎给我们贡献代码，您可以参考 [ART-Pi 代码贡献手册](https://github.com/RT-Thread-Studio/sdk-bsp-stm32h750-realthread-artpi/blob/master/documents/UM3004-RT-Thread%20ART-Pi%20%E4%BB%A3%E7%A0%81%E8%B4%A1%E7%8C%AE%E6%89%8B%E5%86%8C.md) 。
+如果您对 ART-Pi 感兴趣，并有一些好玩的项目愿意与大家分享，欢迎给我们贡献代码，您可以参考 [ART-Pi 代码贡献手册](https://github.com/RT-Thread-Studio/sdk-bsp-stm32h750-realthread-artpi/blob/master/documents/UM5004-RT-Thread%20ART-Pi%20%E4%BB%A3%E7%A0%81%E8%B4%A1%E7%8C%AE%E6%89%8B%E5%86%8C.md) 。
 
