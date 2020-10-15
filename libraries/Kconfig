@@ -33,6 +33,21 @@ menu "Board extended module"
                 default y
         endif
 
+    menuconfig ART_PI_USING_LORA_SHIELD_LRS007
+        bool "LoRa Shield"
+        default n
+        if ART_PI_USING_LORA_SHIELD_LRS007
+            config LORA_EXPANSION_SHIELD_USING_LRS007_RF_A
+                select BSP_USING_SPI
+                select BSP_USING_SPI2
+                bool "Use LRS007 RF_A Channel"
+                default n
+            config LORA_EXPANSION_SHIELD_USING_LRS007_RF_B
+                select BSP_USING_SPI
+                select BSP_USING_SPI4
+                bool "Use LRS007 RF_B Channel"
+                default n
+        endif
 endmenu
 
 menu "Onboard Peripheral"
@@ -115,6 +130,12 @@ menu "On-chip Peripheral"
         if BSP_USING_SPI
             config BSP_USING_SPI1
                 bool "Enable SPI1"
+                default n
+            config BSP_USING_SPI2
+                bool "Enable SPI2"
+                default n
+            config BSP_USING_SPI4
+                bool "Enable SPI4"
                 default n
         endif
 
