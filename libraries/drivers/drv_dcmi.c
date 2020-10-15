@@ -118,11 +118,11 @@ void DCMI_Stop(void)
 /* Capture a frame of the image */
 void HAL_DCMI_FrameEventCallback(DCMI_HandleTypeDef *hdcmi)
 {
-    extern void jpeg_data_process(void);
+    extern void camera_frame_data_process(void);
     /* enter interrupt */
     rt_interrupt_enter();
-
-    jpeg_data_process();
+    /* move frame data to buffer */
+    camera_frame_data_process();
     __HAL_DCMI_ENABLE_IT(&rt_dcmi.DCMI_Handle, DCMI_IT_FRAME);
 
     /* leave interrupt */
@@ -131,14 +131,15 @@ void HAL_DCMI_FrameEventCallback(DCMI_HandleTypeDef *hdcmi)
 
 void DMA2_Stream1_IRQHandler(void)
 {
-    extern void jpeg_dcmi_rx_callback(void);
+    extern void camera_dma_data_process(void);
     /* enter interrupt */
     rt_interrupt_enter();
 
     if (__HAL_DMA_GET_FLAG(&hdma_dcmi, DMA_FLAG_TCIF1_5) != RESET)
     {
         __HAL_DMA_CLEAR_FLAG(&hdma_dcmi, DMA_FLAG_TCIF1_5);
-        jpeg_dcmi_rx_callback();
+        /* move dma data to buffer */
+        camera_dma_data_process();
         SCB_CleanInvalidateDCache();
     }
 

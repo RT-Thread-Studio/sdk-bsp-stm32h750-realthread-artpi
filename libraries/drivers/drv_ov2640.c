@@ -469,7 +469,7 @@ rt_uint8_t ov2640_set_image_size(rt_uint16_t width ,rt_uint16_t height)
    return RT_EOK;
 }
 
-void jpeg_dcmi_rx_callback(void)
+void camera_dma_data_process(void)
 {
    rt_uint16_t i;
    rt_uint32_t *pbuf;
@@ -494,7 +494,7 @@ void jpeg_dcmi_rx_callback(void)
 }
 
 /* After a frame of picture data has been collected. */
-void jpeg_data_process(void)
+void camera_frame_data_process(void)
 {
    rt_uint16_t i, rlen;
    rt_uint32_t *pbuf = RT_NULL;
