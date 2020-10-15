@@ -46,6 +46,8 @@
 
 ### 运行效果
 
+**插件地址:** https://github.com/loogg/industry_io_gateway-plugins
+
 **支持的扩展插件如下**：
 
 1. ntp : 网络校时，需联网
