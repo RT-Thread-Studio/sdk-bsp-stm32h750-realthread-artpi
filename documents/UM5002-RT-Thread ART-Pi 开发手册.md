@@ -2,9 +2,14 @@
 
 ## 简介
 
-本文将详细介绍 ART-Pi 开发流程，让用户掌握 ART-Pi 开发环境的搭建。
+本文将详细介绍 ART-Pi 开发流程，让用户掌握如何使用 ART-Pi 进行应用开发。包括以下内容：
 
-## ART-Pi SDK 下载指南
+- 如何下载 ART-Pi SDK
+- 使用 RT-Thread Studio 开发应用
+- 使用 MDK 开发应用
+- 使用 RT-Thread Studio 添加驱动
+
+## 如何下载 ART-Pi SDK
 
 本章节将列举几种获取 sdk 的渠道。
 
@@ -19,27 +24,19 @@
   ART-Pi 是 RT-Thread 官方发起的一个开源社区活动，它是开源的。所以你同样可以在各大开源代码托管网站里下载到 ART-Pi 的 sdk 源码。
   在 GitHub 网站里，我们 ART-Pi 官方的 sdk 源码地址是： [链接](https://github.com/RT-Thread-Studio/sdk-bsp-stm32h750-realthread-artpi)
 
-  如下图所示从 GitHub 下载 ART-Pi SDK 流程：
+  如下图所示从 GitHub 下载 ART-Pi SDK ：
 
 ![github_sdk](./figures/github_sdk.png)
 
-## RT-Thread Studio 工程开发指南
+## 使用 RT-Thread Studio 开发应用
 
 如下图所示创建一个工程：
 
 ![](./figures/new_prj_1.png)
 
-填写工程名称；选择 Base On Board；选择 Example；
+填写工程名称；选择 Base On Board；选择 Example；点击 Finsh 按钮。
 
 ![](./figures/new_prj_2.png)
-
-双击 RT-Thread Setting 打开图形配置界面。
-
-![](./figures/new_prj_4.png)
-
-打开 HardWare 选项卡；选择 Enable UART4；（可选步骤，这里只是简单展示如何添加驱动。）
-
-![](./figures/new_prj_5.png)
 
 如图所示进行编译；
 
@@ -53,7 +50,7 @@
 
 ![](./figures/download.png)
 
-## MDK 工程开发指南
+## 使用 MDK 开发应用
 
 首先进入工程目录。如：sdk-bsp-stm32h750-realthread-artpi\projects\art_pi_blink_led
 
@@ -78,3 +75,15 @@ mklink /D libraries ..\..\libraries
 ![](./figures/scons_mdk.png)
 
 ![](./figures/open_mdk.png)
+
+## 使用 RT-Thread Studio 添加驱动
+
+本章节将介绍如何使用 RT-Thread Studio 添加驱动，以添加串口驱动为例：
+
+双击 RT-Thread Setting 打开图形配置界面。
+
+![](./figures/new_prj_4.png)
+
+打开 HardWare 选项卡；选择 Enable UART4；选择完后 ctrl+S 保存当前配置，RT-Thread Studio 会自动刷新生成工程。
+
+![](./figures/new_prj_5.png)
