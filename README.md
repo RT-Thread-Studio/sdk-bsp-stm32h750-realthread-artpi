@@ -14,6 +14,7 @@ $ sdk-bsp-stm32h750-realthread-artpi
 ├── RealThread_STMH750-ART-Pi.yaml
 ├── debug
 ├── documents
+│   ├── coding_style_cn.md
 │   ├── RT-Thread 编程指南.pdf
 │   ├── UM5001-RT-Thread ART-Pi 快速上手.md
 │   ├── UM5002-RT-Thread ART-Pi 开发手册.md
