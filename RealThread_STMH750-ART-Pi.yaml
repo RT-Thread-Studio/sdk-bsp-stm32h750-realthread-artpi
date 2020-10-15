@@ -72,7 +72,7 @@ features_zh:
 template_projects:
 - project_name: art_pi_blink_led
   project_description: creat this peoject if user choose rt-thread project
-  project_type: rt-thread|@full|@4.0.2
+  project_type: rt-thread|@full|@4.0.3
   builtin_files:
   - source_path_offset: projects/art_pi_blink_led
     target_path_offset: ''
@@ -94,7 +94,7 @@ template_projects:
 example_projects: 
 - project_name: art_pi_blink_led
   project_description: creat this peoject if user choose rt-thread project
-  project_type: rt-thread|@full|@4.0.2
+  project_type: rt-thread|@full|@4.0.3
   builtin_files:
   - source_path_offset: projects/art_pi_blink_led
     target_path_offset: ''
@@ -115,7 +115,7 @@ example_projects:
     files_and_folders: []
 - project_name: art_pi_bootloader
   project_description: creat this peoject if user choose rt-thread project
-  project_type: rt-thread|@full|@4.0.2
+  project_type: rt-thread|@full|@4.0.3
   builtin_files:
   - source_path_offset: projects/art_pi_bootloader
     target_path_offset: ''
@@ -136,7 +136,7 @@ example_projects:
     files_and_folders: []
 - project_name: art_pi_wifi
   project_description: creat this peoject if user choose rt-thread project
-  project_type: rt-thread|@full|@4.0.2
+  project_type: rt-thread|@full|@4.0.3
   builtin_files:
   - source_path_offset: projects/art_pi_wifi
     target_path_offset: ''
@@ -157,7 +157,7 @@ example_projects:
     files_and_folders: []
 - project_name: art_pi_factory
   project_description: creat this peoject if user choose rt-thread project
-  project_type: rt-thread|@full|@4.0.2
+  project_type: rt-thread|@full|@4.0.3
   builtin_files:
   - source_path_offset: projects/art_pi_factory
     target_path_offset: ''
@@ -178,7 +178,7 @@ example_projects:
     files_and_folders: []
 - project_name: industry_io_gateway
   project_description: creat this peoject if user choose rt-thread project
-  project_type: rt-thread|@full|@4.0.2
+  project_type: rt-thread|@full|@4.0.3
   builtin_files:
   - source_path_offset: projects/industry_io_gateway
     target_path_offset: ''

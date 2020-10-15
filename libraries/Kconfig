@@ -171,6 +171,16 @@ menu "On-chip Peripheral"
     config BSP_USING_DCMI
         bool "Enable DCMI"
         default n
+		
+    menuconfig BSP_USING_TIM
+        bool "Enable timer"
+        default n
+        select RT_USING_HWTIMER
+        if BSP_USING_TIM
+            config BSP_USING_TIM13
+                bool "Enable TIM13"
+                default n
+        endif	
 
 endmenu
 
