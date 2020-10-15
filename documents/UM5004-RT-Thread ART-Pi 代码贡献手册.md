@@ -30,8 +30,6 @@
 | easyflash  | 3 * 1024 * 1024 | 1024 K          | easyflash 保存参数分区 |
 | filesystem | 4 * 1024 * 1024 | 12 M            | 挂载文件系统分区 |
 
-
-
 ## 3. 如何提交代码
 
 充分了解上述信息后，就可以提交代码啦。
@@ -44,23 +42,23 @@
 
 ### 2. 开发阶段
 1. 按照例程需求，编写例程代码，代码编写需符合《[RT-Thread 编程风格](coding_style_cn.md)》，Git提交日志信息描述清晰
-
 2. 软件代码尽可能的简洁，保证用户看到的代码清晰，容易理解。在menuconfig 中也不要开启无关选项
    
-   
     menuconfig 中目录名称说明
-  - Hardware Drivers Config  硬件驱动配置
-    - Board extended module  外部扩展板相关的选项
-      - ART-Media 多媒体扩展板相关选项 如：wm8988
-      - ART-Industrial 工业扩展板相关选项 如：LWIP
-      - ART-Lorawan Lorawan 扩展板相关选项
-    - Onboard Peripheral 板载外设相关选项 如：AP6212
-    - On-chip Peripheral  片上外设相关选项 如：ADC
-  - External Libraries 外部扩展库选项 如：wifi Library
+```
+  - Hardware Drivers Config    硬件驱动配置
+    - Board extended module    外部扩展板相关的选项
+      - ART-Media              多媒体扩展板相关选项 如：wm8988
+      - ART-Industrial         工业扩展板相关选项 如：LWIP
+      - ART-Lorawan Lorawan    扩展板相关选项
+    - Onboard Peripheral       板载外设相关选项 如：AP6212
+    - On-chip Peripheral       片上外设相关选项 如：ADC
+  - External Libraries         外部扩展库选项 如：wifi Library
+```
+
 3. 片上外设驱动统一放在 libraries\drivers 目录下 如 drv_eth.c
 4. 扩展板相关的组件 在libraries 目录下创建相关的文件夹,并放置相关代码 如：libraries/audio 目录下存放 drv_wm8988.c 以及 MP3 解码库
 5. 如果项目中使用到了软件包
-
   - 软件包的版本 **必须** 选择为 **release** 版本。如果没有，请联系管理员尽快发布
 - 项目工程 README
   - 创建的例程必须详细写明该例程实现的功能
