@@ -1,6 +1,6 @@
 ---
 yaml_version: 3
-pkg_version: 0.3.0
+pkg_version: 0.3.1
 pkg_vendor: RealThread
 pkg_type: Board_Support_Packages
 board:
@@ -33,8 +33,8 @@ chip:
   target_freq: '480000000'
   uart_name: UART4
 docs:
-- file: documents/UM3001-RT-Thread ART-Pi 快速上手.md
-  title: RT-Thread ART-Pi 快速上手
+- file: "documents/UM5001-RT-Thread ART-Pi 快速上手.md"
+  title: "RT-Thread ART-Pi 快速上手"
   category: manual
 - file: documents/board/STM32H7/STM32H750xx Datasheet.pdf
   title: STM32h750xx Datasheet
@@ -42,7 +42,7 @@ docs:
 features:
 - STM32H750XBH6 microcontroller featuring 128 Kbytes of Flash memory, 1024 Kbytes of RAM in an TFBGA240 package
 - On-board ST-LINK/V2.1
-- USB OTG with Type-c- connector
+- "USB OTG with Type-C connector"
 - SDIO TF Card slot
 - SDIO WIFI:AP6212
 - HDC UART BuleTooth:AP6212
@@ -57,7 +57,7 @@ features:
 features_zh:
 - STM32H750XBH6 microcontroller featuring 128 Kbytes of Flash memory, 1024 Kbytes of RAM in an TFBGA240 package
 - On-board ST-LINK/V2.1
-- USB OTG with Type-c- connector
+- "USB OTG with Type-C connector"
 - SDIO TF Card slot
 - SDIO WIFI:AP6212
 - HDC UART BuleTooth:AP6212
@@ -72,7 +72,7 @@ features_zh:
 template_projects:
 - project_name: art_pi_blink_led
   project_description: creat this peoject if user choose rt-thread project
-  project_type: rt-thread|@full|@4.0.2
+  project_type: rt-thread|@full|@4.0.3
   builtin_files:
   - source_path_offset: projects/art_pi_blink_led
     target_path_offset: ''
@@ -94,7 +94,7 @@ template_projects:
 example_projects: 
 - project_name: art_pi_blink_led
   project_description: creat this peoject if user choose rt-thread project
-  project_type: rt-thread|@full|@4.0.2
+  project_type: rt-thread|@full|@4.0.3
   builtin_files:
   - source_path_offset: projects/art_pi_blink_led
     target_path_offset: ''
@@ -115,7 +115,7 @@ example_projects:
     files_and_folders: []
 - project_name: art_pi_bootloader
   project_description: creat this peoject if user choose rt-thread project
-  project_type: rt-thread|@full|@4.0.2
+  project_type: rt-thread|@full|@4.0.3
   builtin_files:
   - source_path_offset: projects/art_pi_bootloader
     target_path_offset: ''
@@ -136,7 +136,7 @@ example_projects:
     files_and_folders: []
 - project_name: art_pi_wifi
   project_description: creat this peoject if user choose rt-thread project
-  project_type: rt-thread|@full|@4.0.2
+  project_type: rt-thread|@full|@4.0.3
   builtin_files:
   - source_path_offset: projects/art_pi_wifi
     target_path_offset: ''
@@ -157,7 +157,7 @@ example_projects:
     files_and_folders: []
 - project_name: art_pi_factory
   project_description: creat this peoject if user choose rt-thread project
-  project_type: rt-thread|@full|@4.0.2
+  project_type: rt-thread|@full|@4.0.3
   builtin_files:
   - source_path_offset: projects/art_pi_factory
     target_path_offset: ''
@@ -178,7 +178,7 @@ example_projects:
     files_and_folders: []
 - project_name: industry_io_gateway
   project_description: creat this peoject if user choose rt-thread project
-  project_type: rt-thread|@full|@4.0.2
+  project_type: rt-thread|@full|@4.0.3
   builtin_files:
   - source_path_offset: projects/industry_io_gateway
     target_path_offset: ''
