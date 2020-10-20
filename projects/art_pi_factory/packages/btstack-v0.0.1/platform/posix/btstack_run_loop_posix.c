@@ -53,6 +53,7 @@
 #include "btstack_linked_list.h"
 #include "btstack_debug.h"
 
+#include <rtthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/select.h>
