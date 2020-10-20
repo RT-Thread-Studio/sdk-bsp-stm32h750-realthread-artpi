@@ -184,9 +184,7 @@ static uint32_t btstack_run_loop_posix_get_time_ms(void){
     clock_gettime(CLOCK_MONOTONIC, &now_ts);
     time_ms = (uint32_t) timespec_diff_milis(&init_ts, &now_ts);
 #else
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    time_ms = (uint32_t) ((tv.tv_sec  - init_tv.tv_sec) * 1000) + (tv.tv_usec / 1000);
+    time_ms = rt_tick_get()/rt_tick_from_millisecond(1);
 #endif
     return time_ms;
 }

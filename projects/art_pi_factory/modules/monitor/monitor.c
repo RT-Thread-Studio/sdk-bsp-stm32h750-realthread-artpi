@@ -66,8 +66,7 @@ static void sys_monitor_thread(void)
     while (1)
     {
         sys_monitor_handler();
-        //关闭校时，防止校时对蓝牙时钟造成的影响
-        //ntp_sync_handler();
+        ntp_sync_handler();
         rt_thread_mdelay(SYS_MONITOR_INTERVAL_MS);
     }
 }
