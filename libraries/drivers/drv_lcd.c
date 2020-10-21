@@ -36,7 +36,7 @@ static rt_err_t drv_lcd_init(struct rt_device *device)
     lcd = lcd;
     return RT_EOK;
 }
-#ifndef ART_PI_TouchGFX
+#ifndef ART_PI_TouchGFX_LIB
 static rt_err_t drv_lcd_control(struct rt_device *device, int cmd, void *args)
 {
     struct drv_lcd_device *lcd = LCD_DEVICE(device);
@@ -305,7 +305,7 @@ int drv_lcd_hw_init(void)
     device->ops     = &lcd_ops;
 #else
     device->init    = drv_lcd_init;
-#ifndef ART_PI_TouchGFX
+#ifndef ART_PI_TouchGFX_LIB
     device->control = drv_lcd_control;
 #endif
 #endif
@@ -348,7 +348,7 @@ __exit:
 }
 INIT_DEVICE_EXPORT(drv_lcd_hw_init);
 
-#ifndef ART_PI_TouchGFX
+#ifndef ART_PI_TouchGFX_LIB
 #ifdef DRV_DEBUG
 #ifdef FINSH_USING_MSH
 int lcd_test()

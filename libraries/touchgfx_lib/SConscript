@@ -35,7 +35,7 @@ elif rtconfig.CROSS_TOOL == 'iar':
     libs += ['touchgfx_core.a']
     src += [cwd + '/Middlewares/ST/touchgfx/lib/core/cortex_m7/IAR8.x/touchgfx_core.a']
 
-group = DefineGroup('TouchGFX_app', src, depend = ['ART_PI_TouchGFX'], CPPPATH = path, LIBS = libs, LIBPATH = libpath)
+group = DefineGroup('TouchGFX_app', src, depend = ['ART_PI_TouchGFX_LIB'], CPPPATH = path, LIBS = libs, LIBPATH = libpath)
 
 # add TouchGFX generated
 genSrc = Glob('./TouchGFX/generated/fonts/src/*.cpp')
@@ -48,17 +48,17 @@ genPath += [cwd + '/TouchGFX/generated/gui_generated/include']
 genPath += [cwd + '/TouchGFX/generated/images/include']
 genPath += [cwd + '/TouchGFX/generated/texts/include']
 
-group = group + DefineGroup('TouchGFX_generated', genSrc, depend = ['ART_PI_TouchGFX'], CPPPATH = genPath)
+group = group + DefineGroup('TouchGFX_generated', genSrc, depend = ['ART_PI_TouchGFX_LIB'], CPPPATH = genPath)
 
 # add TouchGFX resource
 resSrc = Glob('./TouchGFX/generated/images/src/*/*.cpp')
 
-group = group + DefineGroup('TouchGFX_resource', resSrc, depend = ['ART_PI_TouchGFX'])
+group = group + DefineGroup('TouchGFX_resource', resSrc, depend = ['ART_PI_TouchGFX_LIB'])
 
 # add TouchGFX gui
 guiSrc = Glob('./TouchGFX/gui/src/*/*.cpp')
 guiPath = [cwd + '/TouchGFX/gui/include']
 
-group = group + DefineGroup('TouchGFX_gui', guiSrc, depend = ['ART_PI_TouchGFX'], CPPPATH = guiPath)
+group = group + DefineGroup('TouchGFX_gui', guiSrc, depend = ['ART_PI_TouchGFX_LIB'], CPPPATH = guiPath)
 
 Return('group')

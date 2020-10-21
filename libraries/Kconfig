@@ -48,12 +48,6 @@ menu "Board extended module"
                 bool "Use LRS007 RF_B Channel"
                 default n
         endif
-		
-	menuconfig ART_PI_TouchGFX
-	    bool "TouchGFX"
-        default n
-		select BSP_USING_LCD
-
         
 endmenu
 
@@ -223,4 +217,9 @@ menu "External Libraries"
         select RT_USING_RYM
         default n
 
+	config ART_PI_TouchGFX_LIB
+	    bool "Using TouchGFX Library"
+        default n
+		select BSP_USING_LCD
+		
 endmenu
