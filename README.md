@@ -82,7 +82,7 @@ sdk-bsp-stm32h750-realthread-artpi 支持 RT-Thread Studio 和 MDK 开发
    
    E:\project\sdk-bsp-stm32h750-realthread-artpi\projects>
    ```
-4. 使用 [ENV](https://club.rt-thread.org/ask/question/5699.html) 工具执行 scons --target=MDK5 即可
+4. 使用 [ENV](https://club.rt-thread.org/ask/question/5699.html) 工具执行 scons --target=mdk5 即可
    
 
 ## ART-Pi 交流平台
