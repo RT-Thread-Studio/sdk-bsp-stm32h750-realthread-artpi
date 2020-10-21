@@ -44,6 +44,8 @@ int wifi_connect(char *conn_str)
     {
         cJSON *ssid = cJSON_GetObjectItem(conn, "ssid");
         cJSON *passwd = cJSON_GetObjectItem(conn, "passwd");
+        rt_memset(wifi.ssid,0,sizeof(wifi.ssid));
+        rt_memset(wifi.passwd,0,sizeof(wifi.passwd));
         if (ssid && passwd)
         {
             if (rt_strlen(ssid->valuestring) > MAX_SSID_PASSWD_STR_LEN ||
@@ -92,26 +94,26 @@ char *wifi_get_ip(void)
 
 char *wifi_status_get(void)
 {
-    memset(wifi_status_str, 0, sizeof(wifi_status_str));
+    rt_memset(wifi_status_str, 0, sizeof(wifi_status_str));
     uint8_t wifi_status = wifi_is_ready();
     char *wifi_ip = wifi_get_ip();
-    sprintf(wifi_status_str, "{wifi:'%s', url:'%s'}", wifi_status ? "on" : "off", wifi_ip);
+    rt_sprintf(wifi_status_str, "{wifi:'%s', url:'%s'}", wifi_status ? "on" : "off", wifi_ip);
     return wifi_status_str;
 }
 
-static void wifi_ready_handler(void *param)
+static void wifi_ready_handler(int event, struct rt_wlan_buff *buff, void *parameter)
 {
     int cnt = BT_SEND_TIMES;
     //adb init
     adb_socket_init();
 
     //wifi status send
-    memset(wifi_status_str, 0, sizeof(wifi_status_str));
+    rt_memset(wifi_status_str, 0, sizeof(wifi_status_str));
     while (cnt--)
     {
         char *wifi_status = wifi_status_get();
         int retry_cnt = BT_SEND_FAIL_RETRY;
-        while (bt_stack_blufi_send(wifi_status, strlen(wifi_status)) < 0)
+        while (bt_stack_blufi_send((uint8_t *)wifi_status, rt_strlen(wifi_status)) < 0)
         {
             if (retry_cnt == 0)
                 break;

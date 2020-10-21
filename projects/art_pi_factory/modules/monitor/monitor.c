@@ -61,7 +61,7 @@ static void ntp_sync_handler(void)
     }
 }
 
-static void sys_monitor_thread(void)
+static void sys_monitor_thread(void *param)
 {
     while (1)
     {

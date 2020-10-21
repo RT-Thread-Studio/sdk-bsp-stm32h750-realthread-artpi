@@ -146,7 +146,7 @@ static void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packe
 }
 
 static void phase2(int status);
-int bt_stack_main(int argc, const char *argv[])
+void bt_stack_main(void *param)
 {
 
     /// GET STARTED with BTstack ///
@@ -211,9 +211,6 @@ int bt_stack_main(int argc, const char *argv[])
     // handle CTRL-c
     signal(SIGINT, sigint_handler);
 
-    main_argc = argc;
-    main_argv = argv;
-
     // phase #1 download firmware
     printf("Phase 1: Download firmware\n");
 
@@ -234,7 +231,6 @@ int bt_stack_main(int argc, const char *argv[])
     hci_set_bd_addr(own_address);
     // go
     btstack_run_loop_execute();
-    return 0;
 }
 
 void bt_stack_port_main(void)
@@ -247,7 +243,6 @@ void bt_stack_port_main(void)
                             5, 5);
     if (tid1 != RT_NULL)
         rt_thread_startup(tid1);
-    return RT_EOK;
 }
 MSH_CMD_EXPORT(bt_stack_port_main, btstack start);
 

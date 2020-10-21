@@ -32,7 +32,7 @@ static void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packe
 static uint16_t att_read_callback(hci_con_handle_t con_handle, uint16_t att_handle, uint16_t offset, uint8_t *buffer, uint16_t buffer_size);
 static int att_write_callback(hci_con_handle_t con_handle, uint16_t att_handle, uint16_t transaction_mode, uint16_t offset, uint8_t *buffer, uint16_t buffer_size);
 static void heartbeat_handler(struct btstack_timer_source *ts);
-static void beat(void);
+//static void beat(void);
 
 const uint8_t adv_data[] = {
     // Flags general discoverable, BR/EDR not supported
@@ -92,7 +92,7 @@ static void le_counter_setup(void)
  */
 
 /* LISTING_START(heartbeat): Hearbeat Handler */
-static int counter = 0;
+//static int counter = 0;
 static char counter_string[1024];
 static int counter_string_len;
 static uint32_t send_buffer_index = 0;
@@ -160,7 +160,7 @@ void bt_send_api(void)
     temp_length = sprintf(temp_string, "{wifi:'%s', url:' http://%d.%d.%d.%d/index.html'}", wifi_status ? "on" : "off", ip_address[0], ip_address[1], ip_address[2], ip_address[3]);
     log_debug("\r\n======counter_string_len:%d======\r\n", temp_length);
 
-    bt_stack_blufi_send(temp_string, temp_length);
+    bt_stack_blufi_send((uint8_t *)temp_string, temp_length);
 }
 MSH_CMD_EXPORT(bt_send_api, send data);
 
@@ -298,7 +298,7 @@ static int att_write_callback(hci_con_handle_t connection_handle, uint16_t att_h
 
                 while (retry_cnt)
                 {
-                    if (bt_stack_blufi_send(wifi_status, strlen(wifi_status)) < 0)
+                    if (bt_stack_blufi_send((uint8_t *)wifi_status, strlen(wifi_status)) < 0)
                     {
                         retry_cnt--;
                     }

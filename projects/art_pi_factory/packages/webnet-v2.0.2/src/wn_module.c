@@ -513,7 +513,7 @@ static const char *default_files[] =
  */
 int webnet_module_handle_uri(struct webnet_session *session)
 {
-    int result, fd;
+    int result;
     char *full_path;
     rt_uint32_t index;
     struct webnet_request *request;
