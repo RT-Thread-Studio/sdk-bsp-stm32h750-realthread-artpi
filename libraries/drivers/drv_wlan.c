@@ -200,7 +200,7 @@ static void wifi_init_thread_entry(void *parameter)
 
     if (rt_ota_part_fw_verify(partition) >= 0)
     {
-        /* initialize low level wifi(ap6181) library */
+        /* initialize low level wifi(ap6212) library */
         wifi_hw_init();
 
         /* waiting for sdio bus stability */
