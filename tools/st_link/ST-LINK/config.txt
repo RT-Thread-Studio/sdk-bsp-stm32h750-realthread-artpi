@@ -1,0 +1,5 @@
+-f debug.log
+-p 61235
+-r 15
+-d
+-cp D:/RT-ThreadStudio/platform/ST-LINK/tools/bin

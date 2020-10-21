@@ -1,0 +1,18 @@
+
+define symbol __ICFEDIT_region_RAM_start__   = 0x20000004;
+define symbol __ICFEDIT_region_RAM_end__     = 0x21000000;
+
+/*-Sizes-*/
+define symbol __ICFEDIT_size_cstack__   = 0x400;
+
+define memory mem with size = 4G;
+define region RAM_region   = mem:[from __ICFEDIT_region_RAM_start__   to __ICFEDIT_region_RAM_end__];
+define region Dummy_region = mem:[from 0   to 0x100];
+
+define block RAM_BLOCK with fixed order {readonly code, readonly data, readwrite };
+define block Info_BLOCK with fixed order { readonly data object Dev_Inf.o};
+
+place in RAM_region   { block RAM_BLOCK };
+place in Dummy_region   { block Info_BLOCK };
+
+do not initialize  { section .info, readwrite };

@@ -1,0 +1,108 @@
+;
+; Installation INF for the STMicroelectronics STLINK (bridge interface) for Windows XP SP2 or later.
+;
+
+[Version]
+Signature = "$Windows NT$"
+Class     = STLinkWinUSB
+ClassGUID = {88BAE032-5A81-49f0-BC3D-A4FF138216D6}
+Provider  = %ManufacturerName%
+CatalogFile.NTx86  = STLinkBridgeWinUSB_x86.cat
+CatalogFile.NTAMD64 = STLinkBridgeWinUSB_x64.cat
+DriverVer=06/08/2017,1.00
+
+; ========== Manufacturer/Models sections ===========
+
+[Manufacturer]
+%ManufacturerName% = Standard,NTx86,NTamd64
+
+[Standard.NTx86]
+%DeviceName% =USB_Install, USB\VID_0483&PID_374F&MI_04
+%DeviceName% =USB_Install, USB\VID_0483&PID_3753&MI_03
+
+[Standard.NTamd64]
+%DeviceName% =USB_Install, USB\VID_0483&PID_374F&MI_04
+%DeviceName% =USB_Install, USB\VID_0483&PID_3753&MI_03
+
+; ========== Class definition ===========
+
+[ClassInstall32]
+AddReg = ClassInstall_AddReg
+
+[ClassInstall_AddReg]
+HKR,,,,%ClassName%
+HKR,,NoInstallClass,,1
+HKR,,IconPath,%REG_MULTI_SZ%,"%systemroot%\system32\setupapi.dll,-20"
+HKR,,LowerLogoVersion,,5.2
+
+; =================== Installation ===================
+
+[USB_Install]
+Include=winusb.inf
+Needs=WINUSB.NT
+
+[USB_Install.Services]
+Include=winusb.inf
+Addservice = WinUSB, 0x00000002, WinUSB_ServiceInstall
+
+[WinUSB_ServiceInstall]
+DisplayName    = %WinUSB_SvcDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\WinUSB.sys
+
+[USB_Install.Wdf]
+KmdfService=WINUSB, WinUsb_Install
+
+[WinUsb_Install]
+KmdfLibraryVersion=1.9
+;KmdfLibraryVersion=1.11
+
+[USB_Install.HW]
+AddReg=Dev_AddReg
+
+[Dev_AddReg]
+HKR,,DeviceInterfaceGUIDs,0x10000,%STBridge_GUID%
+
+[USB_Install.CoInstallers]
+AddReg=CoInstallers_AddReg
+CopyFiles=CoInstallers_CopyFiles
+
+[CoInstallers_CopyFiles]
+WinUSBCoInstaller2.dll
+WdfCoInstaller01009.dll
+
+[CoInstallers_AddReg]
+HKR,,CoInstallers32,0x00010000,"WdfCoInstaller01009.dll,WdfCoInstaller","WinUSBCoInstaller2.dll"
+
+[DestinationDirs]
+CoInstallers_CopyFiles=11
+
+; ================= Source Media Section =====================
+
+[SourceDisksNames]
+1 = %DISK_NAME%,,,\x86
+2 = %DISK_NAME%,,,\amd64
+
+[SourceDisksFiles.x86]
+WinUSBCoInstaller2.dll=1
+WdfCoInstaller01009.dll=1
+
+[SourceDisksFiles.amd64]
+WinUSBCoInstaller2.dll=2
+WdfCoInstaller01009.dll=2
+
+;------------------------------------------------------------;
+
+[Strings]
+ManufacturerName="STMicroelectronics"
+ClassName="Universal Serial Bus devices"
+DeviceName="STMicroelectronics STLink Bridge"
+WinUSB_SvcDesc="WinUSB Driver for STLink Bridge"
+REG_MULTI_SZ = 0x00010000
+DISK_NAME="WinUSB coinstallers sources on disk"
+
+
+;------------Replace GUID below with custom GUID-------------;
+STBridge_GUID="{29184208-E12E-417f-89B0-D90B17BD96C6}"

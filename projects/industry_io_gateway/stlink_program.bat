@@ -1,0 +1,1 @@
+..\..\tools\st_link\ST-LINK\tools\bin\STM32_Programmer_CLI.exe  -c port=SWD --extload ..\..\tools\st_link\ART-Pi_W25Q128.stldr  --write rtthread.bin 0x90000000 -rst

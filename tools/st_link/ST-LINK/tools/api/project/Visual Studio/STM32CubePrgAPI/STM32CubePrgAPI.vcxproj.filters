@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\ST-LINK">
+      <UniqueIdentifier>{fbdbb4c3-8afd-4542-a2c4-b4b9c3ca927a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\User">
+      <UniqueIdentifier>{4e39d8c6-969a-4540-bea3-c3e36e55bb8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Bootoader">
+      <UniqueIdentifier>{200820b6-1d67-422f-95b6-ca40d20aa8ea}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\CAN_Example.cpp">
+      <Filter>Source Files\Bootoader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\I2C_Example.cpp">
+      <Filter>Source Files\Bootoader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\SPI_Example.cpp">
+      <Filter>Source Files\Bootoader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\UART_Example.cpp">
+      <Filter>Source Files\Bootoader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\USB_Example.cpp">
+      <Filter>Source Files\Bootoader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Example1.cpp">
+      <Filter>Source Files\ST-LINK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Example2.cpp">
+      <Filter>Source Files\ST-LINK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Example3.cpp">
+      <Filter>Source Files\ST-LINK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\DisplayManager.cpp">
+      <Filter>Source Files\User</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\main.cpp">
+      <Filter>Source Files\User</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\CAN_Example.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\CubeProgrammer_API.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\DeviceDataStructure.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\DisplayManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Example2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Example3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\I2C_Example.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\SPI_Example.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\UART_Example.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\USB_Example.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Example1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
