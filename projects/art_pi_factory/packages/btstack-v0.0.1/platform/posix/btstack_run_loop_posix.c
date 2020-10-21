@@ -56,9 +56,9 @@
 #include <rtthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/select.h>
 #include <sys/time.h>
 #include <time.h>
+#include <sys/select.h>
 #include <unistd.h>
 
 static void btstack_run_loop_posix_dump_timer(void);
@@ -124,10 +124,11 @@ static bool btstack_run_loop_posix_remove_timer(btstack_timer_source_t *ts){
 
 static void btstack_run_loop_posix_dump_timer(void){
     btstack_linked_item_t *it;
-    int i = 0;
     for (it = (btstack_linked_item_t *) timers; it ; it = it->next){
+#ifdef ENABLE_LOG_INFO
         btstack_timer_source_t *ts = (btstack_timer_source_t*) it;
         log_info("timer %u (%p): timeout %u\n", i, ts, ts->timeout);
+#endif
     }
 }
 

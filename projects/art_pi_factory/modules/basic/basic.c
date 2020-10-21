@@ -29,7 +29,7 @@ Modify:
 
 #define BLUE_LED GET_PIN(I, 8)
 #define RED_LED GET_PIN(C, 15)
-static uint8_t blue_led_stat = 0, red_led_stat = 0, beep_stat = 0;
+static uint8_t blue_led_stat = 0, red_led_stat = 0;
 
 static char *board_control(const char *dev, uint8_t code)
 {
@@ -42,11 +42,6 @@ static char *board_control(const char *dev, uint8_t code)
     {
         rt_pin_write(RED_LED, !code);
         red_led_stat = code;
-    }
-    else if (strcmp(dev, BEEP_DEV_NAME) == 0)
-    {
-        //beep control
-        beep_stat = code;
     }
     else
     {
@@ -159,6 +154,7 @@ static char *json_create_basic_info(void)
 static void cgi_basic_info(struct webnet_session *session)
 {
     cgi_head();
+    request = request;//clear warning
     body = json_create_basic_info();
     webnet_session_printf(session, body);
     rt_free(body);
@@ -167,6 +163,7 @@ static void cgi_basic_info(struct webnet_session *session)
 static void cgi_board_control(struct webnet_session *session)
 {
     cgi_head();
+    request = request;//clear warning
     if (session->request->query)
     {
         cJSON *root = cJSON_Parse(session->request->query);

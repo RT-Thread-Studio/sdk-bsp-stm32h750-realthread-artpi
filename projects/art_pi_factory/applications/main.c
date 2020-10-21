@@ -33,13 +33,7 @@ int main(void)
     sys_monitor_init();
     web_init();
     bluetooth_init();
-
-
-    while (1)
-    {
-        rt_thread_mdelay(1000);
-
-    }
+    
     return RT_EOK;
 }
 
