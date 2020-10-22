@@ -35,10 +35,10 @@ struct drv_lcd_device
 
 #define LCD_HSYNC_WIDTH     1
 #define LCD_VSYNC_HEIGHT    1
-#define LCD_HBP             46
-#define LCD_VBP             23
-#define LCD_HFP             210
-#define LCD_VFP             22
+#define LCD_HBP             88
+#define LCD_VBP             32
+#define LCD_HFP             40
+#define LCD_VFP             13
 
 #define LCD_BACKLIGHT_USING_GPIO
 #define LCD_BL_GPIO_NUM     GET_PIN(D, 4)
