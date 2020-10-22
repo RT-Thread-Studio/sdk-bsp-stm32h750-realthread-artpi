@@ -186,7 +186,7 @@ static uint32_t btstack_run_loop_posix_get_time_ms(void){
     clock_gettime(CLOCK_MONOTONIC, &now_ts);
     time_ms = (uint32_t) timespec_diff_milis(&init_ts, &now_ts);
 #else
-    time_ms = rt_tick_get()*1000/RT_TICK_PER_SECOND;
+    time_ms = rt_tick_get()*1000ULL/RT_TICK_PER_SECOND;
 #endif
     return time_ms;
 }
