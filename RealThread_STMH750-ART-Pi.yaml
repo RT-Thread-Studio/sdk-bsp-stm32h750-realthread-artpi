@@ -15,8 +15,8 @@ board:
   sale_contact_global: http://www.st.com/stonline/contactus/contacts/index.php
   buy_url_cn: https://www.rt-thread.org/
   buy_url_global: https://www.rt-thread.org/
-  price_cn: 9900.00 CNY
-  price_global: 1000.00 USD
+  price_cn: 169 CNY
+  price_global: 24.99 USD
   debugger: ST-LINK
   debug_interface: SWD
   emulator_machine: ''
