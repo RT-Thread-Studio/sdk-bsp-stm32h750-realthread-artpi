@@ -25,21 +25,7 @@
 
 #define LCD_DEVICE(dev)     (struct drv_lcd_device*)(dev)
 
-static LTDC_HandleTypeDef LtdcHandle = {0};
-
-struct drv_lcd_device
-{
-    struct rt_device parent;
-
-    struct rt_device_graphic_info lcd_info;
-
-    struct rt_semaphore lcd_lock;
-
-    /* 0:front_buf is being used 1: back_buf is being used*/
-    rt_uint8_t cur_buf;
-    rt_uint8_t *front_buf;
-    rt_uint8_t *back_buf;
-};
+LTDC_HandleTypeDef LtdcHandle = {0};
 
 struct drv_lcd_device _lcd;
 
@@ -50,7 +36,7 @@ static rt_err_t drv_lcd_init(struct rt_device *device)
     lcd = lcd;
     return RT_EOK;
 }
-
+#ifndef ART_PI_TouchGFX_LIB
 static rt_err_t drv_lcd_control(struct rt_device *device, int cmd, void *args)
 {
     struct drv_lcd_device *lcd = LCD_DEVICE(device);
@@ -110,7 +96,7 @@ void HAL_LTDC_LineEventCallback(LTDC_HandleTypeDef *hltdc)
 {
     rt_sem_release(&_lcd.lcd_lock);
 }
-
+#endif
 void LTDC_IRQHandler(void)
 {
     rt_enter_critical();
@@ -182,10 +168,6 @@ rt_err_t stm32_lcd_init(struct drv_lcd_device *lcd)
     {
         pLayerCfg.PixelFormat = LTDC_PIXEL_FORMAT_RGB888;
     }
-    else if (lcd->lcd_info.pixel_format == RTGRAPHIC_PIXEL_FORMAT_RGB888)
-    {
-        pLayerCfg.PixelFormat = LTDC_PIXEL_FORMAT_RGB888;
-    }
     else
     {
         LOG_E("unsupported pixel format");
@@ -199,7 +181,7 @@ rt_err_t stm32_lcd_init(struct drv_lcd_device *lcd)
     pLayerCfg.Alpha = 255;
 
     /* Default Color configuration (configure A,R,G,B component values) */
-    pLayerCfg.Alpha0 = 255;
+    pLayerCfg.Alpha0 = 0;
     pLayerCfg.Backcolor.Blue = 0;
     pLayerCfg.Backcolor.Green = 0;
     pLayerCfg.Backcolor.Red = 0;
@@ -255,9 +237,9 @@ void turn_on_lcd_backlight(void)
 void turn_on_lcd_backlight(void)
 {
     rt_pin_mode(LCD_BL_GPIO_NUM, PIN_MODE_OUTPUT);
-//    rt_pin_mode(LCD_DISP_GPIO_NUM, PIN_MODE_OUTPUT);
+    rt_pin_mode(LCD_DISP_GPIO_NUM, PIN_MODE_OUTPUT);
 
-//    rt_pin_write(LCD_DISP_GPIO_NUM, PIN_HIGH);
+    rt_pin_write(LCD_DISP_GPIO_NUM, PIN_HIGH);
     rt_pin_write(LCD_BL_GPIO_NUM, PIN_HIGH);
 }
 #else
@@ -323,7 +305,9 @@ int drv_lcd_hw_init(void)
     device->ops     = &lcd_ops;
 #else
     device->init    = drv_lcd_init;
+#ifndef ART_PI_TouchGFX_LIB
     device->control = drv_lcd_control;
+#endif
 #endif
 
     /* register lcd device */
@@ -364,6 +348,7 @@ __exit:
 }
 INIT_DEVICE_EXPORT(drv_lcd_hw_init);
 
+#ifndef ART_PI_TouchGFX_LIB
 #ifdef DRV_DEBUG
 #ifdef FINSH_USING_MSH
 int lcd_test()
@@ -373,36 +358,69 @@ int lcd_test()
 
     while (1)
     {
-        /* red */
-        for (int i = 0; i < LCD_BUF_SIZE / 3; i++)
-        {
-            lcd->lcd_info.framebuffer[3 * i] = 0x00;
-            lcd->lcd_info.framebuffer[3 * i + 1] = 0x00;
-            lcd->lcd_info.framebuffer[3 * i + 2] = 0xff;
-        }
-        lcd->parent.control(&lcd->parent, RTGRAPHIC_CTRL_RECT_UPDATE, RT_NULL);
-        rt_thread_mdelay(1000);
-        /* green */
-        for (int i = 0; i < LCD_BUF_SIZE / 3; i++)
-        {
-            lcd->lcd_info.framebuffer[3 * i] = 0x00;
-            lcd->lcd_info.framebuffer[3 * i + 1] = 0xff;
-            lcd->lcd_info.framebuffer[3 * i + 2] = 0x00;
-        }
-        lcd->parent.control(&lcd->parent, RTGRAPHIC_CTRL_RECT_UPDATE, RT_NULL);
-        rt_thread_mdelay(1000);
-        /* blue */
-        for (int i = 0; i < LCD_BUF_SIZE / 3; i++)
-        {
-            lcd->lcd_info.framebuffer[3 * i] = 0xff;
-            lcd->lcd_info.framebuffer[3 * i + 1] = 0x00;
-            lcd->lcd_info.framebuffer[3 * i + 2] = 0x00;
-        }
+        if (lcd->lcd_info.pixel_format == RTGRAPHIC_PIXEL_FORMAT_RGB565)
+         {
+            /* red */
+            for (int i = 0; i < LCD_BUF_SIZE / 2; i++)
+            {
+                lcd->lcd_info.framebuffer[2 * i] = 0x00;
+                lcd->lcd_info.framebuffer[2 * i + 1] = 0xF8;
+            }
+            lcd->parent.control(&lcd->parent, RTGRAPHIC_CTRL_RECT_UPDATE, RT_NULL);
+            rt_thread_mdelay(1000);
+            /* green */
+            for (int i = 0; i < LCD_BUF_SIZE / 2; i++)
+            {
+                lcd->lcd_info.framebuffer[2 * i] = 0xE0;
+                lcd->lcd_info.framebuffer[2 * i + 1] = 0x07;
+            }
+            lcd->parent.control(&lcd->parent, RTGRAPHIC_CTRL_RECT_UPDATE, RT_NULL);
+            rt_thread_mdelay(1000);
+            /* blue */
+            for (int i = 0; i < LCD_BUF_SIZE / 2; i++)
+            {
+                lcd->lcd_info.framebuffer[2 * i] = 0x1F;
+                lcd->lcd_info.framebuffer[2 * i + 1] = 0x00;
+            }
+         }
+         else if (lcd->lcd_info.pixel_format == RTGRAPHIC_PIXEL_FORMAT_RGB888)
+         {
+             /* red */
+             for (int i = 0; i < LCD_BUF_SIZE / 3; i++)
+             {
+                 lcd->lcd_info.framebuffer[3 * i] = 0x00;
+                 lcd->lcd_info.framebuffer[3 * i + 1] = 0x00;
+                 lcd->lcd_info.framebuffer[3 * i + 2] = 0xff;
+             }
+             lcd->parent.control(&lcd->parent, RTGRAPHIC_CTRL_RECT_UPDATE, RT_NULL);
+             rt_thread_mdelay(1000);
+             /* green */
+             for (int i = 0; i < LCD_BUF_SIZE / 3; i++)
+             {
+                 lcd->lcd_info.framebuffer[3 * i] = 0x00;
+                 lcd->lcd_info.framebuffer[3 * i + 1] = 0xff;
+                 lcd->lcd_info.framebuffer[3 * i + 2] = 0x00;
+             }
+             lcd->parent.control(&lcd->parent, RTGRAPHIC_CTRL_RECT_UPDATE, RT_NULL);
+             rt_thread_mdelay(1000);
+             /* blue */
+             for (int i = 0; i < LCD_BUF_SIZE / 3; i++)
+             {
+                 lcd->lcd_info.framebuffer[3 * i] = 0xff;
+                 lcd->lcd_info.framebuffer[3 * i + 1] = 0x00;
+                 lcd->lcd_info.framebuffer[3 * i + 2] = 0x00;
+             }
+         }
+
         lcd->parent.control(&lcd->parent, RTGRAPHIC_CTRL_RECT_UPDATE, RT_NULL);
         rt_thread_mdelay(1000);
     }
+
+
+
 }
 MSH_CMD_EXPORT(lcd_test, lcd_test);
 #endif /* FINSH_USING_MSH */
 #endif /* DRV_DEBUG */
 #endif /* BSP_USING_LCD */
+#endif

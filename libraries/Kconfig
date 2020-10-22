@@ -48,6 +48,7 @@ menu "Board extended module"
                 bool "Use LRS007 RF_B Channel"
                 default n
         endif
+        
 endmenu
 
 menu "Onboard Peripheral"
@@ -138,7 +139,25 @@ menu "On-chip Peripheral"
                 bool "Enable SPI4"
                 default n
         endif
-
+		
+    menuconfig BSP_USING_I2C1
+        bool "Enable I2C1 BUS (software simulation)"
+        default n
+        select RT_USING_I2C
+        select RT_USING_I2C_BITOPS
+        select RT_USING_PIN
+        if BSP_USING_I2C1
+            comment "Notice: PB6 --> 22; PB7 --> 23" 
+            config BSP_I2C1_SCL_PIN
+                int "I2C1 scl pin number"
+                range 1 176
+                default 22
+            config BSP_I2C1_SDA_PIN
+                int "I2C1 sda pin number"
+                range 1 176
+                default 23
+        endif
+		
     menuconfig BSP_USING_SDIO
         bool "Enable SDIO"
         default n
@@ -204,4 +223,9 @@ menu "External Libraries"
         select RT_USING_RYM
         default n
 
+	config ART_PI_TouchGFX_LIB
+	    bool "Using TouchGFX Library"
+        default n
+		select BSP_USING_LCD
+		
 endmenu
