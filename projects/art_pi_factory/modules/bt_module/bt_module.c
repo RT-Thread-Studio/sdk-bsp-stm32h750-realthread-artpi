@@ -67,7 +67,6 @@ int bluetooth_firmware_check(void)
 
 int bluetooth_init(void)
 {
-    int fd = -1;
     rt_device_t wifi = NULL, bt_firmware = NULL;
     //wait for wifi is ready
     while (wifi == NULL)

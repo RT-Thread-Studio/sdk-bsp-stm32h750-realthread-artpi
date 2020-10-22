@@ -53,11 +53,12 @@
 #include "btstack_linked_list.h"
 #include "btstack_debug.h"
 
+#include <rtthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/select.h>
 #include <sys/time.h>
 #include <time.h>
+#include <sys/select.h>
 #include <unistd.h>
 
 static void btstack_run_loop_posix_dump_timer(void);
@@ -123,10 +124,11 @@ static bool btstack_run_loop_posix_remove_timer(btstack_timer_source_t *ts){
 
 static void btstack_run_loop_posix_dump_timer(void){
     btstack_linked_item_t *it;
-    int i = 0;
     for (it = (btstack_linked_item_t *) timers; it ; it = it->next){
+#ifdef ENABLE_LOG_INFO
         btstack_timer_source_t *ts = (btstack_timer_source_t*) it;
         log_info("timer %u (%p): timeout %u\n", i, ts, ts->timeout);
+#endif
     }
 }
 
@@ -184,9 +186,7 @@ static uint32_t btstack_run_loop_posix_get_time_ms(void){
     clock_gettime(CLOCK_MONOTONIC, &now_ts);
     time_ms = (uint32_t) timespec_diff_milis(&init_ts, &now_ts);
 #else
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    time_ms = (uint32_t) ((tv.tv_sec  - init_tv.tv_sec) * 1000) + (tv.tv_usec / 1000);
+    time_ms = rt_tick_get()*1000ULL/RT_TICK_PER_SECOND;
 #endif
     return time_ms;
 }

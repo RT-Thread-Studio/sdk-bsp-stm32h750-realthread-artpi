@@ -339,6 +339,7 @@ void hci_dump_packet(uint8_t packet_type, uint8_t in, uint8_t *packet, uint16_t 
     int res = 0;
     res = write (dump_file, &header, header_len);
     res = write (dump_file, packet, len );
+    res=res;
     UNUSED(res);
 #endif
 

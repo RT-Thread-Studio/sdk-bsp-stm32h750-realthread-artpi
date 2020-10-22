@@ -56,6 +56,10 @@ path += [cwd + '/chipset/bcm']
 path += [cwd + '/port/posix-h4-bcm']
 path += [cwd + '/rtt_adapter']
 
-group = DefineGroup('RTT_BTSTACK', src, depend = [''], CPPPATH = path)
+LOCAL_CCFLAGS = ''
+if rtconfig.CROSS_TOOL == 'keil':
+    LOCAL_CCFLAGS += ' --gnu'
+
+group = DefineGroup('RTT_BTSTACK', src, depend = [''], CPPPATH = path, LOCAL_CCFLAGS = LOCAL_CCFLAGS)
 
 Return('group')

@@ -110,7 +110,7 @@ static void chipset_set_bd_addr_command(bd_addr_t addr, uint8_t *hci_cmd_buffer)
 static const char * hcd_file_path;
 static const char * hcd_folder_path = "";
 static int hcd_fd;
-static char matched_file[1000];
+//static char matched_file[1000];
 
 
 static void chipset_init(const void * config){
@@ -127,9 +127,9 @@ static void chipset_init(const void * config){
 static const uint8_t download_command[] = {0x2e, 0xfc, 0x00};
 
 static btstack_chipset_result_t chipset_next_command(uint8_t * hci_cmd_buffer){
-    static hcd_file_length;
+    static int hcd_file_length;
     if (hcd_fd < 0){
-        fal_partition_t *hcd_part = fal_partition_find("bt_image");
+        const struct fal_partition *hcd_part = fal_partition_find("bt_image");
         log_info("chipset-bcm: hcd_file_path open file %s", hcd_file_path);
         hcd_fd = open(hcd_file_path, O_RDONLY);
         if (hcd_fd < 0){
@@ -187,16 +187,16 @@ void btstack_chipset_bcm_set_hcd_folder_path(const char * path){
     hcd_folder_path = path;
 }
 
-static int equal_ignore_case(const char *str1, const char *str2){
-    if (!str1 || !str2) return (1);
-    int i = 0;
-    while (true){
-        if (!str1[i] && !str2[i]) return 1;
-        if (tolower(str1[i]) != tolower(str2[i])) return 0;
-        if (!str1[i] || !str2[i]) return 0;
-        i++;
-    }
-}
+//static int equal_ignore_case(const char *str1, const char *str2){
+//    if (!str1 || !str2) return (1);
+//    int i = 0;
+//    while (true){
+//        if (!str1[i] && !str2[i]) return 1;
+//        if (tolower(str1[i]) != tolower(str2[i])) return 0;
+//        if (!str1[i] || !str2[i]) return 0;
+//        i++;
+//    }
+//}
 
 // assumption starts with BCM or bcm
 #define MAX_DEVICE_NAME_LEN 25
