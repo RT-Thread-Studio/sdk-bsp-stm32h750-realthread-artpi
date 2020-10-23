@@ -1,6 +1,6 @@
 ---
 yaml_version: 3
-pkg_version: 1.0.0
+pkg_version: 1.0.1
 pkg_vendor: RealThread
 pkg_type: Board_Support_Packages
 board:
