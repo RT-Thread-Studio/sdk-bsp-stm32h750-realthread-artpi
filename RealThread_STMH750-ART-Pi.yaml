@@ -197,3 +197,24 @@ example_projects:
     source_path_offset: ''
     target_path_offset: ''
     files_and_folders: []
+- project_name: art_pi_net_player
+  project_description: creat this peoject if user choose rt-thread project
+  project_type: rt-thread|@full|@4.0.3
+  builtin_files:
+  - source_path_offset: projects/art_pi_net_player
+    target_path_offset: ''
+    files_and_folders:
+    - "*"
+  - source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders:
+    - libraries
+    - rt-thread
+  external_files:
+  - package_type: Chip_Support_Packages
+    package_vendor: RealThread
+    package_name: STM32H7
+    package_version: 0.1.9
+    source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders: []
