@@ -59,11 +59,12 @@ void DMA2D_IRQHandler(void)
   */
 static void MX_CRC_Init(void)
 {
-  hcrc.Instance = CRC;
-  if (HAL_CRC_Init(&hcrc) != HAL_OK)
-  {
-    Error_Handler();
-  }
+	__HAL_RCC_CRC_CLK_ENABLE();
+	hcrc.Instance = CRC;
+	if (HAL_CRC_Init(&hcrc) != HAL_OK)
+	{
+		Error_Handler();
+	}
 }
 
 /**
@@ -73,6 +74,7 @@ static void MX_CRC_Init(void)
   */
 static void MX_DMA2D_Init(void)
 {
+	__HAL_RCC_DMA2D_CLK_ENABLE();
     hdma2d.Instance = DMA2D;
     hdma2d.Init.Mode = DMA2D_M2M;
     if(LCD_PIXEL_FORMAT == RTGRAPHIC_PIXEL_FORMAT_RGB565)

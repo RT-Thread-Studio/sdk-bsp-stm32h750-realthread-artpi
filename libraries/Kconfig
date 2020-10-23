@@ -227,5 +227,6 @@ menu "External Libraries"
 	    bool "Using TouchGFX Library"
         default n
 		select BSP_USING_LCD
+		select RT_USING_CPLUSPLUS
 		
 endmenu

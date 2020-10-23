@@ -52,7 +52,7 @@ group = group + DefineGroup('TouchGFX_generated', genSrc, depend = ['ART_PI_Touc
 
 # add TouchGFX resource
 resSrc = Glob('./TouchGFX/generated/images/src/*/*.cpp')
-
+resSrc += Glob('./TouchGFX/generated/images/src/*/*/*.cpp')
 group = group + DefineGroup('TouchGFX_resource', resSrc, depend = ['ART_PI_TouchGFX_LIB'])
 
 # add TouchGFX gui
