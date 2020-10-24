@@ -3,51 +3,60 @@
 ## 实验平台：
 **硬件：**   RT-Thread官方ART-PI H750开发版，正点原子4.3寸RGBLCD屏（800*480）
 **软件：**   TouchGFXDesigner v4.15和 STM32CubeMX V6.0.1，开发环境 MDK 或 RT-Thread Studio 1.1.5，env工具
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200915170735381.jpg)
+
+![](https://img-blog.csdnimg.cn/20200915170735381.jpg)
 
 ## 代码下载：
 [https://github.com/RT-Thread-Studio/sdk-bsp-stm32h750-realthread-artpi](https://github.com/RT-Thread-Studio/sdk-bsp-stm32h750-realthread-artpi)
 
 ## 移植TouchGFX到其他操作系统的原理
 1. TouchGFX可以运行在带操作系统和不带操作系统的应用中，默认支持的操作系统为FreeRTOS，用户想要更换操作系统，只需要重新实现OSWrappers类，便可以切换不同的RTOS。
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200917142954604.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzMxMDM5MDYx,size_16,color_FFFFFF,t_70#pic_center)
+    ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200917142954604.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzMxMDM5MDYx,size_16,color_FFFFFF,t_70#pic_center)
 
   
 
 2. 在rtthread中添加touchgfx需要的驱动
 
-  根据touchgfx需要的组件构成，只需要在rtthread中实现相应的驱动即可。
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200918152442511.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzMxMDM5MDYx,size_16,color_FFFFFF,t_70#pic_center)
+​       根据touchgfx需要的组件构成，只需要在rtthread中实现相应的驱动即可。
+  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200918152442511.png)
+
 ## 在ART-PI中使用TouchGFX
 为了方便广大ART-PI的用户使用TouchGFX，免去移植的烦恼，官方已经在ART-PI的SDK中集成了TouchGFX软件库，只需要简单的配置，便可以轻松使用TouchGFX。
 ### 使用RT-Thread Studio 开发
 1. 打开 RT-Thread Studio 的包管理器,安装 ART-PI SDK 资源包
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023172827389.png)
+
+  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023172827389.png)
 
 2. 安装完成后 选择基于 开发板 创建工程
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023173348688.png)
+
+     ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023173348688.png)
 
   
 
 3. 打开TouchGFX Library
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023174030228.png)
+    
+    ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023174030228.png)
 
   
 
 4. 打开DMA2D和CRC外设
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023180140276.png)
+    
+    ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023180140276.png)
 
   
 
 5. 配置C++编译规则
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024113355777.png)
+    
+    ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024113355777.png)
 
   
 
 6. 添加GT9174触摸软件包
+    
   ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023185917918.png)
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023190054938.png)
 
+      ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023190054938.png)
+    
 7. 编译下载
 
 
@@ -65,15 +74,18 @@ E:\project\sdk-bsp-stm32h750-realthread-artpi\projects>mklink /D libraries ..\..
 E:\project\sdk-bsp-stm32h750-realthread-artpi\projects>
 ```
 4. 打开TouchGFX Library
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024120035558.png)
+    
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024120035558.png)
+    
+5. 添加GT9174触摸软件包
 
-5.  添加GT9174触摸软件包
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024120433818.png)
+     ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024120433818.png)
 
 6. 使用 [ENV](https://club.rt-thread.org/ask/question/5699.html) 工具执行 scons --target=mdk5 
 
 7. 打开DMA2D和CRC外设
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024120132856.png)
+
+  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024120132856.png)
 
 8. 配置MDK
 
@@ -93,7 +105,9 @@ E:\project\sdk-bsp-stm32h750-realthread-artpi\projects>
 **使用TouchGFX 4.15.0 Designer 仿真**
 
 在libraries文件夹下找到TouchGFX，打开art_pi.touchgfx
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024121400784.png)
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024121801586.gif#pic_center)
 
 
