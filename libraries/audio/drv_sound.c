@@ -70,26 +70,26 @@ void SAIA_samplerate_set(rt_uint32_t freq)
     if(i == (sizeof(SAI_PSC_TBL) / sizeof(SAI_PSC_TBL[0])))
         return ;
 
-    RCC->CR&=~(1<<26);                                 //鍏抽棴PLL2鏃堕挓
-    while(((RCC->CR&(1<<27)))&&(retry<0X1FFF))retry++; //绛夊緟PLL2鏃堕挓澶遍攣
-    RCC->PLLCKSELR &=~ (0X3F<<12);                     //娓呴櫎DIVM2[5:0]鍘熸潵鐨勮缃�
-    RCC->PLLCKSELR |= 25<<12;                          //DIVM2[5:0]=25,璁剧疆PLL2鐨勯鍒嗛绯绘暟
-    temp = RCC->PLL2DIVR;                              //璇诲彇PLL2DIVR鐨勫��
-    temp &=~ (0xFFFF);                                 //娓呴櫎DIVN鍜孭LL2DIVP鍘熸潵鐨勮缃�
-    temp |= (SAI_PSC_TBL[i][1]-1)<<0;                  //璁剧疆DIVN[8:0]
-    temp |= (SAI_PSC_TBL[i][2]-1)<<9;                  //璁剧疆DIVP[6:0]
-    RCC->PLL2DIVR = temp;                              //璁剧疆PLL2DIVR瀵勫瓨鍣�
+    RCC->CR&=~(1<<26);
+    while(((RCC->CR&(1<<27)))&&(retry<0X1FFF))retry++;
+    RCC->PLLCKSELR &=~ (0X3F<<12);
+    RCC->PLLCKSELR |= 25<<12;
+    temp = RCC->PLL2DIVR;
+    temp &=~ (0xFFFF);
+    temp |= (SAI_PSC_TBL[i][1]-1)<<0;
+    temp |= (SAI_PSC_TBL[i][2]-1)<<9;
+    RCC->PLL2DIVR = temp;
 
-    RCC->PLLCFGR |= 1<<19;                             //DIVP2EN=1,浣胯兘pll2_p_ck
-    RCC->CR |= 1<<26;                                  //寮�鍚疨LL2
-    while((RCC->CR&1<<27)==0);                         //绛夊緟PLL2寮�鍚垚鍔�.
+    RCC->PLLCFGR |= 1<<19;
+    RCC->CR |= 1<<26;
+    while((RCC->CR&1<<27)==0);
 
     temp = sai1->acr1;
-    temp &=~ (0X3F<<20);                               //娓呴櫎MCKDIV[5:0]璁剧疆
-    temp |= (rt_uint32_t)SAI_PSC_TBL[i][3]<<20;        //璁剧疆MCKDIV[5:0]
-    temp |= 1<<16;                                     //浣胯兘SAI1 Block A
-    temp |= 1<<17;                                     //浣胯兘DMA
-    sai1->acr1 = temp;                                 //閰嶇疆MCKDIV[5:0],鍚屾椂浣胯兘SAI1 Block A
+    temp &=~ (0X3F<<20);
+    temp |= (rt_uint32_t)SAI_PSC_TBL[i][3]<<20;
+    temp |= 1<<16;
+    temp |= 1<<17;
+    sai1->acr1 = temp;
 }
 
 void SAIA_channels_set(rt_uint16_t channels)
@@ -202,34 +202,33 @@ rt_err_t SAIA_config_init()
 
 rt_err_t SAIA_tx_dma(void)
 {
-    RCC->AHB1ENR|=1<<1;         //DMA2鏃堕挓浣胯兘
-    RCC->D3AMR|=1<<0;           //DMAMUX鏃堕挓浣胯兘
-    while(DMA2_Stream3->CR&0X01);//绛夊緟DMA2_Stream3鍙厤缃�
-    DMAMUX1_Channel11->CCR=89;  //DMA2_Stream3鐨勯�氶亾閫夋嫨: 89,鍗砈AI2_A瀵瑰簲鐨勯�氶亾
-                                //璇﹁<<STM32H7xx鍙傝�冩墜鍐�>>16.3.2鑺�,Table 119
+    RCC->AHB1ENR|=1<<1;
+    RCC->D3AMR|=1<<0;
+    while(DMA2_Stream3->CR&0X01);
+    DMAMUX1_Channel11->CCR=89;
 
-    DMA2->LIFCR|=0X3D<<22;      //娓呯┖閫氶亾3涓婃墍鏈変腑鏂爣蹇�
-    DMA2_Stream3->FCR=0X0000021;//璁剧疆涓洪粯璁ゅ��
+    DMA2->LIFCR|=0X3D<<22;
+    DMA2_Stream3->FCR=0X0000021;
 
-    DMA2_Stream3->CR=0;         //鍏堝叏閮ㄥ浣岰R瀵勫瓨鍣ㄥ��
-    DMA2_Stream3->CR|=1<<6;     //瀛樺偍鍣ㄥ埌澶栬妯″紡
-    DMA2_Stream3->CR|=1<<8;     //寰幆妯″紡
-    DMA2_Stream3->CR|=0<<9;     //澶栬闈炲閲忔ā寮�
-    DMA2_Stream3->CR|=1<<10;    //瀛樺偍鍣ㄥ閲忔ā寮�
+    DMA2_Stream3->CR=0;
+    DMA2_Stream3->CR|=1<<6;
+    DMA2_Stream3->CR|=1<<8;
+    DMA2_Stream3->CR|=0<<9;
+    DMA2_Stream3->CR|=1<<10;
 
-    DMA2_Stream3->PAR  = (rt_uint32_t)&sai1->adr;//澶栬鍦板潃涓�:SAI1_Block_A->DR
-    DMA2_Stream3->M0AR = (rt_uint32_t)_stm32_audio_play.tx_fifo;//鍐呭瓨1鍦板潃
-    DMA2_Stream3->M1AR = (rt_uint32_t)_stm32_audio_play.tx_fifo + (TX_DMA_FIFO_SIZE / 2);//鍐呭瓨2鍦板潃
+    DMA2_Stream3->PAR  = (rt_uint32_t)&sai1->adr;
+    DMA2_Stream3->M0AR = (rt_uint32_t)_stm32_audio_play.tx_fifo;
+    DMA2_Stream3->M1AR = (rt_uint32_t)_stm32_audio_play.tx_fifo + (TX_DMA_FIFO_SIZE / 2);
 
-    DMA2_Stream3->CR|=2<<16;    //楂樹紭鍏堢骇
-    DMA2_Stream3->CR|=1<<18;    //鍙岀紦鍐叉ā寮�
-    DMA2_Stream3->CR|=0<<21;    //澶栬绐佸彂鍗曟浼犺緭
-    DMA2_Stream3->CR|=0<<23;    //瀛樺偍鍣ㄧ獊鍙戝崟娆′紶杈�
+    DMA2_Stream3->CR|=2<<16;
+    DMA2_Stream3->CR|=1<<18;
+    DMA2_Stream3->CR|=0<<21;
+    DMA2_Stream3->CR|=0<<23;
 
-    DMA2_Stream3->FCR&=~(1<<2); //涓嶄娇鐢‵IFO妯″紡
-    DMA2_Stream3->FCR&=~(3<<0); //鏃燜IFO 璁剧疆
+    DMA2_Stream3->FCR&=~(1<<2);
+    DMA2_Stream3->FCR&=~(3<<0);
 
-    DMA2_Stream3->CR|=1<<4;     //寮�鍚紶杈撳畬鎴愪腑鏂�
+    DMA2_Stream3->CR|=1<<4;
 
     HAL_NVIC_SetPriority(DMA2_Stream3_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(DMA2_Stream3_IRQn);
@@ -238,9 +237,8 @@ rt_err_t SAIA_tx_dma(void)
 
 void DMA2_Stream3_IRQHandler(void)
 {
-//    rt_kprintf("1\n");
     rt_interrupt_enter();
-    if(DMA2->LISR&(1<<27))          //DMA2_Steam3,浼犺緭瀹屾垚鏍囧織
+    if(DMA2->LISR&(1<<27))
     {
         DMA2->LIFCR|=1<<27;
         rt_audio_tx_complete(&_stm32_audio_play.audio);
@@ -357,8 +355,6 @@ static rt_err_t stm32_player_configure(struct rt_audio_device *audio, struct rt_
         {
         case AUDIO_MIXER_MUTE:
         {
-            /* set mute mode */
-//            wm8978_mute_enabled(_stm32_audio_play.i2c_bus, RT_FALSE);
             break;
         }
 
@@ -474,7 +470,7 @@ static void stm32_player_buffer_info(struct rt_audio_device *audio, struct rt_au
      * +----------------+----------------+
      * |     block1     |     block2     |
      * +----------------+----------------+
-     *  \  block_size  /
+     *  \  block_size  / \  block_size  /
      */
     info->buffer = _stm32_audio_play.tx_fifo;
     info->total_size = TX_DMA_FIFO_SIZE;

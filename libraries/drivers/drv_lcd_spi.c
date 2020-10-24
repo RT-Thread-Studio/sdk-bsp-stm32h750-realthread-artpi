@@ -31,6 +31,8 @@
 
 #define LCD_DEVICE(dev)     (struct drv_lcd_device*)(dev)
 
+#define LCD_CLEAR_SEND_NUMBER (320 * 480 *3)
+
 static rt_uint32_t BACK_COLOR = WHITE, FORE_COLOR = BLACK;
 static struct rt_spi_device *spi_dev_lcd;
 
@@ -406,10 +408,17 @@ void lcd_fill(rt_uint16_t x_start, rt_uint16_t y_start, rt_uint16_t x_end, rt_ui
     rt_uint8_t *fill_buf = RT_NULL;
 
     size = (x_end - x_start) * (y_end - y_start) * 3;
+	
+	if (size > LCD_CLEAR_SEND_NUMBER)
+    {
+        /* the number of remaining to be filled */
+        size_remain = size - LCD_CLEAR_SEND_NUMBER;
+        size = LCD_CLEAR_SEND_NUMBER;
+    }
 
     lcd_address_set(x_start, y_start, x_end, y_end);
 
-    fill_buf = (rt_uint8_t *)rt_malloc(size);
+    fill_buf = (rt_uint8_t *)rt_malloc(LCD_CLEAR_SEND_NUMBER);
     if (fill_buf)
     {
         /* fast fill */
@@ -429,9 +438,15 @@ void lcd_fill(rt_uint16_t x_start, rt_uint16_t y_start, rt_uint16_t x_end, rt_ui
                 break;
 
             /* calculate the number of fill next time */
-
+            if (size_remain > LCD_CLEAR_SEND_NUMBER)
+            {
+                size_remain = size_remain - LCD_CLEAR_SEND_NUMBER;
+            }
+            else
+            {
                 size = size_remain;
                 size_remain = 0;
+            }
 
         }
         rt_free(fill_buf);
@@ -905,11 +920,11 @@ static rt_err_t drv_lcd_control(struct rt_device *device, int cmd, void *args)
         struct rt_device_graphic_info *info = (struct rt_device_graphic_info *)args;
 
         RT_ASSERT(info != RT_NULL);
-        info->pixel_format  = lcd->lcd_info.pixel_format;
+        info->pixel_format   = lcd->lcd_info.pixel_format;
         info->bits_per_pixel = lcd->lcd_info.bits_per_pixel;
-        info->width         = lcd->lcd_info.width;
-        info->height        = lcd->lcd_info.height;
-        info->framebuffer   = lcd->lcd_info.framebuffer;
+        info->width          = lcd->lcd_info.width;
+        info->height         = lcd->lcd_info.height;
+        info->framebuffer    = lcd->lcd_info.framebuffer;
     }
     break;
     }
