@@ -34,29 +34,28 @@
   
 
 3. 打开TouchGFX Library
-    
+   
     ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023174030228.png)
 
   
 
 4. 打开DMA2D和CRC外设
-    
+   
     ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023180140276.png)
 
   
 
 5. 配置C++编译规则
-    
+   
     ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024113355777.png)
 
   
 
 6. 添加GT9174触摸软件包
-    
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023185917918.png)
+   
 
-      ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023190054938.png)
-    
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023185917918.png)![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023190054938.png)
+
 7. 编译下载
 
 
@@ -74,7 +73,8 @@ E:\project\sdk-bsp-stm32h750-realthread-artpi\projects>mklink /D libraries ..\..
 E:\project\sdk-bsp-stm32h750-realthread-artpi\projects>
 ```
 4. 打开TouchGFX Library
-    
+   
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024120035558.png)
     
 5. 添加GT9174触摸软件包
