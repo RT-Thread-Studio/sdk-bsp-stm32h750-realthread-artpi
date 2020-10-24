@@ -12,7 +12,7 @@
 1. TouchGFX可以运行在带操作系统和不带操作系统的应用中，默认支持的操作系统为FreeRTOS，用户想要更换操作系统，只需要重新实现OSWrappers类，便可以切换不同的RTOS。
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200917142954604.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzMxMDM5MDYx,size_16,color_FFFFFF,t_70#pic_center)
 
-2. 在rtthread中添加touchgfx需要的外设
+2. 在rtthread中添加touchgfx需要的驱动
 根据touchgfx需要的组件构成，只需要在rtthread中实现相应的驱动即可。
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200918152442511.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzMxMDM5MDYx,size_16,color_FFFFFF,t_70#pic_center)
 ## 在ART-PI中使用TouchGFX
@@ -91,7 +91,7 @@ ART-PI的LCD驱动默认支持RGB接口，更换屏幕后，只需要修改对�
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024123658354.png)
 修改好，双击打开，重新生成UI工程。
 **3. C语言和C++如何互相调用**
- c方式编译和c++方式编译，其差异就在于符号表标识符。同一个函数名，在c方式编译的其函数名跟编译前的函数一致，c++方式编译的则是以函数名结合参数作为编译后的函数名。cpp编译器是兼容c语言的编译方式的，所以在编译cpp文件的时候，调用到.c文件的函数的地方时，需要用extern “C”指定用c语言的方式去编译它，extern “C”是c++方式编译才认识的关键字，在c++编译的方式会定义__cplusplus宏，c语言编译器没有__cplusplus宏和extern “C”关键字。
+ c方式编译和c++方式编译，其差异就在于符号表标识符。同一个函数名，在c方式编译的其函数名跟编译前的函数一致，c++方式编译的则是以函数名结合参数作为编译后的函数名。cpp编译器是兼容c语言的编译方式的，所以在编译cpp文件的时候，调用到.c文件的函数的地方时，需要用extern “C”指定用c语言的方式去编译它，extern “C”是c++方式编译才认识的关键字，在c++编译的方式会定义 \__cplusplus 宏，c语言编译器没有 __cplusplus宏和extern “C”关键字。
 **C++语言调用C**:
 在编译cpp文件的时候，调用到.c文件的函数的地方时，需要用extern “C”指定用c语言的方式去编译它
 
