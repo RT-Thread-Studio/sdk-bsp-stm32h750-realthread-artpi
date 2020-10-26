@@ -224,8 +224,9 @@ menu "External Libraries"
         default n
 
 	config ART_PI_TouchGFX_LIB
-	    bool "Using TouchGFX Library"
+        bool "Using TouchGFX Library"
+        select BSP_USING_LCD
+        select RT_USING_CPLUSPLUS
         default n
-		select BSP_USING_LCD
 		
 endmenu
