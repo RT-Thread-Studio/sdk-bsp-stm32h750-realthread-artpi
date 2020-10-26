@@ -1,60 +1,56 @@
 # 如何在ART-PI上创建TouchGFX工程
 
-## 实验平台：
-**硬件：**   RT-Thread官方ART-PI H750开发版，正点原子4.3寸RGBLCD屏（800*480）
-**软件：**   TouchGFXDesigner v4.15和 STM32CubeMX V6.0.1，开发环境 MDK 或 RT-Thread Studio 1.1.5，env工具
-
-![](https://img-blog.csdnimg.cn/20200915170735381.jpg)
-
-## 代码下载：
-[https://github.com/RT-Thread-Studio/sdk-bsp-stm32h750-realthread-artpi](https://github.com/RT-Thread-Studio/sdk-bsp-stm32h750-realthread-artpi)
-
 ## 移植TouchGFX到其他操作系统的原理
 1. TouchGFX可以运行在带操作系统和不带操作系统的应用中，默认支持的操作系统为FreeRTOS，用户想要更换操作系统，只需要重新实现OSWrappers类，便可以切换不同的RTOS。
-    ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200917142954604.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzMxMDM5MDYx,size_16,color_FFFFFF,t_70#pic_center)
+
+<img src="./figures/01.png" alt="TouchGFX与操作系统" style="zoom: 50%;" />
 
   
 
 2. 在rtthread中添加touchgfx需要的驱动
 
 ​       根据touchgfx需要的组件构成，只需要在rtthread中实现相应的驱动即可。
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200918152442511.png)
+  <img src="./figures/02.png" alt="组件构成" style="zoom: 80%;" />
 
 ## 在ART-PI中使用TouchGFX
 为了方便广大ART-PI的用户使用TouchGFX，免去移植的烦恼，官方已经在ART-PI的SDK中集成了TouchGFX软件库，只需要简单的配置，便可以轻松使用TouchGFX。
 ### 使用RT-Thread Studio 开发
 1. 打开 RT-Thread Studio 的包管理器,安装 ART-PI SDK 资源包
 
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023172827389.png)
+<img src="./figures/03.png" alt="安装资源包" style="zoom: 50%;" />
 
 2. 安装完成后 选择基于 开发板 创建工程
 
-     ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023173348688.png)
+     <img src="./figures/04.png" alt="安装资源包" style="zoom: 50%;" />
 
   
 
 3. 打开TouchGFX Library
    
-    ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023174030228.png)
+    <img src="./figures/05.png" alt="安装资源包" style="zoom: 60%;" />
 
   
 
 4. 打开DMA2D和CRC外设
    
-    ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023180140276.png)
+    （或者使用CUBEMX打开DMA2D和CRC外设）
+    
+    <img src="./figures/07.png" alt="配置外设" style="zoom: 60%;" />
 
   
 
 5. 配置C++编译规则
    
-    ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024113355777.png)
+    <img src="./figures/08.png" alt="" style="zoom: 60%;" />
 
   
 
 6. 添加GT9174触摸软件包
    
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023185917918.png)![在这里插入图片描述](https://img-blog.csdnimg.cn/20201023190054938.png)
+<img src="./figures/09.png" alt="" style="zoom: 60%;" />
+
+<img src="./figures/10.png" alt="" style="zoom: 60%;" />
 
 7. 编译下载
 
@@ -75,30 +71,33 @@ E:\project\sdk-bsp-stm32h750-realthread-artpi\projects>
 4. 打开TouchGFX Library
    
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024120035558.png)
+<img src="./figures/11.png" alt="" style="zoom: 60%;" />
     
+
 5. 添加GT9174触摸软件包
 
-     ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024120433818.png)
+     <img src="./figures/12.png" alt="" style="zoom: 60%;" />
 
 6. 使用 [ENV](https://club.rt-thread.org/ask/question/5699.html) 工具执行 scons --target=mdk5 
 
 7. 打开DMA2D和CRC外设
 
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024120132856.png)
+     （或者使用CUBEMX打开DMA2D和CRC外设）
+
+  <img src="./figures/13.png" alt="" style="zoom: 60%;" />
 
 8. 配置MDK
 
   将SDK中ART-Pi_W25Q64.FLM复制到MDK安装目录的Keil_v5\ARM\Flash下。
   复制后会自动识别出下载算法，
 
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024115922895.png)
+ <img src="./figures/14.png" alt="" style="zoom: 60%;" />
 
   
 
   不使用Micro LIB库。
 
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024115628218.png)
+<img src="./figures/15.png" alt="" style="zoom: 60%;" />
 
 9. 编译下载
 ### UI开发及仿真
@@ -106,16 +105,16 @@ E:\project\sdk-bsp-stm32h750-realthread-artpi\projects>
 
 在libraries文件夹下找到TouchGFX，打开art_pi.touchgfx
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024121400784.png)
+<img src="./figures/16.png" alt="" style="zoom: 60%;" />
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024121801586.gif#pic_center)
+![](.\figures\17.gif)
 
 
 
 **使用Visual Studio 仿真**
 
 在TouchGFX文件夹下找到simulator，打开Application.sln
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024122143622.png)
+<img src="./figures/18.png" alt="" style="zoom: 60%;" />
 
 在TouchGFX Designer设计完UI，刷新工程，即可将UI更新到项目中。
 
@@ -124,23 +123,23 @@ E:\project\sdk-bsp-stm32h750-realthread-artpi\projects>
 
 ART-PI的LCD驱动默认支持RGB接口，更换屏幕后，只需要修改对应的参数即可。
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024122931995.png)
+<img src="./figures/19.png" alt="" style="zoom: 60%;" />
 
 用文本文档打开ApplicationTemplate.touchgfx.part，调整分辨率
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024123546325.png)
+<img src="./figures/20.png" alt="" style="zoom: 60%;" />
 
 修改好，双击打开，重新生成UI工程。
 
 **2. 如何更改色深**
 
 默认支持RGB888 24位色深和RGB565 16位色深，只需要修改LCD_BITS_PER_PIXEL和LCD_PIXEL_FORMAT这两个宏，
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024123108553.png)
+<img src="./figures/21.png" alt="" style="zoom: 60%;" />
 
 用文本文档打开ApplicationTemplate.touchgfx.part，调整色深
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024123500952.png)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201024123658354.png)
+<img src="./figures/22.png" alt="" style="zoom: 60%;" />
+<img src="./figures/23.png" alt="" style="zoom: 60%;" />
 
 
 
@@ -227,6 +226,6 @@ void MX_TouchGFX_Process(void)
 
 
 
-关注公众号，后续有精彩内容会第一时间发送给您！
+关注公众号，后续有精彩教程会第一时间发送给您！
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200506150500150.jpg)
