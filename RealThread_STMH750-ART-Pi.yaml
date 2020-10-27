@@ -11,12 +11,12 @@ board:
   description_en: ART-Pi is a DIY open source hardware specially designed for embedded software engineers and open source makers after six months of careful preparation by RT-Thread team
   small_image: documents/figures/board_small.png
   large_image: documents/figures/board_large.png
-  sale_contact_cn: http://www.st.com/stonline/contactus/contacts/index.php
-  sale_contact_global: http://www.st.com/stonline/contactus/contacts/index.php
-  buy_url_cn: https://www.rt-thread.org/
-  buy_url_global: https://www.rt-thread.org/
-  price_cn: 169 CNY
-  price_global: 24.99 USD
+  sale_contact_cn: https://www.rt-thread.org/
+  sale_contact_global: https://www.rt-thread.org/
+  buy_url_cn: https://m.tb.cn/h.4ZFiklZ?sm=f83b6b
+  buy_url_global: https://m.tb.cn/h.4ZFiklZ?sm=f83b6b
+  price_cn: 189 CNY
+  price_global: 27.99 USD
   debugger: ST-LINK
   debug_interface: SWD
   emulator_machine: ''
