@@ -37,15 +37,15 @@ menu "Board extended module"
         bool "LoRa Shield"
         default n
         if ART_PI_USING_LORA_SHIELD_LRS007
-            config LORA_EXPANSION_SHIELD_USING_LRS007_RF_A
+            config ART_PI_USING_LORA_SHIELD_LRS007_RF_A
                 select BSP_USING_SPI
                 select BSP_USING_SPI2
-                bool "Use LRS007 RF_A Channel"
+                bool "Enable LRS007 RF_A Channel"
                 default n
-            config LORA_EXPANSION_SHIELD_USING_LRS007_RF_B
+            config ART_PI_USING_LORA_SHIELD_LRS007_RF_B
                 select BSP_USING_SPI
                 select BSP_USING_SPI4
-                bool "Use LRS007 RF_B Channel"
+                bool "Enable LRS007 RF_B Channel"
                 default n
         endif
         
@@ -213,7 +213,7 @@ menu "On-chip Peripheral"
     config BSP_USING_DCMI
         bool "Enable DCMI"
         default n
-		
+
     menuconfig BSP_USING_TIM
         bool "Enable timer"
         default n
@@ -222,8 +222,12 @@ menu "On-chip Peripheral"
             config BSP_USING_TIM13
                 bool "Enable TIM13"
                 default n
-        endif	
+        endif
 
+    config BSP_USING_ONCHIP_RTC
+        bool "Enable Onchip RTC"
+        select RT_USING_RTC
+        default n
 endmenu
 
 endmenu
@@ -246,10 +250,10 @@ menu "External Libraries"
         select RT_USING_RYM
         default n
 
-	config ART_PI_TouchGFX_LIB
+    config ART_PI_TouchGFX_LIB
         bool "Using TouchGFX Library"
         select BSP_USING_LCD
         select RT_USING_CPLUSPLUS
         default n
-		
+
 endmenu
