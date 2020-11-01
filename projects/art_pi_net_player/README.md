@@ -1,41 +1,50 @@
-# LED闪烁例程
+# mp3播放例程
 
 ## 简介
 
-本例程主要功能是让板载的 RGB-LED 中的蓝色 LED 不间断闪烁。
-这个例程也可以做为您的创作的基础工程。
+本例程主要功能是从文件系统或者网络获得mp3数据并播放。
 
 ## 硬件说明
-<img src="./figures/blink_pcb.png" alt="LED 连接单片机引脚" style="zoom: 50%;" />
-如上图所示，RGB-LED 属于共阳 LED， **阴极** 分别与单片机的引脚相连，其中蓝色 LED 对应 PI8 引脚。单片机引脚输出低电平即可点亮 LED，输出高电平则会熄灭 LED。
+
+本例程基于多媒体扩展板实现：
+
+外设
+
+SAI2：产生I2S时序，播放音频
+
+I2C2：触摸接口
+
+I2C3：音频芯片 wm8988控制接口
+
+UART4：调试端口
+
+ETH：网络
+
+SPI1：
+
+SPI2：屏幕驱动接口
+
+SDMMC1：SD卡通讯接口
+
+SDMMC2：AP6212通讯接口
+
+软件包：
+
+fal
+
+ft6236
+
+helix
+
+webclient
+
+
 
 ## 软件说明
 
-闪灯的源代码位于 `/projects/art_pi_blink_led/applications/main.c` 中。首先定义了一个宏 `LED_PIN` ，代表闪灯的 LED 引脚编号，然后与 `GPIO_LED_B`（**PI8**）对应：
-
-```
-#define LED_PIN GET_PIN(I, 8)
-```
+闪灯的源代码位于 `/projects/art_pi_net_player`中
 
 在 main 函数中，将该引脚配置为输出模式，并在下面的 while 循环中，周期性（500毫秒）开关 LED。
-
-```
-int main(void)
-{
-    rt_uint32_t count = 1;
-
-    rt_pin_mode(LED_PIN, PIN_MODE_OUTPUT);
-
-    while(count++)
-    {
-        rt_thread_mdelay(500);
-        rt_pin_write(LED_PIN, PIN_HIGH);
-        rt_thread_mdelay(500);
-        rt_pin_write(LED_PIN, PIN_LOW);
-    }
-    return RT_EOK;
-}
-```
 
 
 
@@ -48,7 +57,31 @@ int main(void)
 
 正常运行后，蓝色 LED 会周期性闪烁。
 
+1. 触摸测试：
+
+​       点击屏幕，串口会出现
+
+​       [D/touch] down
+​       [D/touch] up
+​       表明触摸驱动OK
+
+2. 屏幕测试：
+
+​       执行命令：`lcd_test`
+
+​       屏幕会出现，rtt logo，并刷新色块，表明屏幕驱动OK
+
+3. 音频测试：
+
+   a 从网络获取数据：
+
+   ​		首先输入  `wifi join  <WiFi名称> <wifi密码>`，确认WiFi连接成功后，执行命令 `http_test`，会播放默认的歌曲，数据源为网易云。
+
+   b 从SD卡获取数据：
+
+   ​		首先在sd卡内新建`music`文件夹，里面放一个名为`RT-Thread.mp3`的文件
+
 ## 注意事项
 
-如果想要修改`LED_PIN` 宏定义，可以通过 GET_PIN 来修改。
+本例程用到了helix解码库，且网络数据源为网易云，仅供学习交流。
 
