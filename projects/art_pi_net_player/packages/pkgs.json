@@ -1,0 +1,22 @@
+[
+ {
+  "path": "/packages/iot/webclient", 
+  "ver": "latest", 
+  "name": "WEBCLIENT"
+ }, 
+ {
+  "path": "/packages/multimedia/helix", 
+  "ver": "latest", 
+  "name": "HELIX"
+ }, 
+ {
+  "path": "/packages/system/fal", 
+  "ver": "latest", 
+  "name": "FAL"
+ }, 
+ {
+  "path": "/packages/peripherals/touch/ft6236", 
+  "ver": "latest", 
+  "name": "FT6236"
+ }
+]

@@ -16,7 +16,39 @@ menu "Board extended module"
         bool "Media-IO"
         default n
         if ART_PI_USING_MEDIA_IO
+            config BSP_USING_SPI_LCD
+                bool
 
+            config MEDIA_IO_USING_SCREEN
+                select BSP_USING_SPI
+                select BSP_USING_SPI2
+                select BSP_USING_SDRAM
+                select BSP_USING_SPI_LCD
+                bool "Enable Screen"
+                default y
+            config MEDIA_IO_USING_TOUCH
+                select RT_USING_I2C
+                select RT_USING_I2C_BITOPS
+                select BSP_USING_I2C
+                select BSP_USING_I2C2
+                select PKG_USING_TOUCH_DRIVERS
+                select PKG_USING_FT6236
+                bool "Enable Touch"
+                default y
+            config MEDIA_IO_USING_AUDIO
+                select RT_USING_AUDIO
+                select RT_USING_I2C
+                select RT_USING_I2C_BITOPS
+                select BSP_USING_I2C
+                select BSP_USING_I2C3
+                bool "Enable Audio"
+                default y
+                if MEDIA_IO_USING_AUDIO
+                    config AUDIO_MP3
+                    bool "Support MP3"
+                    select PKG_USING_HELIX
+                    default y
+                endif
         endif
 
     menuconfig ART_PI_USING_INDUSTRY_IO
@@ -178,6 +210,20 @@ menu "On-chip Peripheral"
                         int "I2C2 sda pin number"
                         range 1 176
                         default 125
+                endif
+            menuconfig BSP_USING_I2C3
+                bool "Enable I2C3 BUS (software simulation)"
+                default n
+                if BSP_USING_I2C3
+                    comment "Notice: PH12 --> 124; PH11 --> 123"
+                    config BSP_I2C3_SCL_PIN
+                        int "i2c3 scl pin number"
+                        range 1 176
+                        default 123
+                    config BSP_I2C3_SDA_PIN
+                        int "I2C3 sda pin number"
+                        range 1 176
+                        default 124
                 endif
         endif
 		

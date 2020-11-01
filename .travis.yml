@@ -17,6 +17,7 @@ env:
   - RTT_BSP='projects/art_pi_wifi' RTT_TOOL_CHAIN='sourcery-arm'
   - RTT_BSP='projects/industry_io_gateway' RTT_TOOL_CHAIN='sourcery-arm'
   - RTT_BSP='projects/art_pi_factory' RTT_TOOL_CHAIN='sourcery-arm'
+  - RTT_BSP='projects/art_pi_net_player' RTT_TOOL_CHAIN='sourcery-arm'
 
 stage: compile
 script:
