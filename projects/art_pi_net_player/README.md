@@ -79,7 +79,7 @@ webclient
 
    b 从SD卡获取数据：
 
-   ​		首先在sd卡内新建`music`文件夹，里面放一个名为`RT-Thread.mp3`的文件
+   ​		首先在sd卡内新建`music`文件夹，里面放一个名为`RT-Thread.mp3`的文件，执行命令 `mp3`即可播放。
 
 ## 注意事项
 
