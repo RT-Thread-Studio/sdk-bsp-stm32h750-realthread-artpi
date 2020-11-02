@@ -33,7 +33,7 @@
 
 4. 打开DMA2D和CRC外设
    
-    （或者使用CUBEMX打开DMA2D和CRC外设）
+    1.0.1版本请通过CUBEMX打开DMA2D和CRC外设
     
     <img src="./figures/07.png" alt="配置外设" style="zoom: 60%;" />
 
@@ -82,7 +82,7 @@ E:\project\sdk-bsp-stm32h750-realthread-artpi\projects>
 
 7. 打开DMA2D和CRC外设
 
-     （或者使用CUBEMX打开DMA2D和CRC外设）
+     1.0.1版本请通过CUBEMX打开DMA2D和CRC外设
 
   <img src="./figures/13.png" alt="" style="zoom: 60%;" />
 
