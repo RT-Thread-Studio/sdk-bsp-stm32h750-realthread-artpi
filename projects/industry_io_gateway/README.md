@@ -65,3 +65,4 @@
 ## 注意事项
 
 - 该例程是运行在QSPI FLASH中，请先下载bootloader固件
+- 该例程使用动态模块机制，使用GNU GCC工具链编译，不支持Keil工程，推荐使用RT-Thread Studio。
