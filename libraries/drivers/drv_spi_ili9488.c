@@ -10,10 +10,10 @@
 
 #include <board.h>
 
-#ifdef BSP_USING_SPI_LCD
+#ifdef BSP_USING_SPI_LCD_ILI9488
 #include <rtdevice.h>
 #include "drv_spi.h"
-#include "drv_lcd_spi.h"
+#include "drv_spi_ili9488.h"
 #include <lcd_spi_port.h>
 #include "drv_lcd_font.h"
 #include <rttlogo.h>
@@ -1046,7 +1046,7 @@ INIT_DEVICE_EXPORT(drv_lcd_hw_init);
 
 #ifdef DRV_DEBUG
 #ifdef FINSH_USING_MSH
-int lcd_test()
+int ili9488_test()
 {
     struct drv_lcd_device *lcd;
     lcd = (struct drv_lcd_device *)rt_device_find("lcd");
@@ -1115,7 +1115,7 @@ int lcd_test()
         rt_thread_mdelay(1000);
     }
 }
-MSH_CMD_EXPORT(lcd_test, lcd_test);
+MSH_CMD_EXPORT(ili9488_test, test ili9488 driver);
 #endif /* FINSH_USING_MSH */
 #endif /* DRV_DEBUG */
-#endif /* BSP_USING_SPI_LCD */
+#endif /* BSP_USING_SPI_LCD_ILI9488 */

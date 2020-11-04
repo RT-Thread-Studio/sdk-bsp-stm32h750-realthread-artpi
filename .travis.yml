@@ -34,3 +34,4 @@ jobs:
           stage: check-yaml-format
           script:
             - python -c "from rt_thread_studio import bsp_checker;bsp_path = '.';checker = bsp_checker.BspChecker(bsp_path);checker.check();"
+            

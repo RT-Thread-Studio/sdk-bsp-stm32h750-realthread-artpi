@@ -30,8 +30,8 @@ if GetDepend(['BSP_USING_OV2640']):
 if GetDepend(['BSP_USING_TIM']):
     src += Glob('drv_hwtimer.c')
     
-if GetDepend(['BSP_USING_SPI_LCD']):
-    src += Glob('drv_lcd_spi.c')
+if GetDepend(['BSP_USING_SPI_LCD_ILI9488']):
+    src += Glob('drv_spi_ili9488.c')
 
 if GetDepend(['RT_USING_I2C', 'RT_USING_I2C_BITOPS']):
     if GetDepend('BSP_USING_I2C1') or GetDepend('BSP_USING_I2C2') or GetDepend('BSP_USING_I2C3') or GetDepend('BSP_USING_I2C4'):

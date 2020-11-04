@@ -296,7 +296,7 @@
 /* Board extended module */
 
 #define ART_PI_USING_MEDIA_IO
-#define BSP_USING_SPI_LCD
+#define BSP_USING_SPI_LCD_ILI9488
 #define MEDIA_IO_USING_SCREEN
 #define MEDIA_IO_USING_TOUCH
 #define MEDIA_IO_USING_AUDIO
