@@ -21,7 +21,7 @@
 
 ![img](../documents/figures/rttstudio2.png)
 
-### Q4：为什么无法 debug 的程序/为什么程序下载进去了不会运行
+### Q4：为什么无法 debug 程序/为什么程序下载进去了不会运行
 
 ### A：STM32H750 执行片外 QSPI FLASH 上的程序需要有一个 bootloader 来跳转过去，出厂前已经默认烧录了 bootloader，所以可以运行，如果不小心擦除了，请重新烧录 bootloader。bootloader 烧录成功之后会打印 logo
 
