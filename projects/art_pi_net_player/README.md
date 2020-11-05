@@ -10,43 +10,39 @@
 
 外设
 
-SAI2：产生I2S时序，播放音频
+-SAI2：产生I2S时序，播放音频
 
-I2C2：触摸接口
+-I2C2：触摸接口
 
-I2C3：音频芯片 wm8988控制接口
+-I2C3：音频芯片 wm8988控制接口
 
-UART4：调试端口
+-UART4：调试端口
 
-ETH：网络
+-ETH：网络
 
-SPI1：
+-SPI1：
 
-SPI2：屏幕驱动接口
+-SPI2：屏幕驱动接口
 
-SDMMC1：SD卡通讯接口
+-SDMMC1：SD卡通讯接口
 
-SDMMC2：AP6212通讯接口
+-SDMMC2：AP6212通讯接口
 
 软件包：
 
-fal
+-fal
 
-ft6236
+-ft6236
 
-helix
+-helix
 
-webclient
+-webclient
 
 
 
 ## 软件说明
 
-闪灯的源代码位于 `/projects/art_pi_net_player`中
-
-在 main 函数中，将该引脚配置为输出模式，并在下面的 while 循环中，周期性（500毫秒）开关 LED。
-
-
+本例程源代码位于 `/projects/art_pi_net_player`中
 
 ## 运行
 ### 编译&下载
