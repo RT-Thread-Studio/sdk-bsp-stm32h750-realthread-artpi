@@ -957,7 +957,7 @@ const static struct rt_device_ops lcd_ops =
 };
 #endif
 
-int drv_lcd_hw_init(void)
+int drv_lcd_ili9488_hw_init(void)
 {
     rt_err_t result = RT_EOK;
     struct rt_device *device = &_lcd.parent;
@@ -1042,7 +1042,7 @@ __exit:
     }
     return result;
 }
-INIT_DEVICE_EXPORT(drv_lcd_hw_init);
+INIT_COMPONENT_EXPORT(drv_lcd_ili9488_hw_init);
 
 #ifdef DRV_DEBUG
 #ifdef FINSH_USING_MSH
