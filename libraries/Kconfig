@@ -260,6 +260,16 @@ menu "On-chip Peripheral"
         bool "Enable DCMI"
         default n
         
+    menuconfig BSP_USING_FDCAN
+        bool "Enable FDCAN"
+        default n
+        select RT_USING_CAN
+        if BSP_USING_FDCAN
+            config BSP_USING_FDCAN1
+                bool "USING FDCAN1"
+                default n
+        endif
+        
     config BSP_USING_USBD
         bool "Enable USB Device"
         select RT_USING_USB_DEVICE

@@ -45,7 +45,10 @@ if GetDepend(['BSP_USING_USBD']):
     
 if GetDepend(['BSP_USING_USBH']):
     src += ['drv_usbh.c']
-    
+
+if GetDepend(['RT_USING_CAN']):
+    src += ['drv_fdcan.c']
+
 path = [cwd]
 path += [cwd + '/include']
 path += [cwd + '/include/config']
