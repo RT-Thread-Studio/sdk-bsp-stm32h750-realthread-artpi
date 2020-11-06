@@ -39,6 +39,9 @@ if GetDepend(['RT_USING_I2C', 'RT_USING_I2C_BITOPS']):
 
 if GetDepend(['BSP_USING_ONCHIP_RTC']):
     src += Glob('drv_rtc.c')
+	
+if GetDepend(['BSP_USING_USBD']):
+    src += Glob('drv_usbd.c')
     
 path = [cwd]
 path += [cwd + '/include']
