@@ -13,7 +13,7 @@
 #include<rtthread.h>
 #include<rtdevice.h>
 
-#ifdef BSP_USING_USBHOST
+#ifdef BSP_USING_USBH
 
 static HCD_HandleTypeDef stm32_hhcd_fs;
 static struct rt_completion urb_completion;

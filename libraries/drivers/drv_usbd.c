@@ -12,7 +12,7 @@
 #include <rtthread.h>
 #include "board.h"
 
-#ifdef BSP_USING_USBDEVICE
+#ifdef BSP_USING_USBD
 
 #include <rtdevice.h>
 #include <string.h>
