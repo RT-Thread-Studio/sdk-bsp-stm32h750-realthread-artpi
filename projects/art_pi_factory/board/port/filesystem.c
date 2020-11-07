@@ -12,10 +12,6 @@
 #include <rtthread.h>
 
 #ifdef BSP_USING_FS
-
-#if RT_DFS_ELM_MAX_SECTOR_SIZE < 4096
-#error "Please define RT_DFS_ELM_MAX_SECTOR_SIZE more than 4096"
-#endif
 #if DFS_FILESYSTEMS_MAX < 4
 #error "Please define DFS_FILESYSTEMS_MAX more than 4"
 #endif
@@ -158,8 +154,8 @@ int mount_init(void)
     {
         LOG_E("create sd_mount thread err!");
     }
-    return RT_EOK;
 #endif
+    return RT_EOK;
 }
 INIT_APP_EXPORT(mount_init);
 
