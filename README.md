@@ -2,7 +2,7 @@
 
 sdk-bsp-stm32h750-realthread-artpi 是 RT-Thread 团队对 ART-Pi 开发板所作的支持包，也可作为用户开发使用的软件SDK，让用户可以更简单方便的开发自己的应用程序。
 
-ART-Pi 是 RT-Thread 团队经过半年的精心准备，专门为嵌入式软件工程师、开源创客设计的一款极具扩展功能的 DIY 开源硬件.
+ART-Pi 是 RT-Thread 团队经过半年的精心准备，专门为嵌入式软件工程师、开源创客设计的一款极具扩展功能的 DIY 开源硬件。
 
 <img src="documents/figures/board_large.png" alt="image-20201009181905422" style="zoom:50%;" />
 
@@ -42,9 +42,9 @@ $ sdk-bsp-stm32h750-realthread-artpi
 - debug
   QSPI FLASH 下载算法等
 - documents
-  图纸，文档，图片以及 datasheets等
+  图纸，文档，图片以及 datasheets 等
 -  libraries
-  STM32H7固件库，通用外设驱动，rt_ota固件库，wlan固件库等
+  STM32H7 固件库，通用外设驱动，rt_ota 固件库，wlan 固件库等
 -  projects
   示例工程文件夹，包含出厂程序，网关程序等
 -  rt-thread
@@ -58,12 +58,13 @@ sdk-bsp-stm32h750-realthread-artpi 支持 RT-Thread Studio 和 MDK 开发
 ### RT-Thread Studio 开发
 
 
-1. 打开 RT-Thread Studio 的包管理器,安装 ART-PI SDK 资源包
+1. 打开 RT-Thread Studio 的包管理器，安装 ART-PI SDK 资源包
 
-  <img src="documents/figures/sdk_manager.png" alt="sdk_manager" style="zoom: 67%;" />
+    <img src="documents/figures/sdk_manager.png" alt="sdk_manager" style="zoom: 67%;" />
 
 
-2. 安装完成后 选择基于 BSP 创建工程即可
+2. 安装完成后，选择基于 BSP 创建工程即可
+
     <img src="documents\figures\creat_project.png" alt="image-20200926143024666" style="zoom:50%;" />
 
 ### MDK 开发
