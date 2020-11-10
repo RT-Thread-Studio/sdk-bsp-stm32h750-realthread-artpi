@@ -91,12 +91,20 @@ menu "Onboard Peripheral"
         select BSP_USING_UART4
         default n
 
+    config BSP_USING_SPI_FLASH
+        bool "Enable SPI FLASH (spi1)"
+        select BSP_USING_SPI
+        select BSP_USING_SPI1
+        select PKG_USING_FAL
+        select FAL_USING_SFUD_PORT
+        select RT_USING_SFUD
+        default n
+        
     config BSP_USING_WIFI
         bool "Enable wifi (AP6212)"
         select ART_PI_USING_WIFI_6212_LIB
         select ART_PI_USING_OTA_LIB
-        select BSP_USING_SPI
-        select BSP_USING_SPI1
+        select BSP_USING_SPI_FLASH
         select RT_USING_WIFI
         select RT_USING_SAL
         default n
@@ -122,11 +130,9 @@ menu "Onboard Peripheral"
                 default n
             config BSP_USING_SPI_FLASH_FS
                 bool "Enable SPI FLASH filesystem"
-                select BSP_USING_SPI
-                select BSP_USING_SPI1
-                select PKG_USING_FAL
-                select FAL_USING_SFUD_PORT
-                select RT_USING_SFUD
+                select BSP_USING_SPI_FLASH
+                select RT_USING_MTD_NOR
+                select PKG_USING_LITTLEFS
                 default n
         endif
 

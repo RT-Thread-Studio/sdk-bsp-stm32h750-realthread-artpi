@@ -7,6 +7,7 @@
  * Date           Author       Notes
  * 2018-01-30     armink       the first version
  * 2018-08-27     Murphy       update log
+ * 2020-11-07     wanghaijing  remove initialize SPI Flash
  */
 
 #include <rtthread.h>
@@ -34,24 +35,6 @@
 #include <drv_common.h>
 
 char *partition_name;
-
-static int rt_flash_init(void)
-{
-#include <spi_flash.h>
-#include <drv_spi.h>
-    extern rt_spi_flash_device_t rt_sfud_flash_probe(const char *spi_flash_dev_name, const char *spi_dev_name);
-    extern int fal_init(void);
-
-    rt_hw_spi_device_attach("spi1", "spi10", GPIOA, GPIO_PIN_4);
-
-    /* initialize SPI Flash device */
-    rt_sfud_flash_probe("norflash0", "spi10");
-
-    fal_init();
-
-    return 0;
-}
-INIT_ENV_EXPORT(rt_flash_init);
 
 static size_t update_file_total_size, update_file_cur_size;
 static const struct fal_partition * dl_part = RT_NULL;
