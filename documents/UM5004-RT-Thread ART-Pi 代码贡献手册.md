@@ -41,8 +41,8 @@
 - 参考 art_pi_blink_led 例程，复制该例程，并更名为相关的例程文件夹名，例如：art_pi_wifi
 
 ### 2. 开发阶段
-1. 按照例程需求，编写例程代码，代码编写需符合《[RT-Thread 编程风格](coding_style_cn.md)》，Git提交日志信息描述清晰
-2. 软件代码尽可能的简洁，保证用户看到的代码清晰，容易理解。在menuconfig 中也不要开启无关选项
+1. 按照例程需求，编写例程代码，代码编写需符合《[RT-Thread 编程风格](coding_style_cn.md)》，Git 提交日志信息描述清晰
+2. 软件代码尽可能的简洁，保证用户看到的代码清晰，容易理解。在 menuconfig 中也不要开启无关选项
    
     menuconfig 中目录名称说明
 ```
@@ -57,7 +57,7 @@
 ```
 
 3. 片上外设驱动统一放在 libraries\drivers 目录下 如 drv_eth.c
-4. 扩展板相关的组件 在libraries 目录下创建相关的文件夹,并放置相关代码 如：libraries/audio 目录下存放 drv_wm8988.c 以及 MP3 解码库
+4. 扩展板相关的组件在 libraries 目录下创建相关的文件夹，并放置相关代码 如：libraries/audio 目录下存放 drv_wm8988.c 以及 MP3 解码库
 5. 如果项目中使用到了软件包
   - 软件包的版本 **必须** 选择为 **release** 版本。如果没有，请联系管理员尽快发布
 - 项目工程 README
