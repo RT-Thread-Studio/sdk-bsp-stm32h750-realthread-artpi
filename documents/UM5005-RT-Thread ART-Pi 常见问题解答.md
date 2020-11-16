@@ -46,3 +46,9 @@
 ### A: 未添加下载算法导致，下载算法在 `"sdk-bsp-stm32h750-realthread-artpi\debug\flm\ART-Pi_W25Q64.FLM" `然后把`ART-Pi_W25Q64.FLM`拷贝到MDK安装目录`Keil_v5\ARM\Flash`下，注意`RAM for Algorithm` 需要调整成 `0x4000`
 
 ![mdk2](../documents/figures/mdk2.png)
+
+### Q8：使用 RTT Studio 编译示例工程失败
+![rttstudio_error1](../documents/figures/rttstudio_error1.png)
+
+### A:  请使用 RTT Studio 安装离线资源包，然后基于开发板创建方式创建示例工程。如何使用请参考  **UM5002-RT-Thread ART-Pi 开发手册.md**
+
