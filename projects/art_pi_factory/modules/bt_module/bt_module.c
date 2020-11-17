@@ -36,7 +36,8 @@ int bluetooth_firmware_check(void)
         LOG_E("%s partition is not exist, please check your configuration!", BT_FIRMWARE_PARTITION_NAME);
         return -1;
     }
-    { //update the bt_image
+    else
+    { //try to update the bt_image
         int result = 0;
         /* verify OTA download partition */
         if (rt_ota_init() >= 0 && rt_ota_part_fw_verify(fal_partition_find(RT_OTA_DL_PART_NAME)) >= 0)
