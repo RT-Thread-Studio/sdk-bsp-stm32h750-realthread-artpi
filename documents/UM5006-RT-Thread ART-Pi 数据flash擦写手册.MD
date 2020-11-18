@@ -16,7 +16,7 @@ ART-Pi 除了配备一颗 W25Q64JV 用于存放程序外,同时配备了另一�
 
 ART-Pi 出厂时数据 flash 中已经刷入相应的数据信息,但有时我们可能意外破坏或擦除上面的数据,此时就要重新写入数据,为此编写了数据 flash 的 stldr 下载算法,通过 STM32CubeProgrammer 加载下载算法可方便读写数据 flash.
 
-## STM32CubeProgrammer下载算法加载
+## STM32CubeProgrammer 下载算法加载
 
 将文件 ART-Pi SDK-->debug-->stldr-->ART-Pi_W25Q128JV.stldr 拷贝到 STM32CubeProgrammer 的外部 flash 算法目录(如: C:\Program Files\STMicroelectronics\STM32Cube\STM32CubeProgrammer\bin\ExternalLoader) 下
 
@@ -24,7 +24,7 @@ ART-Pi 出厂时数据 flash 中已经刷入相应的数据信息,但有时我�
 
 ![cubeprog2](./figures/cubeprog2.gif)
 
-## STM32CubeProgrammer擦写数据flash
+## STM32CubeProgrammer 擦写数据 flash
 
 本下载算法可以一次性擦除整块 flash,也可以按64KB块大小分别擦除.
 
