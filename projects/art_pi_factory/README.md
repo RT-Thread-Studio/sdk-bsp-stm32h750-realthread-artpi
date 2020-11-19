@@ -37,6 +37,8 @@ wifi和蓝牙固件的上传方式相同，可以通过终端进行ymodem传输�
 
 #### 网页文件
 
+网页源码仓库：[点击进入](https://github.com/WKJay/ART-Pi-WEB)
+
 网页文件存在于`/projects/art_pi_factory/applications/web_dist`目录下，不同于WIFI及蓝牙固件的上传，网页文件需要联网后通过 **adb** 工具进行上传,需要将`webnet`目录上传到开发板的`/flash/目录下`。具体的使用方法如下：
 [ADB 使用说明](https://github.com/heyuanjie87/adbd#readme)
 ![ADB](./figures/adb.gif)
