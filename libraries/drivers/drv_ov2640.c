@@ -22,14 +22,16 @@
 #include <drv_log.h>
 
 #define DEV_ADDRESS      0x30 /* OV2640 address */
-#define I2C_NAME        "i2c1"
+#define I2C_NAME        "i2c2"
 
 volatile rt_uint32_t jpeg_data_len = 0;
 volatile rt_uint8_t  jpeg_data_ok  = 0;
 struct rt_i2c_bus_device *i2c_bus  = RT_NULL;
 
 #define JPEG_BUF_SIZE   32 * 1024
-#define JPEG_LINE_SIZE  2 * 1024
+#define JPEG_LINE_SIZE  1 * 1024
+
+#define RESET_PIN  GET_PIN(A, 3)
 
 static rt_uint32_t *jpeg_data_buf = RT_NULL;
 static rt_uint32_t JPEG_LINE0_BUF[JPEG_LINE_SIZE * 2];
@@ -446,8 +448,8 @@ rt_uint8_t ov2640_set_image_window_size(rt_uint16_t offx, rt_uint16_t offy, rt_u
    temp|=(offy>>4)&0X70;
    temp|=(hsize>>5)&0X08;
    temp|=(offx>>8)&0X07;
-   write_reg(i2c_bus, 0X55,temp);             //设置H_SIZE/V_SIZE/OFFX,OFFY的高位
-   write_reg(i2c_bus, 0X57,(hsize>>2)&0X80);  //设置H_SIZE/V_SIZE/OFFX,OFFY的高位
+   write_reg(i2c_bus, 0X55,temp);
+   write_reg(i2c_bus, 0X57,(hsize>>2)&0X80);
    write_reg(i2c_bus, 0XE0,0X00);
    return 0;
 }
@@ -491,6 +493,7 @@ void camera_dma_data_process(void)
        }
        jpeg_data_len += JPEG_LINE_SIZE;
    }
+   SCB_CleanInvalidateDCache();
 }
 
 /* After a frame of picture data has been collected. */
@@ -524,25 +527,56 @@ void camera_frame_data_process(void)
        jpeg_data_len += rlen;
        jpeg_data_ok   = 1;
    }
+   if (jpeg_data_ok==2)
+   {
+       DMA2_Stream1->NDTR = JPEG_LINE_SIZE;
+       DMA2_Stream1->CR  |= 1<<0;
+       jpeg_data_ok  = 0;
+       jpeg_data_len = 0;
+   }
 }
 
 int rt_ov2640_init(void)
 {
     rt_uint16_t i = 0;
+    rt_err_t result = RT_EOK;
     rt_device_t dcmi_dev = RT_NULL;
+
+    /* ov2640 reset */
+    rt_pin_mode(RESET_PIN, PIN_MODE_OUTPUT);
+    rt_pin_write(RESET_PIN, PIN_LOW);
+    rt_thread_delay(20);
+    rt_pin_write(RESET_PIN, PIN_HIGH);
+    rt_thread_delay(20);
 
     i2c_bus = rt_i2c_bus_device_find(I2C_NAME);
     if (i2c_bus == RT_NULL)
     {
-        LOG_E("can't find %c deivce", I2C_NAME);
+        LOG_E("can't find %s deivce", I2C_NAME);
         return RT_ERROR;
     }
-
-    write_reg(i2c_bus, OV2640_DSP_RA_DLMT, 0x01);
+    /* Prepare the camera to be configured */
+    result = write_reg(i2c_bus, OV2640_DSP_RA_DLMT, 0x01);
+    if (result != RT_EOK )
+    {
+        LOG_E("ov2640 write reg error!");
+        return RT_ERROR;
+    }
     rt_thread_delay(10);
-    write_reg(i2c_bus, OV2640_SENSOR_COM7, 0x80);
+    result = write_reg(i2c_bus, OV2640_SENSOR_COM7, 0x80);
+    if (result != RT_EOK)
+    {
+        LOG_E("ov2640 soft reset error!");
+        return RT_ERROR;
+    }
+    rt_thread_delay(200);
 
-    ov2640_read_id(i2c_bus);
+    result = ov2640_read_id(i2c_bus);
+    if (result != RT_EOK )
+    {
+        LOG_E("ov2640 read id error!");
+        return RT_ERROR;
+    }
 
     for (i = 0; i < sizeof(ov2640_svga_init_reg_tbl) / 2; i++)
     {
@@ -577,17 +611,16 @@ int rt_ov2640_init(void)
     rt_hw_dcmi_dma_config((rt_uint32_t)JPEG_LINE0_BUF, (rt_uint32_t)JPEG_LINE1_BUF, JPEG_LINE_SIZE);
 
     rt_kprintf("camera init success!\n");
+
     return RT_EOK;
 }
 INIT_APP_EXPORT(rt_ov2640_init);
 
 int camera_sample(int argc, char **argv)
 {
-
    rt_err_t result = RT_EOK;
    int fd = -1;
    rt_uint32_t i, jpg_start, jpg_len;
-   rt_uint32_t tickstart = 0;
    rt_uint8_t jpg_head = 0;
    rt_uint8_t *p = RT_NULL;
 
@@ -598,71 +631,61 @@ int camera_sample(int argc, char **argv)
        return -1;
    }
 
-   jpeg_data_len = 0;
-   jpeg_data_ok = 0;
-
    DCMI_Start();
 
-   tickstart = rt_tick_get();
    while (1)
    {
-       if (rt_tick_get() - tickstart > 10000)
-       {
-           DCMI_Stop();
-           LOG_E("picture capture overtime!");
-           break;
-       }
+       while (jpeg_data_ok != 1);
+       jpeg_data_ok = 2;
+       while (jpeg_data_ok != 1);
+       DCMI_Stop();
 
-       if (jpeg_data_ok == 1)
+       p = (rt_uint8_t *)jpeg_data_buf;
+       jpg_len  = 0;
+       jpg_head = 0;
+       for (i = 0; i < jpeg_data_len * 4; i++)
        {
-           DCMI_Stop();
-           p = (rt_uint8_t *)jpeg_data_buf;
-           jpg_len  = 0;
-           jpg_head = 0;
-           for (i = 0; i < jpeg_data_len * 4; i++)
+           /* jpg head */
+           if ((p[i] == 0xFF) && (p[i + 1] == 0xD8))
            {
-               /* jpg head */
-               if ((p[i] == 0xFF) && (p[i + 1] == 0xD8))
-               {
-                   jpg_start = i;
-                   jpg_head = 1;
-               }
-               /* jpg end */
-               if ((p[i] == 0xFF) && (p[i + 1] == 0xD9) && jpg_head)
-               {
-                   jpg_len = i - jpg_start + 2; /* a picture len */
-                   break;
-               }
+               jpg_start = i;
+               jpg_head = 1;
            }
-           if (jpg_len)
+           /* jpg end */
+           if ((p[i] == 0xFF) && (p[i + 1] == 0xD9) && jpg_head)
            {
-               p += jpg_start;
-               fd = open(argv[1], O_WRONLY | O_CREAT);
-               if (fd < 0)
-               {
-                   rt_kprintf("open file for recording failed!\n");
-                   result = -RT_ERROR;
-                   goto _exit;
-               }
-               else
-               {
-                   write(fd, p, jpg_len);
-                   close(fd);
-                   rt_kprintf("picture capture complate!\n");
-                   break;
-               }
+               jpg_len = i - jpg_start + 2; /* a picture len */
+               break;
            }
-           else
+       }
+       if (jpg_len)
+       {
+           p += jpg_start;
+           fd = open(argv[1], O_WRONLY | O_CREAT);
+           if (fd < 0)
            {
-               rt_kprintf("jpg_len error!\n");
+               rt_kprintf("open file for recording failed!\n");
                result = -RT_ERROR;
                goto _exit;
            }
+           else
+           {
+               write(fd, p, jpg_len);
+               close(fd);
+               rt_kprintf("%s picture capture complate!\n", argv[1]);
+               break;
+           }
+       }
+       else
+       {
+           rt_kprintf("jpg_len error!\n");
+           result = -RT_ERROR;
+           goto _exit;
        }
    }
 
 _exit:
-    return result;;
+    return result;
 }
 MSH_CMD_EXPORT(camera_sample, record picture to a jpg file);
 
