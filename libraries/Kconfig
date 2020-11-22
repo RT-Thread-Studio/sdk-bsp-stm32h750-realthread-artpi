@@ -337,5 +337,12 @@ menu "External Libraries"
         select BSP_USING_LCD
         select RT_USING_CPLUSPLUS
         default n
+    
+    config ART_PI_USING_FTP_LIB
+        bool "Using FTP Library"
+        select RT_USING_SAL
+        select SAL_USING_POSIX
+        select RT_USING_DFS
+        default n
 
 endmenu
