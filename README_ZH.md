@@ -92,7 +92,9 @@ sdk-bsp-stm32h750-realthread-artpi 支持 RT-Thread Studio 和 MDK 开发
 
 ART-Pi  是一个开源创意硬件平台，期待有更多的小伙伴能一起发现更多的乐趣，在使用过程中若您有任何的想法和建议，建议您通过以下方式来联系到我们。
 
-RT-Thread [社区论坛](https://club.rt-thread.org/)。
+ART-Pi [官网](http://art-pi.gitee.io/website)。
+
+RT-Thread [社区论坛](https://club.rt-thread.org)。
 
 ART-Pi 官方交流 QQ 群(1016035998)。
 
@@ -102,3 +104,13 @@ ART-Pi 官方交流 QQ 群(1016035998)。
 
 如果您对 ART-Pi 感兴趣，并有一些好玩的项目愿意与大家分享，欢迎给我们贡献代码，您可以参考 [ART-Pi 代码贡献手册](https://github.com/RT-Thread-Studio/sdk-bsp-stm32h750-realthread-artpi/blob/master/documents/UM5004-RT-Thread%20ART-Pi%20%E4%BB%A3%E7%A0%81%E8%B4%A1%E7%8C%AE%E6%89%8B%E5%86%8C.md) 。
 
+## 参与项目
+
+可以参与哪些项目：
+- 维护现有 SDK 仓库代码
+- 提交工程代码可以合并到 SDK 仓库
+- 提交展示工程，代码无法合并到 SDK 仓库，但是代码开源在其他地方
+- 提交扩展板
+- 撰写专栏文章
+
+详情请参考：http://art-pi.gitee.io/website/docs/#/tutorial/share-guide
