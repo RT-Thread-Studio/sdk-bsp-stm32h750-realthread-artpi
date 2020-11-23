@@ -2,16 +2,16 @@
 
 ## 注意事项
 
-- 目前只提供了gcc的静态库
-- 推荐使用RT-Thread Studio开发
+- 目前只提供了 `gcc` 的静态库
+- 推荐使用 `RT-Thread Studio` 开发
 
 ## 快速上手
 
 1. `#include "ftp.h"`
 2. `ftp_init(2048, 27, 100);`
-3. 默认端口21，默认用户名和密码都为 loogg
+3. 默认端口 `21` ，默认用户名和密码都为 `loogg`
 
-## API介绍
+## API 介绍
 
 1. `ftp_get_max_session_num`
     获取最大客户端数量
@@ -50,7 +50,7 @@
     设置服务器监听端口
 
 13. `ftp_init`
-    初始化ftp服务
+    初始化 ftp 服务
 
 ## 动态设置参数
 
