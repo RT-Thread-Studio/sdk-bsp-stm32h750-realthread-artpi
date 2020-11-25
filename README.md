@@ -86,7 +86,7 @@ sdk-bsp-stm32h750-realthread-artpi supports RT-Thread Studio and MDK development
 
 ART-Pi is an open source creative hardware platform. We look forward to having more friends who can discover more fun together. If you have any ideas and suggestions during use, we suggest you contact us through the following methods.
 
-RT-Thread [Community Forum](https://club.rt-thread.org/).
+RT-Thread [Facebook](https://www.facebook.com/RT-Thread-IoT-OS-110395723808463).
 
 ## Contributing code
 
