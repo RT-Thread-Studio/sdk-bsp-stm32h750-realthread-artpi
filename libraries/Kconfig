@@ -18,12 +18,15 @@ menu "Board extended module"
         if ART_PI_USING_MEDIA_IO
             config BSP_USING_SPI_LCD_ILI9488
                 bool
+            config PKG_USING_PERSIMMON_SRC
+                bool
 
             config MEDIA_IO_USING_SCREEN
                 select BSP_USING_SPI
                 select BSP_USING_SPI2
                 select BSP_USING_SDRAM
                 select BSP_USING_SPI_LCD_ILI9488
+                select PKG_USING_PERSIMMON_SRC
                 bool "Enable Screen"
                 default y
             config MEDIA_IO_USING_TOUCH

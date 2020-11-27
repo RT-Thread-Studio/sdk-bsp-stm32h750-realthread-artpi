@@ -12,9 +12,10 @@
 #ifdef MEDIA_IO_USING_TOUCH
 
 #include "touch.h"
+#include <js_persim.h>
 
 #define DBG_TAG "touch"
-#define DBG_LVL DBG_LOG
+#define DBG_LVL DBG_INFO
 #include <rtdbg.h>
 
 rt_thread_t touch_thread;
@@ -30,20 +31,23 @@ void touch_thread_entry(void *parameter)
     {
         rt_device_read(touch, 0, read_data, 1);
 
-        if (read_data->event == RT_TOUCH_EVENT_DOWN)
+        if ((read_data->event == RT_TOUCH_EVENT_DOWN) || (read_data->event == RT_TOUCH_EVENT_MOVE))
         {
             LOG_D("down");
-            //rtgui_server_post_touch(read_data->x_coordinate, read_data->y_coordinate, 1);
+#ifdef PKG_USING_PERSIMMON_SRC
+            rtgui_server_post_touch(read_data->x_coordinate, read_data->y_coordinate, 1);
+#endif /* PKG_USING_PERSIMMON_SRC */
         }
 
         if (read_data->event == RT_TOUCH_EVENT_UP)
         {
             LOG_D("up");
-            //rtgui_server_post_touch(read_data->x_coordinate, read_data->y_coordinate, 0);
+#ifdef PKG_USING_PERSIMMON_SRC
+            rtgui_server_post_touch(read_data->x_coordinate, read_data->y_coordinate, 0);
+#endif /* PKG_USING_PERSIMMON_SRC */
         }
         rt_thread_delay(10);
     }
-
 }
 
 int touch_init(void)
@@ -71,7 +75,7 @@ int touch_init(void)
 
     return RT_EOK;
 }
-INIT_APP_EXPORT(touch_init);
+//INIT_APP_EXPORT(touch_init);
 
 #endif /* MEDIA_IO_USING_TOUCH */
 

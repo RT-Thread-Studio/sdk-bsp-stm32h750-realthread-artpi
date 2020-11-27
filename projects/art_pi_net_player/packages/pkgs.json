@@ -1,22 +1,47 @@
 [
  {
   "path": "/packages/iot/webclient", 
-  "ver": "latest", 
+  "ver": "v2.1.1", 
   "name": "WEBCLIENT"
  }, 
  {
+  "path": "/packages/iot/ezXML", 
+  "ver": "v0.8.6", 
+  "name": "EZXML"
+ }, 
+ {
+  "path": "/packages/security/mbedtls", 
+  "ver": "v2.7.10", 
+  "name": "MBEDTLS"
+ }, 
+ {
   "path": "/packages/multimedia/helix", 
-  "ver": "latest", 
+  "ver": "v1.0.0", 
   "name": "HELIX"
  }, 
  {
+  "path": "/packages/tools/EasyFlash", 
+  "ver": "v4.0.0", 
+  "name": "EASYFLASH"
+ }, 
+ {
   "path": "/packages/system/fal", 
-  "ver": "latest", 
+  "ver": "v0.5.0", 
   "name": "FAL"
  }, 
  {
+  "path": "/packages/system/littlefs", 
+  "ver": "v2.0.5", 
+  "name": "LITTLEFS"
+ }, 
+ {
   "path": "/packages/peripherals/touch/ft6236", 
-  "ver": "latest", 
+  "ver": "v1.0.0", 
   "name": "FT6236"
+ }, 
+ {
+  "path": "/packages/misc/fastlz", 
+  "ver": "v1.0.1", 
+  "name": "FASTLZ"
  }
 ]
