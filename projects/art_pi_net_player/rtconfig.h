@@ -57,6 +57,7 @@
 
 /* C++ features */
 
+#define RT_USING_CPLUSPLUS
 
 /* Command shell */
 
@@ -84,7 +85,7 @@
 
 /* elm-chan's FatFs, Generic FAT Filesystem Module */
 
-#define RT_DFS_ELM_CODE_PAGE 437
+#define RT_DFS_ELM_CODE_PAGE 936
 #define RT_DFS_ELM_WORD_ACCESS
 #define RT_DFS_ELM_USE_LFN_3
 #define RT_DFS_ELM_USE_LFN 3
@@ -107,6 +108,9 @@
 #define RT_USING_I2C
 #define RT_USING_I2C_BITOPS
 #define RT_USING_PIN
+#define RT_USING_MTD_NOR
+#define RT_USING_RTC
+#define RT_USING_SOFT_RTC
 #define RT_USING_SDIO
 #define RT_SDIO_STACK_SIZE 512
 #define RT_SDIO_THREAD_PRIORITY 15
@@ -166,7 +170,8 @@
 /* protocol stack implement */
 
 #define SAL_USING_LWIP
-#define SAL_SOCKETS_NUM 16
+#define SAL_USING_TLS
+#define SAL_USING_POSIX
 
 /* Network interface device */
 
@@ -197,11 +202,11 @@
 #define RT_LWIP_UDP
 #define RT_LWIP_TCP
 #define RT_LWIP_RAW
-#define RT_MEMP_NUM_NETCONN 8
-#define RT_LWIP_PBUF_NUM 16
+#define RT_MEMP_NUM_NETCONN 24
+#define RT_LWIP_PBUF_NUM 32
 #define RT_LWIP_RAW_PCB_NUM 4
 #define RT_LWIP_UDP_PCB_NUM 4
-#define RT_LWIP_TCP_PCB_NUM 4
+#define RT_LWIP_TCP_PCB_NUM 16
 #define RT_LWIP_TCP_SEG_NUM 40
 #define RT_LWIP_TCP_SND_BUF 8196
 #define RT_LWIP_TCP_WND 8196
@@ -236,9 +241,12 @@
 /* IoT - internet of things */
 
 #define PKG_USING_WEBCLIENT
-#define WEBCLIENT_NOT_USE_TLS
-#define PKG_USING_WEBCLIENT_LATEST_VERSION
-#define PKG_WEBCLIENT_VER_NUM 0x99999
+#define WEBCLIENT_USING_FILE_DOWMLOAD
+#define WEBCLIENT_USING_MBED_TLS
+#define PKG_USING_WEBCLIENT_V211
+#define PKG_WEBCLIENT_VER_NUM 0x20101
+#define PKG_USING_EZXML
+#define PKG_USING_EZXML_V068
 
 /* Wi-Fi */
 
@@ -253,6 +261,27 @@
 
 /* security packages */
 
+#define PKG_USING_MBEDTLS
+
+/* Select Root Certificate */
+
+#define PKG_USING_MBEDTLS_USE_ALL_CERTS
+#define PKG_USING_MBEDTLS_THAWTE_ROOT_CA
+#define PKG_USING_MBEDTLS_VERSIGN_PBULIC_ROOT_CA
+#define PKG_USING_MBEDTLS_VERSIGN_UNIVERSAL_ROOT_CA
+#define PKG_USING_MBEDTLS_GEOTRUST_ROOT_CA
+#define PKG_USING_MBEDTLS_DIGICERT_ROOT_CA
+#define PKG_USING_MBEDTLS_GODADDY_ROOT_CA
+#define PKG_USING_MBEDTLS_COMODOR_ROOT_CA
+#define PKG_USING_MBEDTLS_DST_ROOT_CA
+#define PKG_USING_MBEDTLS_CLOBALSIGN_ROOT_CA
+#define PKG_USING_MBEDTLS_ENTRUST_ROOT_CA
+#define MBEDTLS_AES_ROM_TABLES
+#define MBEDTLS_ECP_WINDOW_SIZE 2
+#define MBEDTLS_SSL_MAX_CONTENT_LEN 16384
+#define MBEDTLS_MPI_MAX_SIZE 1024
+#define MBEDTLS_CTR_DRBG_KEYSIZE 32
+#define PKG_USING_MBEDTLS_V2710
 
 /* language packages */
 
@@ -260,10 +289,19 @@
 /* multimedia packages */
 
 #define PKG_USING_HELIX
-#define PKG_USING_HELIX_LATEST_VERSION
+#define PKG_USING_HELIX_V100
 
 /* tools packages */
 
+#define PKG_USING_EASYFLASH
+#define PKG_EASYFLASH_ENV
+#define PKG_EASYFLASH_ERASE_GRAN 4096
+#define PKG_EASYFLASH_WRITE_GRAN_1BIT
+#define PKG_EASYFLASH_WRITE_GRAN 1
+#define PKG_EASYFLASH_START_ADDR 0
+#define PKG_EASYFLASH_DEBUG
+#define PKG_USING_EASYFLASH_V400
+#define PKG_EASYFLASH_VER_NUM 0x40000
 
 /* system packages */
 
@@ -273,17 +311,30 @@
 #define FAL_PART_HAS_TABLE_CFG
 #define FAL_USING_SFUD_PORT
 #define FAL_USING_NOR_FLASH_DEV_NAME "norflash0"
-#define PKG_USING_FAL_LATEST_VERSION
-#define PKG_FAL_VER_NUM 0x99999
+#define PKG_USING_FAL_V00500
+#define PKG_FAL_VER_NUM 0x00500
+#define PKG_USING_LITTLEFS
+#define PKG_USING_LITTLEFS_V205
+#define LFS_READ_SIZE 256
+#define LFS_PROG_SIZE 256
+#define LFS_BLOCK_SIZE 4096
+#define LFS_CACHE_SIZE 256
+#define LFS_BLOCK_CYCLES 0
+#define LFS_LOOKAHEAD_MAX 128
+
+/* Micrium: Micrium software products porting for RT-Thread */
+
 
 /* peripheral libraries and drivers */
 
 #define PKG_USING_TOUCH_DRIVERS
 #define PKG_USING_FT6236
-#define PKG_USING_FT6236_LATEST_VERSION
+#define PKG_USING_FT6236_V100
 
 /* miscellaneous packages */
 
+#define PKG_USING_FASTLZ
+#define PKG_USING_FASTLZ_V101
 
 /* samples: kernel and components samples */
 
@@ -297,6 +348,7 @@
 
 #define ART_PI_USING_MEDIA_IO
 #define BSP_USING_SPI_LCD_ILI9488
+#define PKG_USING_PERSIMMON_SRC
 #define MEDIA_IO_USING_SCREEN
 #define MEDIA_IO_USING_TOUCH
 #define MEDIA_IO_USING_AUDIO
@@ -309,6 +361,7 @@
 #define BSP_USING_WIFI
 #define BSP_USING_FS
 #define BSP_USING_SDCARD_FS
+#define BSP_USING_SPI_FLASH_FS
 
 /* On-chip Peripheral */
 
@@ -340,6 +393,7 @@
 
 #define ART_PI_USING_WIFI_6212_LIB
 #define ART_PI_USING_OTA_LIB
+#define ART_PI_USING_FTP_LIB
 #define RT_STUDIO_BUILT_IN
 
 #endif

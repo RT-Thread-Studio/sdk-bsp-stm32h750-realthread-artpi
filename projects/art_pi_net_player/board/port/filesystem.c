@@ -12,6 +12,10 @@
 #include <rtthread.h>
 
 #ifdef BSP_USING_FS
+
+#if RT_DFS_ELM_MAX_SECTOR_SIZE < 4096
+#error "Please define RT_DFS_ELM_MAX_SECTOR_SIZE more than 4096"
+#endif
 #if DFS_FILESYSTEMS_MAX < 4
 #error "Please define DFS_FILESYSTEMS_MAX more than 4"
 #endif
@@ -36,6 +40,8 @@ const struct romfs_dirent romfs_root = {
 
 #ifdef BSP_USING_SDCARD_FS
 
+rt_bool_t sdcard_mount_ok = RT_FALSE;
+
 /* SD Card hot plug detection pin */
 #define SD_CHECK_PIN GET_PIN(D, 5)
 
@@ -55,6 +61,7 @@ static void _sdcard_mount(void)
     {
         if (dfs_mount("sd0", "/sdcard", "elm", 0, 0) == RT_EOK)
         {
+            sdcard_mount_ok = RT_TRUE;
             LOG_I("sd card mount to '/sdcard'");
         }
         else
@@ -114,7 +121,6 @@ int mount_init(void)
 #endif
 
     flash_dev = fal_mtd_nor_device_create("filesystem");
-
     if (flash_dev)
     {
         //mount filesystem
@@ -154,8 +160,8 @@ int mount_init(void)
     {
         LOG_E("create sd_mount thread err!");
     }
-#endif
     return RT_EOK;
+#endif
 }
 INIT_APP_EXPORT(mount_init);
 
