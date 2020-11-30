@@ -77,9 +77,9 @@ static void _sdcard_unmount(void)
 
 static void sd_mount(void *parameter)
 {
-    rt_uint8_t re_sd_check_pin = 1;
-    rt_thread_mdelay(200);
-    if (rt_pin_read(SD_CHECK_PIN))
+    rt_uint8_t re_sd_check_pin = rt_pin_read(SD_CHECK_PIN);
+    rt_thread_mdelay(20);
+    if (re_sd_check_pin && (re_sd_check_pin = rt_pin_read(SD_CHECK_PIN)))
     {
         _sdcard_mount();
     }
