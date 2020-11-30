@@ -6,6 +6,8 @@
 
 界面采用的是`柿饼UI`，解码库用的`Helix`，网络音频数据从`网易云`获得。
 
+**本例程只支持 RT-Studio，不支持keil。**
+
 **界面有点简陋，不是柿饼的锅，是我刚刚接触柿饼不熟悉的缘故，有兴趣的小伙伴可以一起来鼓捣。**
 
 ## 硬件说明
@@ -114,3 +116,10 @@
 
 本例程用到了helix解码库，且网络数据源为网易云，仅供学习交流。
 
+
+
+## 联系人信息
+
+维护人:
+
+- [liuduanfei]([liuduanfei (liuduanfei) (github.com)](https://github.com/liuduanfei)), 邮箱：[939763442@qq.com](mailto:939763442@qq.com)
