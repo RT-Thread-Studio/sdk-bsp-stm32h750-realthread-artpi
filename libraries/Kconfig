@@ -304,11 +304,13 @@ menu "On-chip Peripheral"
         if BSP_USING_USBH
             menuconfig RT_USBH_MSTORAGE
                 bool "Enable Udisk Drivers"
+                select RT_USING_DFS
+                select RT_USING_DFS_ELMFAT
                 default n
                 if RT_USBH_MSTORAGE
                     config UDISK_MOUNTPOINT
-                    string "Udisk mount dir"
-                    default "/"
+                        string "Udisk mount dir"
+                        default "/"
                 endif
         endif
         
