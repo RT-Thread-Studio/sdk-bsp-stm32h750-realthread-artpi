@@ -7,6 +7,9 @@ MEMORY
 {
 ROM (rx) : ORIGIN =0x90000000,LENGTH =8192k
 RAM (rw) : ORIGIN =0x24000000,LENGTH =512k
+RxDecripSection (rw) : ORIGIN =0x30040000,LENGTH =32k
+TxDecripSection (rw) : ORIGIN =0x30040060,LENGTH =32k
+RxArraySection (rw) : ORIGIN =0x30040200,LENGTH =32k
 }
 ENTRY(Reset_Handler)
 _system_stack_size = 0x200;
@@ -51,6 +54,12 @@ SECTIONS
         KEEP(*(RtAtCmdTab))
         __rtatcmdtab_end = .;
         . = ALIGN(4);
+
+        /* section information for modules */
+        . = ALIGN(4);
+        __rtmsymtab_start = .;
+        KEEP(*(RTMSymTab))
+        __rtmsymtab_end = .;
 
         /* section information for initial. */
         . = ALIGN(4);
@@ -131,6 +140,33 @@ SECTIONS
         *(.bss.init)
     } > RAM
     __bss_end = .;
+
+    .RxDecripSection (NOLOAD) : ALIGN(4)
+    {
+    . = ALIGN(4);
+    *(.RxDecripSection)
+    *(.RxDecripSection.*)
+    . = ALIGN(4);
+    __RxDecripSection_free__ = .;
+    } > RxDecripSection
+    
+    .TxDecripSection (NOLOAD) : ALIGN(4)
+    {
+    . = ALIGN(4);
+    *(.TxDecripSection)
+    *(.TxDecripSection.*)
+    . = ALIGN(4);
+    __TxDecripSection_free__ = .;
+    } > TxDecripSection
+    
+    .RxArraySection (NOLOAD) : ALIGN(4)
+    {
+    . = ALIGN(4);
+    *(.RxArraySection)
+    *(.RxArraySection.*)
+    . = ALIGN(4);
+    __RxArraySection_free__ = .;
+    } > RxArraySection
 
     _end = .;
 
