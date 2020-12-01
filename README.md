@@ -6,8 +6,6 @@ sdk-bsp-stm32h750-realthread-artpi is a support package made by the RT-Thread te
 
 ART-Pi is a DIY open source hardware with extended functions specially designed for embedded software engineers and open source makers after half a year of careful preparation by the RT-Thread team.
 
-If you'd like to learn more about **ART-Pi** latest open source extension hardware and technology share articles, Please visit the [ART-Pi-Homepage](http://art-pi.gitee.io/website/).
-
 <img src="documents/figures/board_large.png" alt="image-20201009181905422" style="zoom:50%;" />
 
 ## Directory Structure
