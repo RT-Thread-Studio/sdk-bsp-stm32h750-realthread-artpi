@@ -255,15 +255,13 @@ menu "On-chip Peripheral"
         default n        
         select RT_USING_LWIP
         if BSP_USING_ETH
-            comment "Notice: PA3 --> 3"
             config ETH_RESET_PIN
-                int "ETH RESET PIN"
-                range 0 175
-                default 3
+                string "ETH RESET PIN"
+                default "PA.3"
         endif
         if BSP_USING_ETH
             choice
-                prompt "Choose Eth PHY"
+                prompt "Choose ETH PHY"
                 default PHY_USING_LAN8720A
                         config PHY_USING_LAN8720A
                     bool "USING LAN8720A"
