@@ -9,3 +9,4 @@ ART-Pi 开源项目如下表所示：
 | [art_pi_factory](./art_pi_factory) | 实现 webnet. ART-Pi 的出厂DEMO |
 | [art_pi_wifi](./art_pi_wifi) | 实现 wifi 联网 |
 | [industry_io_gateway](./industry_io_gateway) | 实现 modbustcp2rtu 及 ftp |
+| [art_pi_net_player](./art_pi_net_player) | 实现 MP3 音乐播放，支持本地音乐和网易云音乐 |
