@@ -6,7 +6,7 @@ sdk-bsp-stm32h750-realthread-artpi 是 RT-Thread 团队对 ART-Pi 开发板所�
 
 ART-Pi 是 RT-Thread 团队经过半年的精心准备，专门为嵌入式软件工程师、开源创客设计的一款极具扩展功能的 DIY 开源硬件。
 
-如果您想了解更多关于 **ART-Pi** 最新的开源扩展硬件及技术分享文章，请访问 [ART-Pi主页](http://art-pi.gitee.io/website/)。
+如果您想了解更多关于 **ART-Pi** 最新的开源扩展硬件及技术分享文章，请访问 [ART-Pi主页](https://art-pi.gitee.io/website/)。
 
 <img src="documents/figures/board_large.png" alt="image-20201009181905422" style="zoom:50%;" />
 
