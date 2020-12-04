@@ -13,8 +13,8 @@ board:
   large_image: documents/figures/board_large.png
   sale_contact_cn: https://www.rt-thread.org/
   sale_contact_global: https://www.rt-thread.org/
-  buy_url_cn: https://m.tb.cn/h.4ZFiklZ?sm=f83b6b
-  buy_url_global: https://m.tb.cn/h.4ZFiklZ?sm=f83b6b
+  buy_url_cn: https://item.taobao.com/item.htm?id=629477793246
+  buy_url_global: https://item.taobao.com/item.htm?id=629477793246
   price_cn: 189 CNY
   price_global: 27.99 USD
   debugger: ST-LINK
