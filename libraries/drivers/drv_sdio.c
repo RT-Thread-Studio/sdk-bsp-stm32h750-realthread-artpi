@@ -430,7 +430,8 @@ struct rt_mmcsd_host *sdio_host_create(struct stm32_sdio_des *sdio_des)
     host->private_data = sdio;
 
     /* ready to change */
-    mmcsd_change(host);
+    /* SD need manual change */
+    // mmcsd_change(host);
 
     return host;
 
@@ -487,6 +488,9 @@ int rt_hw_sdio_init(void)
         LOG_E("host2 create fail");
         return RT_NULL;
     }
+
+    /* wifi auto change */
+    mmcsd_change(host2);
 #endif
 
     return 0;
