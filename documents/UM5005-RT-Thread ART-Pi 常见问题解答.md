@@ -23,9 +23,33 @@
 
 ### Q4：为什么无法 debug 程序/为什么程序下载进去了不会运行
 
-### A：STM32H750 执行片外 QSPI FLASH 上的程序需要有一个 bootloader 来跳转过去，出厂前已经默认烧录了 bootloader，所以可以运行，如果不小心擦除了，请重新烧录 bootloader。bootloader 烧录成功之后会打印 logo
+程序编译成功，烧录成功，就是不运行，好气啊
+
+### A：重新烧录 bootloader
+
+`STM32H750` 执行片外 `QSPI FLASH` 上的程序需要有一个 `bootloader` 来跳转过去，出厂前已经默认烧录了 `bootloader`，所以可以运行，如果不小心擦除了，请重新烧录 `bootloader`。`bootloader` 烧录成功之后会打印 logo
 
 ![bootlogo](../documents/figures/bootlogo.png)
+
+> 我是使用了 `stm32Programmer` 烧录了一次，然后可能将里面的`bootloader` 擦除了，需要重新烧录一遍
+
+解决：
+
+1. 进入到 `sdk-bsp-stm32h750-realthread-artpi-master\projects\art_pi_bootloader` 路径下
+
+2. 拷贝 `../../rt-thread` 和 `../../libraries` 到当前目录
+
+3. 打开 env， 执行 `scons --target=mdk5`
+
+4. 打开 mdk5 工程，
+
+5. 修改
+
+   ![](https://gitee.com/lebhoryi/PicGoPictureBed/raw/master/img/20201204141257.png)
+
+6. 编译 烧录
+
+   ![](https://gitee.com/lebhoryi/PicGoPictureBed/raw/master/img/20201204104643.png)
 
 ### Q5: RTT Studio 报错
 
@@ -39,13 +63,23 @@
 
 ### A： STM32H7 目录下有2个版本的资源包，请打开下拉框取消其中一个勾选
 
-### Q7：使用MDK 下载程序失败
+### Q7：使用 MDK 编译成功，但是下载程序失败
 
-![mdk1](../documents/figures/mdk1.png)
+错误界面：
 
-### A: 未添加下载算法导致，下载算法在 `"sdk-bsp-stm32h750-realthread-artpi\debug\flm\ART-Pi_W25Q64.FLM" `然后把`ART-Pi_W25Q64.FLM`拷贝到MDK安装目录`Keil_v5\ARM\Flash`下，注意`RAM for Algorithm` 需要调整成 `0x4000`
+![](https://gitee.com/lebhoryi/PicGoPictureBed/raw/master/img/20201204102416.png)
 
-![mdk2](../documents/figures/mdk2.png)
+![img](https://git.rt-thread.com/research/edge-ai/uploads/708b22002df98027e6ff586ecf005059/image.png)
+
+### A: 未添加下载算法导致
+
+拷贝 `sdk-bsp-stm32h750-realthread-artpi\debug\flm\ART-Pi_W25Q64.FLM` 到 `<MDK安装目录>\ARM\Flash` 文件夹下
+
+同时，`RAM for Algorithm` 需要调整成 `0x4000`
+
+![image-20201204141924972](https://gitee.com/lebhoryi/PicGoPictureBed/raw/master/img/20201204141925.png)
+
+即可烧录成功
 
 ### Q8：使用 RTT Studio 编译示例工程失败
 ![rttstudio_error1](../documents/figures/rttstudio_error1.png)
