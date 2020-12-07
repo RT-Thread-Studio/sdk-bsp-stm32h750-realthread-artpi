@@ -31,15 +31,31 @@
 
 ![bootlogo](../documents/figures/bootlogo.png)
 
-> 我是使用了 `stm32Programmer` 烧录了一次，然后可能将里面的`bootloader` 擦除了，需要重新烧录一遍
+> 在使用Keil之前先了 `stm32Programmer` 烧录了一次，将里面的`bootloader` 直接擦除了，需要重新烧录一遍
 
 解决：
 
 1. 进入到 `sdk-bsp-stm32h750-realthread-artpi-master\projects\art_pi_bootloader` 路径下
 
-2. 拷贝 `../../rt-thread` 和 `../../libraries` 到当前目录
+2. 使用 [ENV](https://club.rt-thread.org/ask/question/5699.html) 工具执行 mklink 命令，分别为 `rt-thread` 及 `libraries` 文件创建符号链接
 
-3. 打开 env， 执行 `scons --target=mdk5`
+   ```shell
+   E:\project\sdk-bsp-stm32h750-realthread-artpi\projects\art_pi_blink_led>mklink /D rt-thread ..\..\rt-thread
+   symbolic link created for rt-thread <<===>> ..\..\rt-thread
+   
+   E:\project\sdk-bsp-stm32h750-realthread-artpi\projects>mklink /D libraries ..\..\libraries
+   symbolic link created for libraries <<===>> ..\..\libraries
+   ```
+
+   ---
+
+   如若上述失败，
+
+   备选方案（**不建议**）：
+
+   拷贝 `../../rt-thread` 和 `../../libraries` 到当前目录
+
+3. 使用 [ENV](https://club.rt-thread.org/ask/question/5699.html) 工具执行 `scons --target=mdk5`
 
 4. 打开 mdk5 工程，
 
