@@ -336,6 +336,24 @@ menu "On-chip Peripheral"
                 default n
         endif
 
+    menuconfig BSP_USING_PWM
+        bool "Enable PWM"
+        default n
+        select RT_USING_PWM
+        if BSP_USING_PWM
+        menuconfig BSP_USING_PWM5
+            bool "Enable Timer5 output pwm"
+            default n
+            if BSP_USING_PWM5
+                config BSP_USING_PWM5_CH1
+                    bool "Enable PWM5 channel1"
+                    default n
+            endif
+        config SAMPLES_USING_PWM
+            bool "SAMPLE PWM5 channel1"
+            default n
+        endif
+
     config BSP_USING_ONCHIP_RTC
         bool "Enable Onchip RTC"
         select RT_USING_RTC
