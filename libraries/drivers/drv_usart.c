@@ -7,6 +7,7 @@
  * Date           Author       Notes
  * 2018-10-30     SummerGift   first version
  * 2020-05-23     chenyaxing   modify stm32_uart_config
+ * 2020-12-08     wanghaijing  support uart1 dma
  */
 
 #include "string.h"
@@ -19,9 +20,7 @@
 
 #include <rtdevice.h>
 
-#if (defined(SOC_SERIES_STM32L0) || defined(SOC_SERIES_STM32H7)) && defined(RT_SERIAL_USING_DMA)
-#error "The STM32L0 and STM32H7 devices DO NOT support UART DMA feature."
-#elif defined(RT_SERIAL_USING_DMA)
+#if defined(RT_SERIAL_USING_DMA)
 #include "dma_config.h"
 #endif
 
@@ -34,43 +33,25 @@
 #endif /* DRV_DEBUG */
 #include <rtdbg.h>
 
-#if defined(SOC_SERIES_STM32F0) || defined(SOC_SERIES_STM32F1) || defined(SOC_SERIES_STM32L4) \
-    || defined(SOC_SERIES_STM32L0) || defined(SOC_SERIES_STM32L1) || defined(SOC_SERIES_STM32G0) || defined(SOC_SERIES_STM32G4)
-#define DMA_INSTANCE_TYPE              DMA_Channel_TypeDef
-#elif defined(SOC_SERIES_STM32F2) || defined(SOC_SERIES_STM32F4) || defined(SOC_SERIES_STM32F7) || defined(SOC_SERIES_STM32H7)
+#if defined(SOC_SERIES_STM32H7)
 #define DMA_INSTANCE_TYPE              DMA_Stream_TypeDef
-#endif /*  defined(SOC_SERIES_STM32F1) || defined(SOC_SERIES_STM32L4) */
+#endif
 
-#if defined(SOC_SERIES_STM32F1) || defined(SOC_SERIES_STM32L4) || defined(SOC_SERIES_STM32F2) \
-    || defined(SOC_SERIES_STM32F4) || defined(SOC_SERIES_STM32L0) ||  defined(SOC_SERIES_STM32L1) \
-    || defined(SOC_SERIES_STM32G0) || defined(SOC_SERIES_STM32G4)
-#define UART_INSTANCE_CLEAR_FUNCTION    __HAL_UART_CLEAR_FLAG
-#elif defined(SOC_SERIES_STM32F7) || defined(SOC_SERIES_STM32F0) || defined(SOC_SERIES_STM32H7)
+#if defined(SOC_SERIES_STM32H7)
 #define UART_INSTANCE_CLEAR_FUNCTION    __HAL_UART_CLEAR_IT
 #endif
 
 #ifdef RT_SERIAL_USING_DMA
 /* --------------------------  DMA   config  -------------------------- */
-#if defined(SOC_SERIES_STM32F0) || defined(SOC_SERIES_STM32F1) || defined(SOC_SERIES_STM32L0) \
-    || defined(SOC_SERIES_STM32L4) || defined(SOC_SERIES_STM32G0) || defined(SOC_SERIES_STM32G4)
-#define DMA_INSTANCE_TYPE              DMA_Channel_TypeDef
-#elif defined(SOC_SERIES_STM32F2) || defined(SOC_SERIES_STM32F4) || defined(SOC_SERIES_STM32F7)\
-    || defined(SOC_SERIES_STM32H7)
+#if defined(SOC_SERIES_STM32H7)
 #define DMA_INSTANCE_TYPE              DMA_Stream_TypeDef
-#endif /*  defined(SOC_SERIES_STM32F1) || defined(SOC_SERIES_STM32L4) */
+#endif
 
 struct dma_config {
     DMA_INSTANCE_TYPE *Instance;
     rt_uint32_t dma_rcc;
     IRQn_Type dma_irq;
-
-#if defined(SOC_SERIES_STM32F2) || defined(SOC_SERIES_STM32F4) || defined(SOC_SERIES_STM32F7)
-    rt_uint32_t channel;
-#endif
-
-#if defined(SOC_SERIES_STM32L4) || defined(SOC_SERIES_STM32G0) || defined(SOC_SERIES_STM32G4)
     rt_uint32_t request;
-#endif
 };
 #endif
 
@@ -598,9 +579,7 @@ static int stm32_putc(struct rt_serial_device *serial, char c)
 
     uart = rt_container_of(serial, struct stm32_uart, serial);
     UART_INSTANCE_CLEAR_FUNCTION(&(uart->handle), UART_FLAG_TC);
-#if defined(SOC_SERIES_STM32L4) || defined(SOC_SERIES_STM32F7) || defined(SOC_SERIES_STM32F0) \
-    || defined(SOC_SERIES_STM32L0) || defined(SOC_SERIES_STM32G0) || defined(SOC_SERIES_STM32H7) \
-    || defined(SOC_SERIES_STM32G4)
+#if defined(SOC_SERIES_STM32H7)
     uart->handle.Instance->TDR = c;
 #else
     uart->handle.Instance->DR = c;
@@ -698,6 +677,10 @@ static void uart_isr(struct rt_serial_device *serial)
 
         if (recv_len)
         {
+            if(serial->parent.open_flag & RT_DEVICE_FLAG_DMA_RX)
+            {
+                SCB_InvalidateDCache();
+            }
             rt_hw_serial_isr(serial, RT_SERIAL_EVENT_RX_DMADONE | (recv_len << 8));
         }
         __HAL_UART_CLEAR_IDLEFLAG(&uart->handle);
@@ -787,6 +770,10 @@ static void dma_isr(struct rt_serial_device *serial)
 
         if (recv_len)
         {
+            if(serial->parent.open_flag & RT_DEVICE_FLAG_DMA_RX)
+            {
+                SCB_InvalidateDCache();
+            }
             rt_hw_serial_isr(serial, RT_SERIAL_EVENT_RX_DMADONE | (recv_len << 8));
         }
     }
@@ -1140,22 +1127,11 @@ static void stm32_dma_config(struct rt_serial_device *serial, rt_ubase_t flag)
 
     {
         rt_uint32_t tmpreg = 0x00U;
-#if defined(SOC_SERIES_STM32F1) || defined(SOC_SERIES_STM32F0) || defined(SOC_SERIES_STM32G0) \
-    || defined(SOC_SERIES_STM32L0)
-        /* enable DMA clock && Delay after an RCC peripheral clock enabling*/
-        SET_BIT(RCC->AHBENR, dma_config->dma_rcc);
-        tmpreg = READ_BIT(RCC->AHBENR, dma_config->dma_rcc);
-#elif defined(SOC_SERIES_STM32F4) || defined(SOC_SERIES_STM32F7) || defined(SOC_SERIES_STM32L4) \
-    || defined(SOC_SERIES_STM32G4)
+
+#if defined(SOC_SERIES_STM32H7)
         /* enable DMA clock && Delay after an RCC peripheral clock enabling*/
         SET_BIT(RCC->AHB1ENR, dma_config->dma_rcc);
         tmpreg = READ_BIT(RCC->AHB1ENR, dma_config->dma_rcc);
-
-#if (defined(SOC_SERIES_STM32L4) || defined(SOC_SERIES_STM32G4)) && defined(DMAMUX1)
-        /* enable DMAMUX clock for L4+ and G4 */
-        __HAL_RCC_DMAMUX1_CLK_ENABLE();
-#endif
-
 #endif
         UNUSED(tmpreg);   /* To avoid compiler warnings */
     }
@@ -1169,12 +1145,7 @@ static void stm32_dma_config(struct rt_serial_device *serial, rt_ubase_t flag)
         __HAL_LINKDMA(&(uart->handle), hdmatx, uart->dma_tx.handle);
     }
 
-#if defined(SOC_SERIES_STM32F1) || defined(SOC_SERIES_STM32F0) || defined(SOC_SERIES_STM32L0)
-    DMA_Handle->Instance                 = dma_config->Instance;
-#elif defined(SOC_SERIES_STM32F4) || defined(SOC_SERIES_STM32F7)
-    DMA_Handle->Instance                 = dma_config->Instance;
-    DMA_Handle->Init.Channel             = dma_config->channel;
-#elif defined(SOC_SERIES_STM32L4) || defined(SOC_SERIES_STM32G0) || defined(SOC_SERIES_STM32G4)
+#if defined(SOC_SERIES_STM32H7)
     DMA_Handle->Instance                 = dma_config->Instance;
     DMA_Handle->Init.Request             = dma_config->request;
 #endif
@@ -1195,7 +1166,7 @@ static void stm32_dma_config(struct rt_serial_device *serial, rt_ubase_t flag)
     }
 
     DMA_Handle->Init.Priority            = DMA_PRIORITY_MEDIUM;
-#if defined(SOC_SERIES_STM32F4) || defined(SOC_SERIES_STM32F7)
+#if defined(SOC_SERIES_STM32H7)
     DMA_Handle->Init.FIFOMode            = DMA_FIFOMODE_DISABLE;
 #endif
     if (HAL_DMA_DeInit(DMA_Handle) != HAL_OK)
