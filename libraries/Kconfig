@@ -116,6 +116,13 @@ menu "Onboard Peripheral"
         select BSP_USING_I2C2
         default n
 
+    config BSP_USING_GC0328C
+        bool "Enable camera (gc0328)"
+        select BSP_USING_DCMI
+        select BSP_USING_I2C
+        select BSP_USING_I2C2
+        default n
+
     menuconfig BSP_USING_FS
         bool "Enable filesystem"
         select RT_USING_DFS

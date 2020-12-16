@@ -1,0 +1,12 @@
+[
+ {
+  "path": "/packages/multimedia/helix", 
+  "ver": "v1.0.0", 
+  "name": "HELIX"
+ }, 
+ {
+  "path": "/packages/peripherals/touch/ft6236", 
+  "ver": "latest", 
+  "name": "FT6236"
+ }
+]

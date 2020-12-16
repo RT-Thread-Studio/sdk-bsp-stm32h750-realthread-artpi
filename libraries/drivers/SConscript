@@ -27,6 +27,9 @@ if GetDepend(['BSP_USING_DCMI']):
 if GetDepend(['BSP_USING_OV2640']):
     src += Glob('drv_ov2640.c')
 
+if GetDepend(['BSP_USING_GC0328C']):
+    src += Glob('drv_gc0328c.c')
+
 if GetDepend(['BSP_USING_TIM']):
     src += Glob('drv_hwtimer.c')
     
