@@ -1,0 +1,17 @@
+Import('RTT_ROOT')
+Import('rtconfig')
+from building import *
+
+cwd   = GetCurrentDir()
+include_path = [cwd]
+
+src = Split('''
+multi_rtimer.c
+''')
+
+if GetDepend(['MULTI_RTIMER_USING_RTC_SYSTIME_SERVICE']):
+    src += ['rtc_systime_service.c']
+
+group = DefineGroup('multi_rtimer', src, depend = ['PKG_USING_MULTI_RTIMER'], CPPPATH = include_path)
+
+Return('group')

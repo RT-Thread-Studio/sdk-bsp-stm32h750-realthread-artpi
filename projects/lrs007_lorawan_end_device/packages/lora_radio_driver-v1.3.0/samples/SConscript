@@ -1,0 +1,14 @@
+from building import *
+
+src   = []
+cwd   = GetCurrentDir()
+include_path = [cwd]
+
+
+if GetDepend('LORA_RADIO_DRIVER_USING_LORA_RADIO_TEST_SHELL'):
+    src += Glob('lora-radio-test-shell/lora-radio-test-shell.c')
+
+
+group = DefineGroup('lora-radio-driver/sample', src, depend = ['PKG_USING_LORA_RADIO_DRIVER'], CPPPATH = include_path)
+
+Return('group')

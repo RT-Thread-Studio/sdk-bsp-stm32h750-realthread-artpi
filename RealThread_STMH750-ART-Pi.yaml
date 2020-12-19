@@ -239,3 +239,45 @@ example_projects:
     source_path_offset: ''
     target_path_offset: ''
     files_and_folders: []
+- project_name: lrs007_lora_radio
+  project_description: creat this peoject if user choose rt-thread project
+  project_type: rt-thread|@full|@4.0.3
+  builtin_files:
+  - source_path_offset: projects/lrs007_lora_radio
+    target_path_offset: ''
+    files_and_folders:
+    - "*"
+  - source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders:
+    - libraries
+    - rt-thread
+  external_files:
+  - package_type: Chip_Support_Packages
+    package_vendor: RealThread
+    package_name: STM32H7
+    package_version: 0.1.9
+    source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders: []
+- project_name: lrs007_lorawan_end_device
+  project_description: creat this peoject if user choose rt-thread project
+  project_type: rt-thread|@full|@4.0.3
+  builtin_files:
+  - source_path_offset: projects/lrs007_lorawan_end_device
+    target_path_offset: ''
+    files_and_folders:
+    - "*"
+  - source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders:
+    - libraries
+    - rt-thread
+  external_files:
+  - package_type: Chip_Support_Packages
+    package_vendor: RealThread
+    package_name: STM32H7
+    package_version: 0.1.9
+    source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders: []

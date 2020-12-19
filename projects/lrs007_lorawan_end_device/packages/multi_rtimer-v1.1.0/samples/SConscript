@@ -1,0 +1,14 @@
+Import('RTT_ROOT')
+Import('rtconfig')
+from building import *
+
+cwd   = GetCurrentDir()
+src = []
+include_path = [cwd]
+
+if GetDepend(['MULTI_RTIMER_USING_TEST_SAMPLE']):
+    src += ['multi_rtimer_test_sample.c']
+
+group = DefineGroup('multi_rtimer/samples', src, depend = ['PKG_USING_MULTI_RTIMER'], CPPPATH = include_path)
+
+Return('group')

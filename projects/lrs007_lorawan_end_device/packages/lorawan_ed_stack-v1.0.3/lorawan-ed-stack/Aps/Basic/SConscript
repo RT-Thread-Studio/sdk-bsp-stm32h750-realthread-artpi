@@ -1,0 +1,19 @@
+from building import *
+
+src   = []
+cwd   = GetCurrentDir()
+include_path = [cwd]
+
+src += Split('''
+	lorawan-ed-aps.c
+''')
+
+# add lorawan compalic
+if GetDepend('LORAWAN_ED_STACK_CERTIFICATE_TEST_ENABLE'):
+    src += Split('''
+	lorawan-ed-certificate.c
+	''')
+
+group = DefineGroup('lorawan-ed-stack/aps', src, depend = ['PKG_USING_LORAWAN_ED_STACK'], CPPPATH = include_path)
+
+Return('group')

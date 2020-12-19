@@ -1,0 +1,32 @@
+from building import *
+
+src   = []
+cwd   = GetCurrentDir()
+include_path = [cwd]
+include_path += [cwd+'/Crypto']
+
+# add lorawan mac (included class A and class C)
+#if GetDepend('PKG_USING_LORAWAN_DEVICE_CLASS_A'):
+src += Split('''
+	LoRaMac.c
+	LoRaMacAdr.c
+	LoRaMacCommands.c
+	LoRaMacConfirmQueue.c
+	LoRaMacCrypto.c
+	LoRaMacParser.c
+	LoRaMacSerializer.c
+	Crypto/aes.c
+	Crypto/cmac.c
+	Crypto/soft-se.c
+	
+''')
+
+# add Class B
+if GetDepend('LORAWAN_ED_STACK_USING_DEVICE_TYPE_CLASS_B'):
+    src += Split('''
+	LoRaMacClassB.c
+	''')
+
+group = DefineGroup('loramac-ed-stack/mac', src, depend = ['PKG_USING_LORAWAN_ED_STACK'], CPPPATH = include_path)
+
+Return('group')
