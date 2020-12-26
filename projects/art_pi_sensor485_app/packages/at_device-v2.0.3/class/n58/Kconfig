@@ -1,0 +1,37 @@
+
+# N58 AT device configuration
+menuconfig AT_DEVICE_USING_N58
+    bool "neoway N58"
+    default n
+
+if AT_DEVICE_USING_N58
+
+    config AT_DEVICE_N58_INIT_ASYN
+        bool "Enable initialize by thread"
+        default n
+
+    config AT_DEVICE_N58_SAMPLE
+        bool "Enable sample"
+        default y
+
+    if AT_DEVICE_N58_SAMPLE
+
+       config N58_SAMPLE_POWER_PIN
+            int "Power pin"
+            default -1
+
+        config N58_SAMPLE_STATUS_PIN
+            int "Power status pin"
+            default -1
+
+        config N58_SAMPLE_CLIENT_NAME
+            string "AT client device name"
+            default "uart3"
+
+        config N58_SAMPLE_RECV_BUFF_LEN
+            int "The maximum length of receive line buffer"
+            default 512
+
+    endif
+
+endif
