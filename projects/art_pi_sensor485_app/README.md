@@ -55,8 +55,10 @@ int main(void)
 
 正常运行后，配置完 wifi 与路由器连接的名称和密码，向串口6发送16进制数据，就可以在App里看到数据了。
 
-[展示视频](https://www.bilibili.com/video/BV17T4y1M792)
+[展示视频](https://www.bilibili.com/video/BV17T4y1M792)  
 
+手机 app 目前只用作显示数据，另有三个按键可供大家自由玩耍。（主题已在app源码中注释）  
+![art-pi1](figures/art-pi3.png)
 ## 注意事项
 
 **1. 注意先添加串口再进行连接路由器。**
