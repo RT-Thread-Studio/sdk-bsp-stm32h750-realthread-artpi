@@ -28,6 +28,7 @@
 
 static struct rt_mmcsd_host *host1;
 static struct rt_mmcsd_host *host2;
+static rt_mutex_t mmcsd_mutex = RT_NULL;
 
 #define SDIO_TX_RX_COMPLETE_TIMEOUT_LOOPS    (1000000)
 
@@ -265,6 +266,9 @@ static void rthw_sdio_request(struct rt_mmcsd_host *host, struct rt_mmcsd_req *r
     struct rthw_sdio *sdio = host->private_data;
     struct rt_mmcsd_data *data;
 
+
+    rt_mutex_take(mmcsd_mutex, RT_WAITING_FOREVER);
+
     if (req->cmd != RT_NULL)
     {
         rt_memset(&pkg, 0, sizeof(pkg));
@@ -294,6 +298,8 @@ static void rthw_sdio_request(struct rt_mmcsd_host *host, struct rt_mmcsd_req *r
     }
 
     mmcsd_req_complete(sdio->host);
+
+    rt_mutex_release(mmcsd_mutex);
 }
 
 
@@ -430,7 +436,6 @@ struct rt_mmcsd_host *sdio_host_create(struct stm32_sdio_des *sdio_des)
     host->private_data = sdio;
 
     /* ready to change */
-    /* SD need manual change */
     // mmcsd_change(host);
 
     return host;
@@ -488,10 +493,13 @@ int rt_hw_sdio_init(void)
         LOG_E("host2 create fail");
         return RT_NULL;
     }
-
-    /* wifi auto change */
-    mmcsd_change(host2);
 #endif
+    mmcsd_mutex = rt_mutex_create("mmutex", RT_IPC_FLAG_FIFO);
+    if (mmcsd_mutex == RT_NULL)
+    {
+        rt_kprintf("create mmcsd mutex failed.\n");
+        return -1;
+    }
 
     return 0;
 }
