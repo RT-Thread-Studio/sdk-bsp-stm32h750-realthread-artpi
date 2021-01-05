@@ -1,6 +1,6 @@
 ---
 yaml_version: 3
-pkg_version: 1.1.0
+pkg_version: 1.2.0
 pkg_vendor: RealThread
 pkg_type: Board_Support_Packages
 board:
@@ -265,6 +265,11 @@ example_projects:
   project_type: rt-thread|@full|@4.0.3
   builtin_files:
   - source_path_offset: projects/lrs007_lorawan_end_device
+- project_name: art_pi_sensor485_app
+  project_description: creat this peoject if user choose rt-thread project
+  project_type: rt-thread|@full|@4.0.3
+  builtin_files:
+  - source_path_offset: projects/art_pi_sensor485_app
     target_path_offset: ''
     files_and_folders:
     - "*"
