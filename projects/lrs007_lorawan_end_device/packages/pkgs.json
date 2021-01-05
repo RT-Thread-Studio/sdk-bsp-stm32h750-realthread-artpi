@@ -1,0 +1,22 @@
+[
+ {
+  "path": "/packages/iot/lorawan_ed_stack", 
+  "ver": "v1.0.3", 
+  "name": "LORAWAN_ED_STACK"
+ }, 
+ {
+  "path": "/packages/peripherals/littled", 
+  "ver": "latest", 
+  "name": "LITTLED"
+ }, 
+ {
+  "path": "/packages/peripherals/multi_rtimer", 
+  "ver": "v1.1.0", 
+  "name": "MULTI_RTIMER"
+ }, 
+ {
+  "path": "/packages/peripherals/lora_radio_driver", 
+  "ver": "v1.3.0", 
+  "name": "LORA_RADIO_DRIVER"
+ }
+]

@@ -1,0 +1,15 @@
+Import('RTT_ROOT')
+Import('rtconfig')
+from building import *
+
+cwd   = GetCurrentDir()
+src = []
+include_path = [cwd]
+
+if GetDepend(['MULTI_RTIMER_USING_TRAGET_MCU_STM32_RTC']):
+    src += ['stm32_rtc_adapter/hw_rtc_stm32.c']
+    include_path += ['stm32_rtc_adapter']
+
+group = DefineGroup('multi_rtimer/stm32_adapter', src, depend = ['PKG_USING_MULTI_RTIMER'], CPPPATH = include_path)
+
+Return('group')

@@ -1,0 +1,24 @@
+from building import *
+
+src   = []
+cwd   = GetCurrentDir()
+include_path = [cwd]
+
+# add lorawan mac (included class a and class c)
+
+src += Split('''
+utilities.c
+''')
+
+
+# add lorawan regional paramters
+if GetDepend('LORAWAN_ED_STACK_DEBUG_TRACE'):
+    src += Split('''
+    queue.c
+	trace.c
+	''')
+
+
+group = DefineGroup('lorawan-ed-stack/common', src, depend = ['PKG_USING_LORAWAN_ED_STACK'], CPPPATH = include_path)
+
+Return('group')

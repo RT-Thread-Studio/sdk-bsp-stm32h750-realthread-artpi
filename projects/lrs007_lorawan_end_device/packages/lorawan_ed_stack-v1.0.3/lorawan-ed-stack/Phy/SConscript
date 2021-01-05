@@ -1,0 +1,30 @@
+from building import *
+
+src   = []
+cwd   = GetCurrentDir()
+include_path = [cwd]
+
+src += Split('''
+	region/Region.c
+	region/RegionCommon.c
+''')
+
+# add lorawan regional paramters
+if GetDepend('REGION_CN470'):
+    src += Split('''
+	region/RegionCN470.c
+	''')
+
+if GetDepend('REGION_CN470S'):
+    src += Split('''
+	region/RegionCN470S.c
+	''')
+
+if GetDepend('REGION_EU868'):
+    src += Split('''
+	region/RegionEU868.c
+	''')  
+
+group = DefineGroup('lorawan-ed-stack/phy/region', src, depend = ['PKG_USING_LORAWAN_ED_STACK'], CPPPATH = include_path)
+
+Return('group')
