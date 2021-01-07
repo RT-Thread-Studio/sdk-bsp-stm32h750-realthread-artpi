@@ -52,7 +52,17 @@
 
 ## 使用 MDK 开发应用
 
+如果您使用 **MDK** 进行开发，需要为 `project` 创建 `rt-thread` `libraries` 创建文件夹链接，有以下两种方式：
+
 首先进入工程目录。如：sdk-bsp-stm32h750-realthread-artpi\projects\art_pi_blink_led
+
+##### 方法一：
+
+执行工程目录(例如：sdk-bsp-stm32h750-realthread-artpi\projects\art_pi_blink_led)下的 `mklinks.bat`,双击运行即可看到以下两个文件夹，表示链接成功。
+
+![](./figures/mklinks.png)
+
+##### 方法二：
 
 如图所示以管理员身份打开 PowerShell：
 
