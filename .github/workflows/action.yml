@@ -21,6 +21,9 @@ on:
       - '**/README.md'
       - '**/README_ZH.md'
 
+env:
+  RTT_TOOL_CHAIN: "sourcery-arm"
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -40,19 +43,23 @@ jobs:
           python -c "from rt_thread_studio import bsp_checker;bsp_path = '.';checker = bsp_checker.BspChecker(bsp_path);checker.check();"
       
   compile:
+    needs: [check]
     runs-on: ubuntu-latest
     name: ${{ matrix.legs.RTT_BSP }}
     strategy:
       fail-fast: false
       matrix:
        legs:
-         - {RTT_BSP: "projects/art_pi_blink_led", RTT_TOOL_CHAIN: "sourcery-arm"}
-         - {RTT_BSP: "projects/art_pi_bootloader", RTT_TOOL_CHAIN: "sourcery-arm"}
-         - {RTT_BSP: "projects/art_pi_wifi", RTT_TOOL_CHAIN: "sourcery-arm"}
-         - {RTT_BSP: "projects/industry_io_gateway", RTT_TOOL_CHAIN: "sourcery-arm"}
-         - {RTT_BSP: "projects/art_pi_factory", RTT_TOOL_CHAIN: "sourcery-arm"}
-         - {RTT_BSP: "projects/art_pi_net_player", RTT_TOOL_CHAIN: "sourcery-arm"}
-         - {RTT_BSP: "projects/art_pi_gc0328c_camera", RTT_TOOL_CHAIN: "sourcery-arm"}
+         - {RTT_BSP: "art_pi_blink_led"}
+         - {RTT_BSP: "art_pi_bootloader"}
+         - {RTT_BSP: "art_pi_factory"}
+         - {RTT_BSP: "art_pi_gc0328c_camera"}
+         - {RTT_BSP: "art_pi_net_player"}
+         - {RTT_BSP: "sensor485_app"}
+         - {RTT_BSP: "art_pi_wifi"}
+         - {RTT_BSP: "industry_io_gateway"}
+         - {RTT_BSP: "lrs007_lora_radio"}
+         - {RTT_BSP: "lrs007_lorawan_end_device"}
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -61,7 +68,7 @@ jobs:
           python-version: 3.8
     
       - name: Install Arm ToolChains
-        if: ${{ matrix.legs.RTT_TOOL_CHAIN == 'sourcery-arm' && success() }}
+        if: ${{ success() }}
         shell: bash
         run: |
           wget -q https://github.com/RT-Thread/toolchains-ci/releases/download/arm-2017q2-v6/gcc-arm-none-eabi-6-2017-q2-update-linux.tar.bz2 
@@ -83,6 +90,6 @@ jobs:
         shell: bash
         env:
           RTT_BSP: ${{ matrix.legs.RTT_BSP }}
-          RTT_TOOL_CHAIN: ${{ matrix.legs.RTT_TOOL_CHAIN }}
         run: |
+          cd projects
           scons -C $RTT_BSP
