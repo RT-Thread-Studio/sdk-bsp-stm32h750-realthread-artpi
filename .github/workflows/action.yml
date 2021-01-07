@@ -1,0 +1,88 @@
+name: STM32H750-ART-Pi
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  # Runs at 16:00 UTC (BeiJing 00:00) on the 1st of every month
+  schedule:
+    - cron:  '0 16 1 * *'
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - documentation/**
+      - '**/README.md'
+      - '**/README_ZH.md'
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - documentation/**
+      - '**/README.md'
+      - '**/README_ZH.md'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    name: check-yaml-format
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@master
+        with:
+          python-version: 3.8
+
+      - name: Check yaml
+        if: ${{ success() }}
+        shell: bash
+        run: |
+          pip install rt-thread-studio
+          python -c "from rt_thread_studio import bsp_checker;bsp_path = '.';checker = bsp_checker.BspChecker(bsp_path);checker.check();"
+      
+  compile:
+    runs-on: ubuntu-latest
+    name: ${{ matrix.legs.RTT_BSP }}
+    strategy:
+      fail-fast: false
+      matrix:
+       legs:
+         - {RTT_BSP: "projects/art_pi_blink_led", RTT_TOOL_CHAIN: "sourcery-arm"}
+         - {RTT_BSP: "projects/art_pi_bootloader", RTT_TOOL_CHAIN: "sourcery-arm"}
+         - {RTT_BSP: "projects/art_pi_wifi", RTT_TOOL_CHAIN: "sourcery-arm"}
+         - {RTT_BSP: "projects/industry_io_gateway", RTT_TOOL_CHAIN: "sourcery-arm"}
+         - {RTT_BSP: "projects/art_pi_factory", RTT_TOOL_CHAIN: "sourcery-arm"}
+         - {RTT_BSP: "projects/art_pi_net_player", RTT_TOOL_CHAIN: "sourcery-arm"}
+         - {RTT_BSP: "projects/art_pi_gc0328c_camera", RTT_TOOL_CHAIN: "sourcery-arm"}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@master
+        with:
+          python-version: 3.8
+    
+      - name: Install Arm ToolChains
+        if: ${{ matrix.legs.RTT_TOOL_CHAIN == 'sourcery-arm' && success() }}
+        shell: bash
+        run: |
+          wget -q https://github.com/RT-Thread/toolchains-ci/releases/download/arm-2017q2-v6/gcc-arm-none-eabi-6-2017-q2-update-linux.tar.bz2 
+          sudo tar xjf gcc-arm-none-eabi-6-2017-q2-update-linux.tar.bz2 -C /opt  
+          /opt/gcc-arm-none-eabi-6-2017-q2-update/bin/arm-none-eabi-gcc --version
+          echo "RTT_EXEC_PATH=/opt/gcc-arm-none-eabi-6-2017-q2-update/bin" >> $GITHUB_ENV
+
+      - name: Install Tools
+        if: ${{ success() }}
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get -qq install gcc-multilib libsdl-dev scons
+          echo "RTT_ROOT=${{ github.workspace }}" >> $GITHUB_ENV
+          echo "RTT_CC=gcc" >> $GITHUB_ENV
+
+      - name: Compile ${{ matrix.legs.RTT_BSP }}
+        if: ${{ success() }}
+        shell: bash
+        env:
+          RTT_BSP: ${{ matrix.legs.RTT_BSP }}
+          RTT_TOOL_CHAIN: ${{ matrix.legs.RTT_TOOL_CHAIN }}
+        run: |
+          scons -C $RTT_BSP
