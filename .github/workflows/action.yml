@@ -55,7 +55,7 @@ jobs:
          - {RTT_BSP: "art_pi_factory"}
          - {RTT_BSP: "art_pi_gc0328c_camera"}
          - {RTT_BSP: "art_pi_net_player"}
-         - {RTT_BSP: "sensor485_app"}
+         - {RTT_BSP: "art_pi_sensor485_app"}
          - {RTT_BSP: "art_pi_wifi"}
          - {RTT_BSP: "industry_io_gateway"}
          - {RTT_BSP: "lrs007_lora_radio"}
