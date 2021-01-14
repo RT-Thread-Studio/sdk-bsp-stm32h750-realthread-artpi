@@ -25,7 +25,7 @@ uint16_t w25qxx_mid = W25Q128;
 /*----------------------------------------------------------------------------*/
 QSPI_HandleTypeDef hqspi;
 
-static void MX_QUADSPI_Init(void)
+void MX_QUADSPI_Init(void)
 {
     hqspi.Instance            = QUADSPI;
     hqspi.Init.ClockPrescaler = 1;

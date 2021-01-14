@@ -92,4 +92,5 @@ void W25QXX_WaitBusy(void);
 void W25QXX_Reset(void);
 
 void W25Q_Memory_Mapped_Enable(void);
+void MX_QUADSPI_Init(void);
 #endif
