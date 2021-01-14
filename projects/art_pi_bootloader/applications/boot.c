@@ -10,6 +10,7 @@
 
 #include <rthw.h>
 #include <rtthread.h>
+#include "w25qxx.h"
 
 void rt_application_init(void);
 void rt_hw_board_init(void);
@@ -141,6 +142,11 @@ int rtthread_startup(void)
     rt_hw_spin_lock(&_cpus_lock);
 #endif /*RT_USING_SMP*/
 
+    MX_QUADSPI_Init();
+
+    W25QXX_ExitQPIMode();
+    W25QXX_Reset();
+    
     /* start scheduler */
     rt_system_scheduler_start();
 
