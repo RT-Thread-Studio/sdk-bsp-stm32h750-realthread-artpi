@@ -11,14 +11,14 @@ ART-Pi核心板及多媒体扩展版
 
 ## 软件说明
 
-注意事项：
+### 注意事项
     `/libraries/drivers/include/lcd_spi_port.h`中LCD_HOR_SCREEN用于定义横屏显示，LCD_FULL_COLOR用于lcd初始的颜色背景（黑色）
 
-软件包更改部分：
+### 软件包更改部分
     `/packages/LittlevGL2RTT-latest/littlevgl2rtt.c`文件(将lvgl的ARGB8888转换为RGB888)
     `/packages/ft6236-latest/src/ft6236.c`文件（更改为多点触摸）
 
-源码介绍：
+### 源码介绍
     `/applications/font`目录存放字库文件
     `/applications/img`目录存放游戏操作按钮的图片文件
     `/applications/nes`目录为nes软件包需要的接口文件，实际接口不在其内只有调用函数操作
