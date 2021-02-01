@@ -142,7 +142,7 @@ static void lcd_gpio_init(void)
     rt_pin_mode(LCD_DC_PIN, PIN_MODE_OUTPUT);
     rt_pin_mode(LCD_BL_PIN, PIN_MODE_OUTPUT);
     rt_pin_mode(LCD_RES_PIN, PIN_MODE_OUTPUT);
-    rt_pin_write(LCD_BL_PIN, PIN_HIGH);
+    rt_pin_write(LCD_BL_PIN, PIN_LOW);
 }
 
 int rt_hw_spi_lcd_init(void)
@@ -206,7 +206,11 @@ int rt_hw_spi_lcd_init(void)
     lcd_write_data(0x80);
 
     lcd_write_cmd(0x36);
+#ifndef LCD_HOR_SCREEN
     lcd_write_data(0x48);
+#else
+    lcd_write_data(0x28);
+#endif
 
     lcd_write_cmd(0x3A);   //Interface Mode Control
     lcd_write_data(0x66);
@@ -234,13 +238,12 @@ int rt_hw_spi_lcd_init(void)
     lcd_write_data(0x2C);
     lcd_write_data(0x82);
 
+    lcd_fill(0, 0, LCD_WIDTH, LCD_HEIGHT, LCD_FULL_COLOR);
+
     lcd_write_cmd(0x11);
     rt_thread_mdelay(120);
     lcd_write_cmd(0x29);
-
-    lcd_fill(0, 0, LCD_WIDTH, LCD_HEIGHT, WHITE);
-
-    rt_pin_write(LCD_BL_PIN, PIN_HIGH);
+    rt_thread_mdelay(50);   //delay screen update to prevent screen appears white when the default color is black
 
     return RT_EOK;
 }
