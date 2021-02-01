@@ -41,7 +41,7 @@ void nes_area_flush(uint8_t * dat)
         for(int i = 0;i < NES_DISP_HEIGHT * NES_DISP_WIDTH;i ++)
         {
             WORD wColor = WorkFrame[i];
-            /* Exchange 16-bit to 24-bit  RGB565 to ARGB888*/
+            /* Exchange 16-bit to 24-bit  RGB565 to ARGB8888*/
     //        nes_buffer[4*i + 3] = 0;  //Alpha you need't set value when initialize nes_buffer to zero
             dat[4*i + 2] = ((wColor & 0xf800) >> 10) << 3;
             dat[4*i + 1] = ((wColor & 0x07e0) >> 5) << 3;
