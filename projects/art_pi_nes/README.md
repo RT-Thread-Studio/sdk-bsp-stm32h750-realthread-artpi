@@ -4,7 +4,7 @@
 
 本例程主要功能是使用多媒体扩展板，运行nes模拟器，通过触摸屏选择游戏并试玩。
 
-使用前，请将nes游戏文件复制到sd卡或者flash文件系统中，本例程在RT-Thread Studio中测试，请暂不要使用keil（nes的mapper相关cpp文件会报错，缺少相关变量定义等）
+使用前，请将nes游戏文件(游戏文件在`packages/nes-latest/games`目录下)复制到sd卡或者flash文件系统中，本例程在RT-Thread Studio中测试，请暂不要使用keil（nes的mapper相关cpp文件会报错，缺少相关变量定义等）
 
 ## 硬件说明
 ART-Pi核心板及多媒体扩展版

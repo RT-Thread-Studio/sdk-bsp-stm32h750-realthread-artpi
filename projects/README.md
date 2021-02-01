@@ -11,6 +11,7 @@ ART-Pi 开源项目如下表所示：
 | [art_pi_sensor485_app](./art_pi_sensor485_app) | 实现 串口模拟发送传感器数据，通过 MQTT 上传到手机上的 APP |
 | [art_pi_wifi](./art_pi_wifi) | 实现 wifi 联网 |
 | [industry_io_gateway](./industry_io_gateway) | 实现 modbustcp2rtu 及 ftp |
+| [art_pi_nes](./art_pi_nes) | 实现 NES 模拟器及游戏试玩 |
 | [art_pi_net_player](./art_pi_net_player) | 实现 MP3 音乐播放，支持本地音乐和网易云音乐 |
 | [lrs007_lora_radio](./lrs007_lora_radio) | 实现 LoRa Radio (SX126x\SX127x...) 单向/双向通信、抓包及shell示例 |
 | [lrs007_lorawan_end_device](./lrs007_lorawan_end_device) | 实现 LoRaWAN End Device 协议栈Class A\C通信及shell示例 |
