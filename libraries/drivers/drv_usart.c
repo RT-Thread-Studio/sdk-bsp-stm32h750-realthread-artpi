@@ -371,7 +371,7 @@ static rt_err_t stm32_gpio_configure(struct stm32_uart_config *config)
          { .pin_index = GET_PIN(A, 10), .afs[0] = {.uart_num = UART_IS_RX|1, .af_num =  7}},
          { .pin_index = GET_PIN(A, 11), .afs[0] = {.uart_num = UART_IS_TX|4, .af_num =  6}},
          { .pin_index = GET_PIN(A, 12), .afs[0] = {.uart_num = UART_IS_RX|4, .af_num =  6}},
-         { .pin_index = GET_PIN(A, 15), .afs[0] = {.uart_num = UART_IS_RX|7, .af_num = 11}},
+         { .pin_index = GET_PIN(A, 15), .afs[0] = {.uart_num = UART_IS_TX|7, .af_num = 11}},
          { .pin_index = GET_PIN(A,  8), .afs[0] = {.uart_num = UART_IS_RX|7, .af_num = 11}},
          { .pin_index = GET_PIN(B,  4), .afs[0] = {.uart_num = UART_IS_TX|7, .af_num = 11}},
          { .pin_index = GET_PIN(B,  3), .afs[0] = {.uart_num = UART_IS_RX|7, .af_num = 11}},
