@@ -35,8 +35,12 @@ ART-Pi 出厂时数据 flash 中已经刷入相应的数据信息,但有时我�
 ![cubeprog4](./figures/cubeprog4.gif)
 
 
+## STM32CubeProgrammer 恢复出厂 flash 固件
 
+**出厂 flash** 固件在 `sdk-bsp-stm32h750-realthread-artpi/tools/firmware/Resource_16MB.bin` 。
 
+因资源文件较大，下载时间会较长，请耐心等到。
 
+![cubeprog4](./figures/cubeprog4.gif)
 
 
