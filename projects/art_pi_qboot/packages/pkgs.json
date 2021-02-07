@@ -1,0 +1,27 @@
+[
+ {
+  "path": "/packages/iot/ota_downloader", 
+  "ver": "v1.0.0", 
+  "name": "OTA_DOWNLOADER"
+ }, 
+ {
+  "path": "/packages/system/fal", 
+  "ver": "v0.5.0", 
+  "name": "FAL"
+ }, 
+ {
+  "path": "/packages/system/qboot", 
+  "ver": "v1.05", 
+  "name": "QBOOT"
+ }, 
+ {
+  "path": "/packages/peripherals/quick_led", 
+  "ver": "v1.00", 
+  "name": "QLED"
+ }, 
+ {
+  "path": "/packages/misc/crclib", 
+  "ver": "v1.00", 
+  "name": "CRCLIB"
+ }
+]
