@@ -60,6 +60,7 @@ if GetDepend(['BSP_USING_SPI_FLASH']):
 
 if GetDepend(['BSP_USING_QSPI_FLASH']):
     src += ['drv_qspi_flash.c']
+    src += ['drv_qspi.c']
 
 path = [cwd]
 path += [cwd + '/include']

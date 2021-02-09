@@ -208,6 +208,13 @@ menu "On-chip Peripheral"
                 bool "Enable SPI4"
                 default n
         endif
+        
+    config BSP_USING_QSPI
+        bool "Enable QSPI BUS"
+        select RT_USING_QSPI
+        select RT_USING_SPI
+        default n
+
     menuconfig BSP_USING_I2C
         bool "Enable I2C BUS (software simulation)"
         select RT_USING_I2C
