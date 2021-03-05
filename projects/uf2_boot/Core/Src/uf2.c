@@ -398,7 +398,7 @@ int uf2_write_block(uint32_t block_no, uint8_t *data)
     {
         // generic family ID
         flash_write(bl->targetAddr, bl->data, bl->payloadSize);
-        printf("block_no(#0x%x) \r\n", block_no);
+        // printf("block_no(#0x%x) \r\n", block_no);
     }
     else
     {
