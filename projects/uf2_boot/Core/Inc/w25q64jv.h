@@ -25,7 +25,7 @@ extern int QSPI_W25Q64JV_DeviceID(uint8_t *v);
 extern int QSPI_W25Q64JV_IDNumber(uint8_t *v);
 extern int QSPI_W25Q64JV_EraseSector(uint32_t SectorAddress);
 extern int QSPI_W25Q64JV_Read(uint8_t *pData, uint32_t ReadAddr, uint32_t Size);
-extern int QSPI_W25Q64JV_PageProgram(uint8_t *pData, uint32_t ReadAddr, uint32_t Size);
+extern int QSPI_W25Q64JV_PageProgram(uint8_t *pData, uint32_t WriteAddr, uint32_t Size);
 extern int QSPI_W25Q64JV_Write(uint8_t *pData, uint32_t WriteAddr, uint32_t Size);
 extern int QSPI_W25Q64JV_EnableMemoryMappedMode(void);
 

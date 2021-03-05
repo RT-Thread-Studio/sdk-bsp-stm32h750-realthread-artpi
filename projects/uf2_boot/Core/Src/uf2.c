@@ -50,6 +50,8 @@ typedef struct
     uint32_t size;
 } __attribute__((packed)) DirEntry;
 
+// #define READ_UF2
+
 #ifndef READ_UF2
 #define CODE_BIN_SIZE (8 * 1024 * 1024)
 #define DATA_BIN_SIZE (16 * 1024 * 1024)
@@ -198,13 +200,13 @@ static inline bool is_uf2_block(UF2_Block const *bl)
  *------------------------------------------------------------------*/
 void uf2_init(void)
 {
-    //printf("SECTOR_PER_FAT(0x%x) \r\n", SECTOR_PER_FAT);
-    //printf("START_FAT(0x%x) \r\n", START_FAT);
-    //printf("FAT_SECTORS(0x%x) \r\n", FAT_SECTORS);
-    //printf("START_ROOT(0x%x) \r\n", START_ROOT);
-    //printf("ROOT_SECTORS(0x%x) \r\n", ROOT_SECTORS);
-    //printf("START_DATA(0x%x) \r\n", START_DATA);
-    //printf("DATA_SECTORS(0x%x) \r\n", DATA_SECTORS);
+    printf("SECTOR_PER_FAT(0x%x) \r\n", SECTOR_PER_FAT);
+    printf("START_FAT(0x%x) \r\n", START_FAT);
+    printf("FAT_SECTORS(0x%x) \r\n", FAT_SECTORS);
+    printf("START_ROOT(0x%x) \r\n", START_ROOT);
+    printf("ROOT_SECTORS(0x%x) \r\n", ROOT_SECTORS);
+    printf("START_DATA(0x%x) \r\n", START_DATA);
+    printf("DATA_SECTORS(0x%x) \r\n", DATA_SECTORS);
 
     // init info
     static uint32_t cluster = 2; // 簇号0,1为系统保留.
@@ -212,8 +214,8 @@ void uf2_init(void)
     {
         info[i].start_cluster = cluster;
         cluster += info[i].clusters;
-        //printf("info[%d].start_cluster(0x%x) \r\n", i, info[i].start_cluster);
-        //printf("info[%d].clusters(0x%x) \r\n", i, info[i].clusters);
+        printf("info[%d].start_cluster(0x%x) \r\n", i, info[i].start_cluster);
+        printf("info[%d].clusters(0x%x) \r\n", i, info[i].clusters);
     }
 }
 
@@ -396,7 +398,7 @@ int uf2_write_block(uint32_t block_no, uint8_t *data)
     {
         // generic family ID
         flash_write(bl->targetAddr, bl->data, bl->payloadSize);
-        // printf("block_no(#0x%x) \r\n", block_no);
+        printf("block_no(#0x%x) \r\n", block_no);
     }
     else
     {
