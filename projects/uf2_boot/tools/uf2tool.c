@@ -50,7 +50,8 @@ Raspberry Pi RP2040 - 0xe48bff56
 
 #define BOARD_UF2_FAMILY_ID 0x6db66082
 
-#define APP_START_ADDRESS 0x90000000UL;
+#define APP_START_ADDRESS 0x90000000
+#define DAT_START_ADDRESS 0xA0000000
 
 typedef struct
 {
@@ -73,16 +74,16 @@ typedef struct
 
 int main(int argc, char **argv)
 {
-    if (argc < 2)
+    if (argc < 3)
     {
-        fprintf(stderr, "USAGE: %s file.bin [file.uf2]\n", argv[0]);
+        fprintf(stderr, "USAGE: %s c|d file.bin [file.uf2]\n", argv[0]);
         return 1;
     }
 
-    FILE *f = fopen(argv[1], "rb");
+    FILE *f = fopen(argv[2], "rb");
     if (!f)
     {
-        fprintf(stderr, "No such file: %s\n", argv[1]);
+        fprintf(stderr, "No such file: %s\n", argv[2]);
         return 1;
     }
 
@@ -90,7 +91,7 @@ int main(int argc, char **argv)
     uint32_t sz = ftell(f);
     fseek(f, 0L, SEEK_SET);
 
-    const char *outname = argc > 2 ? argv[2] : "flash.uf2";
+    const char *outname = argc > 3 ? argv[3] : "flash.uf2";
 
     FILE *fout = fopen(outname, "wb");
 
@@ -101,7 +102,7 @@ int main(int argc, char **argv)
     bl.magicStart1 = UF2_MAGIC_START1;
     bl.flags = UF2_FLAG_FAMILYID;
     bl.magicEnd = UF2_MAGIC_END;
-    bl.targetAddr = APP_START_ADDRESS;
+    bl.targetAddr = (!strncmp("c", argv[1], 1)) ? APP_START_ADDRESS : DAT_START_ADDRESS;
     bl.numBlocks = (sz + 255) / 256;
     bl.reserved = BOARD_UF2_FAMILY_ID;
     bl.payloadSize = 256;
@@ -116,6 +117,7 @@ int main(int argc, char **argv)
     }
     fclose(fout);
     fclose(f);
-    printf("Wrote %d blocks to %s\n", numbl, outname);
+    printf("Target Addr 0x%x \n", (!strncmp("c", argv[1], 1)) ? APP_START_ADDRESS : DAT_START_ADDRESS);
+    printf("Wrote %d blocks to %s \n", numbl, outname);
     return 0;
 }

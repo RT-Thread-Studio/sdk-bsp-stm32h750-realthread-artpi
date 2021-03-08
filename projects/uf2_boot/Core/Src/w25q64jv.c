@@ -172,7 +172,7 @@ int QSPI_W25Q64JV_Read(uint8_t *pData, uint32_t ReadAddr, uint32_t Size)
     return QSPI_OK;
 }
 
-int QSPI_W25Q64JV_PageProgram(uint8_t *pData, uint32_t ReadAddr, uint32_t Size)
+int QSPI_W25Q64JV_PageProgram(uint8_t *pData, uint32_t WriteAddr, uint32_t Size)
 {
     if (QSPI_W25Q64JV_AutoPollingMemReady(HAL_QPSI_TIMEOUT_DEFAULT_VALUE) != QSPI_OK)
     {
@@ -190,7 +190,7 @@ int QSPI_W25Q64JV_PageProgram(uint8_t *pData, uint32_t ReadAddr, uint32_t Size)
     sCmd.Instruction = W25Q64JV_PAGE_PROGRAM;
 
     sCmd.AddressMode = QSPI_ADDRESS_1_LINE;
-    sCmd.Address = ReadAddr;
+    sCmd.Address = WriteAddr;
     sCmd.AddressSize = QSPI_ADDRESS_24_BITS;
 
     sCmd.DataMode = QSPI_DATA_1_LINE;

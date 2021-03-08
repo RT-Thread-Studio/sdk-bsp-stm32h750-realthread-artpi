@@ -8,6 +8,7 @@
 #include "usb_device.h"
 
 #include "w25q64jv.h"
+#include "w25q128jv.h"
 #include "uf2.h"
 #include "flash.h"
 
@@ -49,6 +50,20 @@ void user_main(void)
     for (int i = 4; i < 12; i++)
     {
         printf("0x%02x ", w25q64jv_id_number[i]);
+    }
+    printf(" \r\n");
+
+    uint8_t w25q128jv_device_id[2];
+    uint8_t w25q128jv_id_number[12];
+
+    SPI_W25Q128JV_Reset();
+    SPI_W25Q128JV_DeviceID(w25q128jv_device_id);
+    printf("Manufacturer / Device ID: 0x%x 0x%x \r\n", w25q128jv_device_id[0], w25q128jv_device_id[1]);
+    SPI_W25Q128JV_IDNumber(w25q128jv_id_number);
+    printf("Unique ID Number: ");
+    for (int i = 4; i < 12; i++)
+    {
+        printf("0x%02x ", w25q128jv_id_number[i]);
     }
     printf(" \r\n");
 

@@ -448,6 +448,11 @@
               <FileType>1</FileType>
               <FilePath>..\Core\Src\w25q64jv.c</FilePath>
             </File>
+            <File>
+              <FileName>w25q128jv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\w25q128jv.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
