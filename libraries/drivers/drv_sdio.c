@@ -493,6 +493,8 @@ int rt_hw_sdio_init(void)
         LOG_E("host2 create fail");
         return RT_NULL;
     }
+    /* wifi auto change */
+    mmcsd_change(host2);
 #endif
     mmcsd_mutex = rt_mutex_create("mmutex", RT_IPC_FLAG_FIFO);
     if (mmcsd_mutex == RT_NULL)
