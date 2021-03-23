@@ -336,6 +336,7 @@ struct pbuf *rt_stm32_eth_rx(rt_device_t dev)
     rt_uint16_t l;
     struct pbuf *p = RT_NULL, *q;
     ETH_BufferTypeDef RxBuff;
+    uint32_t alignedAddr;
 
   if(HAL_ETH_GetRxDataBuffer(&EthHandle, &RxBuff) == HAL_OK)
   {
@@ -345,7 +346,8 @@ struct pbuf *rt_stm32_eth_rx(rt_device_t dev)
     HAL_ETH_BuildRxDescriptors(&EthHandle);
 
     /* Invalidate data cache for ETH Rx Buffers */
-    SCB_InvalidateDCache_by_Addr((uint32_t *)RxBuff.buffer, framelength);
+    alignedAddr = (uint32_t)RxBuff.buffer & ~0x1F;
+    SCB_InvalidateDCache_by_Addr((uint32_t *)alignedAddr, (uint32_t)RxBuff.buffer - alignedAddr + framelength);
 
     p = pbuf_alloc(PBUF_RAW, framelength, PBUF_RAM);
     if (p != NULL)
