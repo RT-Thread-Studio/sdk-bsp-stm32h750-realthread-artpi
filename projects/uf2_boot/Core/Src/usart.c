@@ -126,7 +126,11 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 /* USER CODE BEGIN 1 */
 #include <stdint.h>
 #include <stdio.h>
+
+#ifndef __GNUC__
 #include <rt_misc.h>
+#endif
+
 __asm(".global __use_no_semihosting");
 //struct __FILE { int handle; /* Add whatever you need here */ };
 FILE __stdout;
@@ -143,11 +147,13 @@ int fgetc(FILE *f)
   return EOF;
 }
 
+#ifndef __GNUC__
 int ferror(FILE *f)
 {
   /* Your implementation of ferror */
   return EOF;
 }
+#endif
 
 void _ttywrch(int c)
 {
@@ -159,6 +165,14 @@ void _sys_exit(int return_code)
 label:
   goto label; /* endless loop */
 }
+
+#if defined __GNUC__
+int _write(int fd, char *pBuffer, int size)
+{
+    HAL_UART_Transmit(&huart4, (uint8_t*)pBuffer, size, 1000);
+    return size;
+}
+#endif
 /* USER CODE END 1 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
