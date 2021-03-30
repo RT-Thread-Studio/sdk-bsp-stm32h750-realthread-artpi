@@ -23,11 +23,11 @@
 
 ## 软件说明
 
-本历程在出产历程`ART_PI_FACTORY`基础上进行软件开发，并且保留了出产历程的小程序蓝牙配网功能。
+本例程在出产例程`ART_PI_FACTORY`基础上进行软件开发，并且保留了出产例程的小程序蓝牙配网功能。
 
 nRF模块需要刷写固件，源码在：<https://gitee.com/jiy/n-rf5-sdk-for-mesh/tree/master/examples/serial_control>。
 
-nRF模块的client端通过串口协议连接到开发板，默认RX为P26, TX为Pin25；server直接控制对应的设备或连接到传感器，示例程序为电灯。
+nRF模块的client端通过串口协议连接到开发板，默认RX为P26, TX为P25；server直接控制对应的设备或连接到传感器，示例程序为电灯。
 
 项目软件架构：
 ![WIFI-OTA](./figures/framework.jpeg)
