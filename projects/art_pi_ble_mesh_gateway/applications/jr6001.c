@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include "drv_gpio.h"
 
-#define THREAD_STACK_SIZE 1000   //线程栈大小（字节）
-#define THREAD_TIMESLICE 40      //占用的滴答时钟数
-#define SAMPLE_UART_NAME "uart1" /* 串口设备名称 */
+#define THREAD_STACK_SIZE 1000
+#define THREAD_TIMESLICE 40
+#define SAMPLE_UART_NAME "uart1"
 
 #define PLAY_BUSY_PIN GET_PIN(H, 14)
 #define LED_G GET_PIN(H, 15)
@@ -17,8 +17,8 @@ rt_mutex_t player_use_mtx = RT_NULL;
 
 static rt_thread_t jr_thread = RT_NULL;
 static rt_uint8_t thread_priority = 20;
-static rt_device_t serial;                                        /* 串口设备句柄 */
-static struct serial_configure config = RT_SERIAL_CONFIG_DEFAULT; /* 初始化配置参数 */
+static rt_device_t serial;
+static struct serial_configure config = RT_SERIAL_CONFIG_DEFAULT;
 
 /* 消息队列中用到的放置消息的内存池 */
 static rt_uint8_t msg_pool[2048];
@@ -106,18 +106,16 @@ int create_jr6001_thread(void)
     rt_pin_write(LED_G, 1);
 
     rt_pin_mode(PLAY_BUSY_PIN, PIN_MODE_INPUT);
-    // rt_pin_attach_irq(PLAY_BUSY_PIN, PIN_IRQ_MODE_FALLING, jr6001_free, RT_NULL);
-    // rt_pin_irq_enable(PLAY_BUSY_PIN, PIN_IRQ_ENABLE);
 
     rt_err_t result;
 
     /* 初始化消息队列 */
     result = rt_mq_init(&player_mq,
                         "player_mq",
-                        &msg_pool[0],      /* 内存池指向 msg_pool */
-                        1,                 /* 每个消息的大小是 1 字节 */
-                        sizeof(msg_pool),  /* 内存池的大小是 msg_pool 的大小 */
-                        RT_IPC_FLAG_FIFO); /* 如果有多个线程等待，按照先来先得到的方法分配消息 */
+                        &msg_pool[0],
+                        1,
+                        sizeof(msg_pool),
+                        RT_IPC_FLAG_FIFO);
 
     // 初始化信号量
     player_use_mtx = rt_mutex_create("player_use_mtx", RT_IPC_FLAG_FIFO);

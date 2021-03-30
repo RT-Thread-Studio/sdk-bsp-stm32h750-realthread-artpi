@@ -17,7 +17,6 @@
 #define LD3320_IRQ_PIN GET_PIN(B, 1)
 
 extern struct rt_messagequeue player_mq;
-extern struct rt_messagequeue mesh_mq;
 extern rt_mutex_t player_use_mtx;
 extern void mesh_send_command(command_opcode_t opc, uint16_t addr, uint8_t *data);
 

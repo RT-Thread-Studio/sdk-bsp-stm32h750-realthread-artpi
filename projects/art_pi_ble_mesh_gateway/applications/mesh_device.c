@@ -15,7 +15,7 @@
 #define UART_NAME "uart5"
 
 /* 消息队列控制块 */
-struct rt_messagequeue mesh_mq;
+static struct rt_messagequeue mesh_mq;
 static rt_thread_t mesh_command_tx_thread = RT_NULL;
 static rt_thread_t mesh_command_rx_thread = RT_NULL;
 static rt_uint8_t thread_priority = 20;
