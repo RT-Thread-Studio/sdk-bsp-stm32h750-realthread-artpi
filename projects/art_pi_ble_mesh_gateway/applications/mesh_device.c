@@ -6,13 +6,13 @@
 #include "mesh_command.h"
 #include "mesh_node.h"
 
-#define LOG_TAG "mesh_device" // 该模块对应的标签。不定义时，默认：NO_TAG
-#define LOG_LVL LOG_LVL_DBG   // 该模块对应的日志输出级别。不定义时，默认：调试级别
-#include <ulog.h>             // 必须在 LOG_TAG 与 LOG_LVL 下面
+#define LOG_TAG "mesh_device"
+#define LOG_LVL LOG_LVL_DBG
+#include <ulog.h>
 
-#define THREAD_STACK_SIZE 1000 //线程栈大小（字节）
-#define THREAD_TIMESLICE 40    //占用的滴答时钟数
-#define UART_NAME "uart5"      /* 串口设备名称 */
+#define THREAD_STACK_SIZE 1000
+#define THREAD_TIMESLICE 40
+#define UART_NAME "uart5"
 
 /* 消息队列控制块 */
 struct rt_messagequeue mesh_mq;
@@ -58,17 +58,17 @@ static void mesh_command_tx_thread_entry(void *params)
     serial = rt_device_find(UART_NAME);
     if (serial != RT_NULL)
     {
-        /* step2：修改串口配置参数 */
-        config.baud_rate = BAUD_RATE_115200; //修改波特率为 115200
-        config.data_bits = DATA_BITS_8;      //数据位 8
-        config.stop_bits = STOP_BITS_1;      //停止位 1
-        config.bufsz = 128;                  //修改缓冲区 buff size 为 128
-        config.parity = PARITY_NONE;         //无奇偶校验位
+        /* 修改串口配置参数 */
+        config.baud_rate = BAUD_RATE_115200;
+        config.data_bits = DATA_BITS_8;
+        config.stop_bits = STOP_BITS_1;
+        config.bufsz = 128;
+        config.parity = PARITY_NONE;
 
-        /* step3：控制串口设备。通过控制接口传入命令控制字，与控制参数 */
+        /* 控制串口设备。通过控制接口传入命令控制字，与控制参数 */
         rt_device_control(serial, RT_DEVICE_CTRL_CONFIG, &config);
 
-        /* step4：打开串口设备。以中断接收及轮询发送模式打开串口设备 */
+        /* 打开串口设备。以中断接收及轮询发送模式打开串口设备 */
         rt_device_open(serial, RT_DEVICE_FLAG_INT_RX);
 
         rt_device_set_rx_indicate(serial, uart_input);
@@ -161,10 +161,10 @@ int create_mesh_command_thread(void)
     /* 初始化消息队列 */
     result = rt_mq_init(&mesh_mq,
                         "mesh_mq",
-                        &msg_pool[0],      /* 内存池指向 msg_pool */
-                        11,                /* 每个消息的大小是 11 字节 */
-                        sizeof(msg_pool),  /* 内存池的大小是 msg_pool 的大小 */
-                        RT_IPC_FLAG_FIFO); /* 如果有多个线程等待，按照先来先得到的方法分配消息 */
+                        &msg_pool[0],
+                        11,
+                        sizeof(msg_pool),
+                        RT_IPC_FLAG_FIFO);
 
     if (result != RT_EOK)
     {

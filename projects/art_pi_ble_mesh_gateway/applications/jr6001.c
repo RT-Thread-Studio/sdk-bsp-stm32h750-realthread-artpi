@@ -40,22 +40,16 @@ void jr_command(int argc, char **argv)
 }
 MSH_CMD_EXPORT(jr_command, jr send command);
 
-// static void jr6001_free(void *asr)
-// {
-//     rt_mutex_release(player_use_mtx);
-// }
-
 void jr_thread_entry(void *params)
 {
     serial = rt_device_find(SAMPLE_UART_NAME);
     if (serial != RT_NULL)
     {
-        /* step2：修改串口配置参数 */
-        config.baud_rate = BAUD_RATE_9600; //修改波特率为 115200
-        config.data_bits = DATA_BITS_8;    //数据位 8
-        config.stop_bits = STOP_BITS_1;    //停止位 1
-        config.bufsz = 128;                //修改缓冲区 buff size 为 128
-        config.parity = PARITY_NONE;       //无奇偶校验位
+        config.baud_rate = BAUD_RATE_9600;
+        config.data_bits = DATA_BITS_8;
+        config.stop_bits = STOP_BITS_1;
+        config.bufsz = 128;
+        config.parity = PARITY_NONE;
 
         /* step3：控制串口设备。通过控制接口传入命令控制字，与控制参数 */
         rt_device_control(serial, RT_DEVICE_CTRL_CONFIG, &config);
