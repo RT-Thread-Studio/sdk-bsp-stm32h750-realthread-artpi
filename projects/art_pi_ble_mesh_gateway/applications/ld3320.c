@@ -44,13 +44,13 @@ static void ld3320_a_asr_over_callback(uint8_t num)
     case 2:
         rt_kprintf("开灯");
         mesh_command[0] = 1;
-        mesh_send_command(COMMAND_OPCODE_SET, 0x39, mesh_command);
+        mesh_send_command(COMMAND_OPCODE_SET, 0xC023, mesh_command);
         send_paly_task('2');
         break;
     case 3:
         rt_kprintf("关灯");
         mesh_command[0] = 0;
-        mesh_send_command(COMMAND_OPCODE_SET, 0x39, mesh_command);
+        mesh_send_command(COMMAND_OPCODE_SET, 0xC023, mesh_command);
         send_paly_task('3');
         break;
     case 4:

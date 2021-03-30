@@ -40,6 +40,8 @@ void mesh_send_command(command_opcode_t opc, uint16_t addr, uint8_t *data)
         memcpy(&command[3], data, COMMAND_DATA_LENGTH);
 
     rt_mq_send(&mesh_mq, command, sizeof(command));
+
+    LOG_HEX("Uart send data", 11, command, sizeof(command));
 }
 
 /* 接收数据回调函数 */
@@ -112,7 +114,7 @@ static void command_handler(uint8_t *command)
         memcpy(&node.addr, &command[1], 2);
         memcpy(&node.data, &command[3], COMMAND_DATA_LENGTH);
 
-        uint16_t index = mesh_node_find(node.addr);
+        int16_t index = mesh_node_find(node.addr);
         if (index != -1)
         {
             mesh_node_update_data(index, node.data);
@@ -142,7 +144,7 @@ static void mesh_command_rx_thread_entry(void *parameter)
         if (rx_length == sizeof(rx_buffer))
         {
 
-            LOG_HEX("All data", 11, rx_buffer, sizeof(rx_buffer));
+            LOG_HEX("Uart receive data", 11, rx_buffer, sizeof(rx_buffer));
             rx_length = 0;
             command_handler(rx_buffer);
         }
