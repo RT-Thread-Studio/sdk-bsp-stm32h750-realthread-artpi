@@ -6,3 +6,4 @@ rt-thread.elf
 rt-thread.hex 
 rtthread.bin 
 rtthread.map
+.sconsign.dblite

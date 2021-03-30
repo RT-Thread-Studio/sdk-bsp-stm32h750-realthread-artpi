@@ -10,7 +10,8 @@
 #define LOG_LVL LOG_LVL_DBG
 #include <ulog.h>
 
-#define THREAD_STACK_SIZE 1000
+#define RX_THREAD_STACK_SIZE 500
+#define TX_THREAD_STACK_SIZE 600
 #define THREAD_TIMESLICE 40
 #define UART_NAME "uart5"
 
@@ -172,15 +173,15 @@ int create_mesh_command_thread(void)
         return -1;
     }
 
-    mesh_command_tx_thread = rt_thread_create("mesh_command_tx_thread", mesh_command_tx_thread_entry,
-                                              RT_NULL, THREAD_STACK_SIZE, thread_priority, THREAD_TIMESLICE);
+    mesh_command_tx_thread = rt_thread_create("mesh_tx", mesh_command_tx_thread_entry,
+                                              RT_NULL, TX_THREAD_STACK_SIZE, thread_priority, THREAD_TIMESLICE);
     if (mesh_command_tx_thread != RT_NULL)
     {
         rt_thread_startup(mesh_command_tx_thread);
     }
 
-    mesh_command_rx_thread = rt_thread_create("mesh_command_rx_thread", mesh_command_rx_thread_entry,
-                                              RT_NULL, THREAD_STACK_SIZE, thread_priority, THREAD_TIMESLICE);
+    mesh_command_rx_thread = rt_thread_create("mesh_rx", mesh_command_rx_thread_entry,
+                                              RT_NULL, RX_THREAD_STACK_SIZE, thread_priority, THREAD_TIMESLICE);
     if (mesh_command_rx_thread != RT_NULL)
     {
         rt_thread_startup(mesh_command_rx_thread);

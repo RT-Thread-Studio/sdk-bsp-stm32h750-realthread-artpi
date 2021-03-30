@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "drv_gpio.h"
 
-#define THREAD_STACK_SIZE 1000
+#define THREAD_STACK_SIZE 800
 #define THREAD_TIMESLICE 40
 #define SAMPLE_UART_NAME "uart1"
 
@@ -126,7 +126,7 @@ int create_jr6001_thread(void)
         return -1;
     }
 
-    jr_thread = rt_thread_create("serial_test", jr_thread_entry,
+    jr_thread = rt_thread_create("jr6001", jr_thread_entry,
                                  RT_NULL, THREAD_STACK_SIZE, thread_priority, THREAD_TIMESLICE);
     if (jr_thread != RT_NULL)
     {
