@@ -2,3 +2,7 @@ packages/
 rt-thread/
 Debug/
 *.o
+rt-thread.elf 
+rt-thread.hex 
+rtthread.bin 
+rtthread.map
