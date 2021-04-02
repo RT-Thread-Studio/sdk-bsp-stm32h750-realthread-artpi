@@ -1,4 +1,3 @@
-packages/
 rt-thread/
 Debug/
 *.o
