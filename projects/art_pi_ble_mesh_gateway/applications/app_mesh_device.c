@@ -10,8 +10,8 @@
 #define LOG_LVL LOG_LVL_DBG
 #include <ulog.h>
 
-#define RX_THREAD_STACK_SIZE 500
-#define TX_THREAD_STACK_SIZE 600
+#define RX_THREAD_STACK_SIZE 512
+#define TX_THREAD_STACK_SIZE 512
 #define THREAD_TIMESLICE 40
 #define UART_NAME "uart5"
 

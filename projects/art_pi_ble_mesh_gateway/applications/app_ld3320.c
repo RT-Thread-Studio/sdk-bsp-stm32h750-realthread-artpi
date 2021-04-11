@@ -11,6 +11,7 @@
 #include "drv_gpio.h"
 #include "mesh_command.h"
 
+#define THREAD_STACK_SIZE 1024
 #define LD3320_SC_PIN GET_PIN(H, 3)
 #define LD3320_WR_PIN GET_PIN(B, 0)
 #define LD3320_RST_PIN GET_PIN(B, 2)
@@ -96,7 +97,7 @@ static void ld3320_asr_thread(void *parameter)
 static int create_ld3320_asr_thread(void)
 {
     rt_thread_t thread = RT_NULL;
-    thread = rt_thread_create("ld_asr", ld3320_asr_thread, RT_NULL, 1000, 15, 100);
+    thread = rt_thread_create("ld_asr", ld3320_asr_thread, RT_NULL, THREAD_STACK_SIZE, 15, 100);
     if (thread != RT_NULL)
     {
         rt_thread_startup(thread);

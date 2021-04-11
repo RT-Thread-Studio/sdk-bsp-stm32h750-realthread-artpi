@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "drv_gpio.h"
 
-#define THREAD_STACK_SIZE 800
+#define THREAD_STACK_SIZE 1024
 #define THREAD_TIMESLICE 40
 #define SAMPLE_UART_NAME "uart1"
 
