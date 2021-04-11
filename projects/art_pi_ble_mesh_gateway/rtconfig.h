@@ -111,6 +111,7 @@
 #define RT_SYSTEM_WORKQUEUE_STACKSIZE 2048
 #define RT_SYSTEM_WORKQUEUE_PRIORITY 23
 #define RT_USING_SERIAL
+#define RT_SERIAL_USING_DMA
 #define RT_SERIAL_RB_BUFSZ 256
 #define RT_USING_PIN
 #define RT_USING_MTD_NOR
@@ -372,8 +373,8 @@
 /* peripheral libraries and drivers */
 
 #define PKG_USING_LD3320
-#define PKG_USING_LD3320_LATEST_VERSION
-#define PKG_LD3320_VERSION "latest"
+#define PKG_USING_LD3320_V100
+#define PKG_LD3320_VERSION "v1.0.0"
 /* end of peripheral libraries and drivers */
 
 /* miscellaneous packages */

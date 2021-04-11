@@ -1,47 +1,47 @@
 [
  {
-  "path": "/packages/iot/webnet", 
-  "ver": "v2.0.2", 
-  "name": "WEBNET"
- }, 
+  "name": "WEBNET",
+  "path": "/packages/iot/webnet",
+  "ver": "v2.0.2"
+ },
  {
-  "path": "/packages/iot/cJSON", 
-  "ver": "v1.0.2", 
-  "name": "CJSON"
- }, 
+  "name": "CJSON",
+  "path": "/packages/iot/cJSON",
+  "ver": "v1.0.2"
+ },
  {
-  "path": "/packages/iot/netutils", 
-  "ver": "v1.2.0", 
-  "name": "NETUTILS"
- }, 
+  "name": "NETUTILS",
+  "path": "/packages/iot/netutils",
+  "ver": "v1.2.0"
+ },
  {
-  "path": "/packages/iot/btstack", 
-  "ver": "v0.0.1", 
-  "name": "BTSTACK"
- }, 
+  "name": "BTSTACK",
+  "path": "/packages/iot/btstack",
+  "ver": "v0.0.1"
+ },
  {
-  "path": "/packages/tools/EasyFlash", 
-  "ver": "v4.1.0", 
-  "name": "EASYFLASH"
- }, 
+  "name": "EASYFLASH",
+  "path": "/packages/tools/EasyFlash",
+  "ver": "v4.1.0"
+ },
  {
-  "path": "/packages/tools/adbd", 
-  "ver": "v1.1.1", 
-  "name": "ADBD"
- }, 
+  "name": "ADBD",
+  "path": "/packages/tools/adbd",
+  "ver": "v1.1.1"
+ },
  {
-  "path": "/packages/system/fal", 
-  "ver": "v0.5.0", 
-  "name": "FAL"
- }, 
+  "name": "FAL",
+  "path": "/packages/system/fal",
+  "ver": "v0.5.0"
+ },
  {
-  "path": "/packages/system/littlefs", 
-  "ver": "v2.0.5", 
-  "name": "LITTLEFS"
- }, 
+  "name": "LITTLEFS",
+  "path": "/packages/system/littlefs",
+  "ver": "v2.0.5"
+ },
  {
-  "path": "/packages/peripherals/ld3320", 
-  "ver": "latest", 
-  "name": "LD3320"
+  "name": "LD3320",
+  "path": "/packages/peripherals/ld3320",
+  "ver": "v1.0.0"
  }
 ]
