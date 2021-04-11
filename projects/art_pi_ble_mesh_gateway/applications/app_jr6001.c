@@ -11,7 +11,6 @@
 #define PLAY_BUSY_PIN GET_PIN(H, 14)
 #define LED_G GET_PIN(H, 15)
 
-/* 消息队列控制块 */
 struct rt_messagequeue player_mq;
 rt_mutex_t player_use_mtx = RT_NULL;
 
@@ -20,7 +19,6 @@ static rt_uint8_t thread_priority = 20;
 static rt_device_t serial;
 static struct serial_configure config = RT_SERIAL_CONFIG_DEFAULT;
 
-/* 消息队列中用到的放置消息的内存池 */
 static rt_uint8_t msg_pool[2048];
 
 static void jr_send_command(const char *str)
@@ -33,7 +31,6 @@ static void jr_send_command(const char *str)
     }
 }
 
-// MSH命令
 void jr_command(int argc, char **argv)
 {
     jr_send_command(argv[1]);
@@ -98,7 +95,6 @@ void jr_thread_entry(void *params)
     }
 }
 
-//创建串口线程
 int create_jr6001_thread(void)
 {
 
@@ -109,7 +105,6 @@ int create_jr6001_thread(void)
 
     rt_err_t result;
 
-    /* 初始化消息队列 */
     result = rt_mq_init(&player_mq,
                         "player_mq",
                         &msg_pool[0],

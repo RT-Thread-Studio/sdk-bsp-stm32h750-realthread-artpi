@@ -152,14 +152,12 @@ static void mesh_command_rx_thread_entry(void *parameter)
     }
 }
 
-//创建串口线程
 int create_mesh_command_thread(void)
 {
 
     rt_err_t result;
     rt_sem_init(&rx_sem, "rx_sem", 0, RT_IPC_FLAG_FIFO);
 
-    /* 初始化消息队列 */
     result = rt_mq_init(&mesh_mq,
                         "mesh_mq",
                         &msg_pool[0],

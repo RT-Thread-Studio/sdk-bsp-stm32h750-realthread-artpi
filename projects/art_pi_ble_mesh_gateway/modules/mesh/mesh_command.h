@@ -5,19 +5,19 @@
 
 typedef enum
 {
-    COMMAND_OPCODE_FIND = 0xC1,     // 网关寻找设备
-    COMMAND_OPCODE_REGISTER = 0xC2, // 设备向网关提交注册
-    COMMAND_OPCODE_SET = 0xC3,      // 设置设备
-    COMMAND_OPCODE_STATUS = 0xC4,   // 设备状态
-    COMMAND_OPCODE_GET = 0xC5,      // 读取设备
-    COMMAND_OPCODE_DATA = 0xC6      // 设备数据
+    COMMAND_OPCODE_FIND = 0xC1,     // The gateway find device.
+    COMMAND_OPCODE_REGISTER = 0xC2, // The device register.
+    COMMAND_OPCODE_SET = 0xC3,      // Set device.
+    COMMAND_OPCODE_STATUS = 0xC4,   // Device status.
+    COMMAND_OPCODE_GET = 0xC5,      // Get device data.
+    COMMAND_OPCODE_DATA = 0xC6      // Device response data.
 } command_opcode_t;
 
 typedef enum
 {
-    COMMAND_SERVER_LIGHT = 1,  // 灯
-    COMMAND_SERVER_SWITCH = 2, // 开关
-    COMMAND_SERVER_COUNTER = 3 // 计数器
+    COMMAND_SERVER_LIGHT = 1,
+    COMMAND_SERVER_SWITCH = 2,
+    COMMAND_SERVER_COUNTER = 3
 } mesh_node_type_t;
 
 typedef struct
