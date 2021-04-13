@@ -15,16 +15,14 @@
 #define THREAD_TIMESLICE 40
 #define UART_NAME "uart5"
 
-/* 消息队列控制块 */
 static struct rt_messagequeue mesh_mq;
 static rt_thread_t mesh_command_tx_thread = RT_NULL;
 static rt_thread_t mesh_command_rx_thread = RT_NULL;
 static rt_uint8_t thread_priority = 20;
-static rt_device_t serial;                                        /* 串口设备句柄 */
-static struct serial_configure config = RT_SERIAL_CONFIG_DEFAULT; /* 初始化配置参数 */
+static rt_device_t serial;
+static struct serial_configure config = RT_SERIAL_CONFIG_DEFAULT;
 static struct rt_semaphore rx_sem;
 
-/* 消息队列中用到的放置消息的内存池 */
 static rt_uint8_t msg_pool[2048];
 
 void mesh_send_command(command_opcode_t opc, uint16_t addr, uint8_t *data)
@@ -45,10 +43,8 @@ void mesh_send_command(command_opcode_t opc, uint16_t addr, uint8_t *data)
     LOG_HEX("Uart send data", 11, command, sizeof(command));
 }
 
-/* 接收数据回调函数 */
 static rt_err_t uart_input(rt_device_t dev, rt_size_t size)
 {
-    /* 串口接收到数据后产生中断，调用此回调函数，然后发送接收信号量 */
     rt_sem_release(&rx_sem);
 
     return RT_EOK;
@@ -59,17 +55,14 @@ static void mesh_command_tx_thread_entry(void *params)
     serial = rt_device_find(UART_NAME);
     if (serial != RT_NULL)
     {
-        /* 修改串口配置参数 */
         config.baud_rate = BAUD_RATE_115200;
         config.data_bits = DATA_BITS_8;
         config.stop_bits = STOP_BITS_1;
         config.bufsz = 128;
         config.parity = PARITY_NONE;
 
-        /* 控制串口设备。通过控制接口传入命令控制字，与控制参数 */
         rt_device_control(serial, RT_DEVICE_CTRL_CONFIG, &config);
 
-        /* 打开串口设备。以中断接收及轮询发送模式打开串口设备 */
         rt_device_open(serial, RT_DEVICE_FLAG_INT_RX);
 
         rt_device_set_rx_indicate(serial, uart_input);
@@ -79,7 +72,6 @@ static void mesh_command_tx_thread_entry(void *params)
 
             char command[11];
 
-            /* 从消息队列中接收消息 */
             if (rt_mq_recv(&mesh_mq, command, sizeof(command), RT_WAITING_FOREVER) == RT_EOK)
             {
                 rt_size_t res = rt_device_write(serial, 0, command, sizeof(command));
@@ -136,7 +128,6 @@ static void mesh_command_rx_thread_entry(void *parameter)
         uint8_t ch;
         while (rt_device_read(serial, -1, &ch, 1) != 1)
         {
-            /* 阻塞等待接收信号量，等到信号量后再次读取数据 */
             rt_sem_take(&rx_sem, RT_WAITING_FOREVER);
         }
 

@@ -48,10 +48,8 @@ void jr_thread_entry(void *params)
         config.bufsz = 128;
         config.parity = PARITY_NONE;
 
-        /* step3：控制串口设备。通过控制接口传入命令控制字，与控制参数 */
         rt_device_control(serial, RT_DEVICE_CTRL_CONFIG, &config);
 
-        /* step4：打开串口设备。以中断接收及轮询发送模式打开串口设备 */
         rt_device_open(serial, RT_DEVICE_FLAG_INT_RX);
 
         jr_send_command("AF:20");
@@ -62,7 +60,6 @@ void jr_thread_entry(void *params)
             // 等待播放结束
             while (rt_pin_read(PLAY_BUSY_PIN))
             {
-                // rt_kprintf("jr60001: %d\n", rt_pin_read(PLAY_BUSY_PIN));
                 rt_thread_mdelay(10);
             }
 
@@ -73,15 +70,12 @@ void jr_thread_entry(void *params)
 
             char buf = 0;
 
-            /* 从消息队列中接收消息 */
             if (rt_mq_recv(&player_mq, &buf, sizeof(buf), RT_WAITING_FOREVER) == RT_EOK)
             {
-
                 rt_mutex_take(player_use_mtx, RT_WAITING_FOREVER);
                 rt_pin_write(LED_G, 0);
 
-                memset(command, 0, 20);
-                // sprintf(command, "A7:0000%c", buf);
+                memset(command, 0, 20); // 设置音量
                 sprintf(command, "A8:02/0000%c*MP3", buf);
                 jr_send_command(command);
 
@@ -112,7 +106,6 @@ int create_jr6001_thread(void)
                         sizeof(msg_pool),
                         RT_IPC_FLAG_FIFO);
 
-    // 初始化信号量
     player_use_mtx = rt_mutex_create("player_use_mtx", RT_IPC_FLAG_FIFO);
 
     if (result != RT_EOK)
