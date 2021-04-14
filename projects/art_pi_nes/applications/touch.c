@@ -92,7 +92,7 @@ int ft6236_init(void)
     LOG_I("range_x    :%d", info.range_x);
     LOG_I("range_y    :%d", info.range_y);
 
-    ft6236_thread = rt_thread_create("touch", ft6236_thread_entry, RT_NULL, 2048, 7, 20);
+    ft6236_thread = rt_thread_create("touch", ft6236_thread_entry, RT_NULL, 2048, 3, 20);
     if (ft6236_thread == RT_NULL)
     {
         LOG_D("create ft6236 thread err");

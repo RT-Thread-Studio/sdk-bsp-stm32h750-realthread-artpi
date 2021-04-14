@@ -216,7 +216,7 @@ void ui_nes_list_enter(lv_obj_t *obj)
     ui_nes_sem = rt_sem_create("nes_list", 1, RT_IPC_FLAG_FIFO);
     if(!ui_nes_sem)
         return;
-    ui_nes_tid = rt_thread_create("nes_list", ui_nes_list_thread_entry, NULL, 4096, 4, 10);
+    ui_nes_tid = rt_thread_create("nes_list", ui_nes_list_thread_entry, NULL, 4096, 6, 10);
     if(ui_nes_tid)
         rt_thread_startup(ui_nes_tid);
 }
