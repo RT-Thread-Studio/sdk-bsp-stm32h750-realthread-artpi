@@ -118,7 +118,6 @@ static void command_handler(uint8_t *command)
 
 static void mesh_command_rx_thread_entry(void *parameter)
 {
-    rt_err_t result;
     rt_uint32_t rx_length = 0;
     char rx_buffer[11];
 

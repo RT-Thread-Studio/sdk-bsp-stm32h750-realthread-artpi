@@ -32,7 +32,6 @@ Modify:
 
 #define BLUE_LED GET_PIN(I, 8)
 #define RED_LED GET_PIN(C, 15)
-static uint8_t blue_led_stat = 0, red_led_stat = 0;
 
 extern void mesh_send_command(command_opcode_t opc, uint16_t addr, uint8_t *data);
 
@@ -45,8 +44,6 @@ static char *board_control(uint16_t addr, command_opcode_t code, uint8_t *data)
 
 static char *json_create_basic_info(void)
 {
-    char temp[100];
-
     //ram usage
     cJSON *root = mesh_nodes_dump();
 

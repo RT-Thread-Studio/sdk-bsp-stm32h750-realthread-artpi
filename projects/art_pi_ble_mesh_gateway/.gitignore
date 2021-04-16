@@ -7,3 +7,4 @@ rtthread.bin
 rtthread.map
 .sconsign.dblite
 .config.old
+.settings/art_pi_ble_mesh_gateway.JLink.Debug.rttlaunch
