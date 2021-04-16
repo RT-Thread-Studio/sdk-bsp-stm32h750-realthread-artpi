@@ -1,0 +1,37 @@
+language: c
+
+# 编译信息邮件通知: 
+notifications:
+  email: true
+
+# Git仓库克隆commit深度: 
+git:
+  depth: 3
+
+# 运行编译构建编译脚本之前动作: 
+before_script:
+  # 更新32位gcc工具链
+  - sudo apt-get update 
+  - "sudo apt-get -qq install gcc-multilib libc6:i386 libgcc1:i386 gcc-4.6-base:i386 libstdc++5:i386 libstdc++6:i386 libsdl-dev || true" 
+  - "[ $RTT_TOOL_CHAIN = 'sourcery-arm' ] && curl -s https://launchpadlibrarian.net/287101520/gcc-arm-none-eabi-5_4-2016q3-20160926-linux.tar.bz2 | sudo tar xjf - -C /opt && export RTT_EXEC_PATH=/opt/gcc-arm-none-eabi-5_4-2016q3/bin && /opt/gcc-arm-none-eabi-5_4-2016q3/bin/arm-none-eabi-gcc --version || true" 
+  
+  # 克隆RT-Thread仓库
+  - git clone --depth=3 --branch=master https://github.com/RT-Thread/rt-thread.git ../RT-Thread 
+  
+  # 创建packages目录, 拷贝LittlevGL2RTT源码到bsp pkg下, 并拷贝对应SConscript脚本
+  - mkdir /home/travis/build/liu2guang/RT-Thread/bsp/imxrt1052-evk/packages
+  - cp /home/travis/build/liu2guang/LittlevGL2RTT/tools/rtconfig.h /home/travis/build/liu2guang/RT-Thread/bsp/imxrt1052-evk/rtconfig.h
+  - cp /home/travis/build/liu2guang/LittlevGL2RTT/tools/pkg_scons /home/travis/build/liu2guang/RT-Thread/bsp/imxrt1052-evk/packages/SConscript
+  - cp -r /home/travis/build/liu2guang/LittlevGL2RTT /home/travis/build/liu2guang/RT-Thread/bsp/imxrt1052-evk/packages/LittlevGL2RTT
+  
+  # 导出RT-Thread运行bsp根目录和编译器
+  - export RTT_ROOT=`/home/travis/build/liu2guang/RT-Thread` 
+  - "[ x$RTT_CC == x ] && export RTT_CC='gcc' || true" 
+
+# 运行scons构建编译项目
+script:
+  - scons -C /home/travis/build/liu2guang/RT-Thread/bsp/imxrt1052-evk/ 
+
+# 指定编译dwin的bsp环境
+env:
+  - RTT_BSP='imxrt1052-evk' RTT_TOOL_CHAIN='sourcery-arm' 
