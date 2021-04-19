@@ -99,18 +99,18 @@ static void dump_hex(const rt_uint8_t *ptr, rt_size_t buflen)
 #define RANGE_LIMIT(x) (x > 255 ? 255 : (x < 0 ? 0 : x))
 
 /*
-* YUV422´ò°üÊý¾Ý,UYVY,×ª»»ÎªRGB565,
+* YUV422æ‰“åŒ…æ•°æ®,UYVY,è½¬æ¢ä¸ºRGB565,
 * inBuf -- YUV data
 * outBuf -- RGB565 data
 * imgWidth,imgHeight -- image width and height
-* cvtMethod -- ÎÞÐ§²ÎÊý
+* cvtMethod -- æ— æ•ˆå‚æ•°
 */
 int convert_uyvy_to_rgb(unsigned char *inBuf, unsigned char *outBuf, int imgWidth, int imgHeight)
 {
-    int rows ,cols; /* ÐÐÁÐ±êÖ¾ */
-    int y, u, v, r, g, b;   /* yuv rgb Ïà¹Ø·ÖÁ¿ */
-    unsigned char *YUVdata, *RGBdata;   /* YUVºÍRGBÊý¾ÝÖ¸Õë */
-    int Ypos, Upos, Vpos;   /* Y U VÔÚÊý¾Ý»º´æÖÐµÄÆ«ÒÆ */
+    int rows ,cols; /* è¡Œåˆ—æ ‡å¿— */
+    int y, u, v, r, g, b;   /* yuv rgb ç›¸å…³åˆ†é‡ */
+    unsigned char *YUVdata, *RGBdata;   /* YUVå’ŒRGBæ•°æ®æŒ‡é’ˆ */
+    int Ypos, Upos, Vpos;   /* Y U Våœ¨æ•°æ®ç¼“å­˜ä¸­çš„åç§» */
     unsigned int i = 0;
 
     YUVdata = inBuf;
@@ -133,12 +133,12 @@ int convert_uyvy_to_rgb(unsigned char *inBuf, unsigned char *outBuf, int imgWidt
     Vpos = Ypos + 1;
 #endif
 
-    /* Ã¿¸öÏñËØÁ½¸ö×Ö½Ú */
+    /* æ¯ä¸ªåƒç´ ä¸¤ä¸ªå­—èŠ‚ */
     for(rows = 0; rows < imgHeight; rows++)
     {
         for(cols = 0; cols < imgWidth; cols++)
         {
-            /* ¾ØÕóÍÆµ½£¬°Ù¶È */
+            /* çŸ©é˜µæŽ¨åˆ°ï¼Œç™¾åº¦ */
             y = YUVdata[Ypos];
             u = YUVdata[Upos] - 128;
             v = YUVdata[Vpos] - 128;
@@ -151,15 +151,15 @@ int convert_uyvy_to_rgb(unsigned char *inBuf, unsigned char *outBuf, int imgWidt
             g = g > 255?255:(g < 0?0:g);
             b = b > 255?255:(b < 0?0:b);
 
-            /* ´ÓµÍµ½¸ßr g b */
-            *(RGBdata ++) = (((g & 0x1c) << 3) | (b >> 3)); /* gµÍ5Î»£¬b¸ß5Î» */
-            *(RGBdata ++) = ((r & 0xf8) | (g >> 5));    /* r¸ß5Î»£¬g¸ß3Î» */
+            /* ä»Žä½Žåˆ°é«˜r g b */
+            *(RGBdata ++) = (((g & 0x1c) << 3) | (b >> 3)); /* gä½Ž5ä½ï¼Œbé«˜5ä½ */
+            *(RGBdata ++) = ((r & 0xf8) | (g >> 5));    /* ré«˜5ä½ï¼Œgé«˜3ä½ */
 
-            /* Á½¸ö×Ö½ÚÊý¾ÝÖÐ°üº¬Ò»¸öY */
+            /* ä¸¤ä¸ªå­—èŠ‚æ•°æ®ä¸­åŒ…å«ä¸€ä¸ªY */
             Ypos += 2;
             //Ypos++;
             i++;
-            /* Ã¿Á½¸öY¸üÐÂÒ»´ÎUV */
+            /* æ¯ä¸¤ä¸ªYæ›´æ–°ä¸€æ¬¡UV */
             if(!(i & 0x01))
             {
                 Upos = Ypos - 1;
@@ -180,7 +180,7 @@ static void rgb565_to_rgb888(rt_uint16_t *rgb565Color, rt_uint8_t *rgb888Color, 
     for (i=0, n=0; i<size; i++, n+=3)
     {
         color = rgb565Color[i];
-        // »ñÈ¡RGBµ¥É«£¬²¢Ìî³äµÍÎ»
+        // èŽ·å–RGBå•è‰²ï¼Œå¹¶å¡«å……ä½Žä½
         rgb888Color[n]  = ((color & RGB565_RED)    >> 11) <<3;
         rgb888Color[n+1]  = ((color & RGB565_GREEN)  >> 5) <<2;
         rgb888Color[n+2]    = (color & RGB565_BLUE) <<3;
@@ -323,8 +323,8 @@ static rt_err_t  camera_inf_cfg_gc0328c_fps(rt_uint8_t fps_type)
 void gc0328c_rgb565_mode(void)
 {
     write_reg(i2c_bus, 0xfe, 0x00);
-    write_reg(i2c_bus, 0x49, 0x23);  //ÇÐ»»´óÐ¡¶Ë
-    write_reg(i2c_bus, 0x44, 0x26);  //ÇÐ»»µ½RGB565Êä³ö
+    write_reg(i2c_bus, 0x49, 0x23);  //åˆ‡æ¢å¤§å°ç«¯
+    write_reg(i2c_bus, 0x44, 0x26);  //åˆ‡æ¢åˆ°RGB565è¾“å‡º
 }
 
 void camera_dma_data_process(void)
