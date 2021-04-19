@@ -7,7 +7,6 @@ if not GetDepend(['PKG_USING_NES']):
 cwd  = GetCurrentDir()
 path = [cwd]
 src	 = Glob('src/*.c')
-src	 += Glob('src/mapper/*.cpp')
 
 src	 += Glob('port/nes_embed.c')
 src	 += Glob('port/nes_file_port.c')
