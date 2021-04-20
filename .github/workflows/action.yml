@@ -60,6 +60,8 @@ jobs:
          - {RTT_BSP: "industry_io_gateway"}
          - {RTT_BSP: "lrs007_lora_radio"}
          - {RTT_BSP: "lrs007_lorawan_end_device"}
+         - {RTT_BSP: "art_pi_qboot"}
+         - {RTT_BSP: "art_pi_nes"}
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
