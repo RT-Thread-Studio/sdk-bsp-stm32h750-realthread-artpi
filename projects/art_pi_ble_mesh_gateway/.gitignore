@@ -1,0 +1,10 @@
+rt-thread/
+Debug/
+*.o
+rt-thread.elf 
+rt-thread.hex 
+rtthread.bin 
+rtthread.map
+.sconsign.dblite
+.config.old
+.settings/art_pi_ble_mesh_gateway.JLink.Debug.rttlaunch
