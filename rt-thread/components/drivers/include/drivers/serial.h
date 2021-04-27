@@ -58,17 +58,16 @@
 #define RT_SERIAL_RB_BUFSZ              64
 #endif
 
+#define RT_SERIAL_RX_BLOCKING           RT_DEVICE_FLAG_RX_BLOCKING
+#define RT_SERIAL_RX_NON_BLOCKING       RT_DEVICE_FLAG_RX_NON_BLOCKING
+#define RT_SERIAL_TX_BLOCKING           RT_DEVICE_FLAG_TX_BLOCKING
+#define RT_SERIAL_TX_NON_BLOCKING       RT_DEVICE_FLAG_TX_NON_BLOCKING
+
 #define RT_SERIAL_EVENT_RX_IND          0x01    /* Rx indication */
 #define RT_SERIAL_EVENT_TX_DONE         0x02    /* Tx complete   */
-#define RT_SERIAL_EVENT_RX_DMADONE      0x03    /* Rx DMA transfer done */
-#define RT_SERIAL_EVENT_TX_DMADONE      0x04    /* Tx DMA transfer done */
-#define RT_SERIAL_EVENT_RX_TIMEOUT      0x05    /* Rx timeout    */
-
-#define RT_SERIAL_DMA_RX                0x01
-#define RT_SERIAL_DMA_TX                0x02
-
-#define RT_SERIAL_RX_INT                0x01
-#define RT_SERIAL_TX_INT                0x02
+//#define RT_SERIAL_EVENT_RX_DMADONE      0x03    /* Rx DMA transfer done */
+//#define RT_SERIAL_EVENT_TX_DMADONE      0x04    /* Tx DMA transfer done */
+//#define RT_SERIAL_EVENT_RX_TIMEOUT      0x05    /* Rx timeout    */
 
 #define RT_SERIAL_ERR_OVERRUN           0x01
 #define RT_SERIAL_ERR_FRAMING           0x02
@@ -76,6 +75,12 @@
 
 #define RT_SERIAL_TX_DATAQUEUE_SIZE     2048
 #define RT_SERIAL_TX_DATAQUEUE_LWM      30
+
+#define RT_SERIAL_RX_MINBUFSZ 64
+#define RT_SERIAL_TX_MINBUFSZ 64
+
+#define RT_SERIAL_TX_BLOCKING_BUFFER       1
+#define RT_SERIAL_TX_BLOCKING_NO_BUFFER    0
 
 /* Default config for serial_configure structure */
 #define RT_SERIAL_CONFIG_DEFAULT           \
@@ -86,7 +91,8 @@
     PARITY_NONE,      /* No parity  */     \
     BIT_ORDER_LSB,    /* LSB first sent */ \
     NRZ_NORMAL,       /* Normal mode */    \
-    RT_SERIAL_RB_BUFSZ, /* Buffer size */  \
+    RT_SERIAL_RB_BUFSZ, /* rxBuf size */   \
+    0,                  /* txBuf size */   \
     0                                      \
 }
 
@@ -99,7 +105,8 @@ struct serial_configure
     rt_uint32_t parity                  :2;
     rt_uint32_t bit_order               :1;
     rt_uint32_t invert                  :1;
-    rt_uint32_t bufsz                   :16;
+    rt_uint32_t rx_bufsz                :16;
+    rt_uint32_t tx_bufsz                :16;
     rt_uint32_t reserved                :6;
 };
 
@@ -108,31 +115,30 @@ struct serial_configure
  */
 struct rt_serial_rx_fifo
 {
+    struct rt_ringbuffer rb;
+
+    rt_uint16_t rx_index;
+
+    struct rt_completion rx_cpt;
+
+    rt_uint16_t rx_cpt_index;
+
     /* software fifo */
-    rt_uint8_t *buffer;
-
-    rt_uint16_t put_index, get_index;
-
-    rt_bool_t is_full;
+    rt_uint8_t buffer[];
 };
 
 struct rt_serial_tx_fifo
 {
-    struct rt_completion completion;
-};
+    struct rt_ringbuffer rb;
 
-/* 
- * Serial DMA mode
- */
-struct rt_serial_rx_dma
-{
-    rt_bool_t activated;
-};
+    rt_size_t put_size;
 
-struct rt_serial_tx_dma
-{
     rt_bool_t activated;
-    struct rt_data_queue data_queue;
+
+    struct rt_completion tx_cpt;
+
+    /* software fifo */
+    rt_uint8_t buffer[];
 };
 
 struct rt_serial_device
@@ -145,27 +151,34 @@ struct rt_serial_device
     void *serial_rx;
     void *serial_tx;
 };
-typedef struct rt_serial_device rt_serial_t;
+typedef struct rt_serial_device *rt_serial_t;
 
 /**
  * uart operators
  */
 struct rt_uart_ops
 {
-    rt_err_t (*configure)(struct rt_serial_device *serial, struct serial_configure *cfg);
-    rt_err_t (*control)(struct rt_serial_device *serial, int cmd, void *arg);
+    rt_err_t (*configure)(struct rt_serial_device       *serial,
+                          struct serial_configure       *cfg);
+
+    rt_err_t (*control)(struct rt_serial_device         *serial,
+                                            int          cmd,
+                                            void        *arg);
 
     int (*putc)(struct rt_serial_device *serial, char c);
     int (*getc)(struct rt_serial_device *serial);
 
-    rt_size_t (*dma_transmit)(struct rt_serial_device *serial, rt_uint8_t *buf, rt_size_t size, int direction);
+    rt_size_t (*transmit)(struct rt_serial_device       *serial,
+                                 rt_uint8_t             *buf,
+                                 rt_size_t               size,
+                                 rt_uint32_t             tx_flag);
 };
 
 void rt_hw_serial_isr(struct rt_serial_device *serial, int event);
 
-rt_err_t rt_hw_serial_register(struct rt_serial_device *serial,
-                               const char              *name,
-                               rt_uint32_t              flag,
-                               void                    *data);
+rt_err_t rt_hw_serial_register(struct rt_serial_device      *serial,
+                               const  char                  *name,
+                                      rt_uint32_t            flag,
+                                      void                  *data);
 
 #endif

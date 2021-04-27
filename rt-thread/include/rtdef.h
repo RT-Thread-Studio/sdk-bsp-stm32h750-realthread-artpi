@@ -885,6 +885,12 @@ enum rt_device_class_type
 #define RT_DEVICE_FLAG_INT_TX           0x400           /**< INT mode on Tx */
 #define RT_DEVICE_FLAG_DMA_TX           0x800           /**< DMA mode on Tx */
 
+#define RT_DEVICE_FLAG_RX_BLOCKING      0x1000
+#define RT_DEVICE_FLAG_RX_NON_BLOCKING  0x2000
+
+#define RT_DEVICE_FLAG_TX_BLOCKING      0x4000
+#define RT_DEVICE_FLAG_TX_NON_BLOCKING  0x8000
+
 #define RT_DEVICE_OFLAG_CLOSE           0x000           /**< device is closed */
 #define RT_DEVICE_OFLAG_RDONLY          0x001           /**< read only access */
 #define RT_DEVICE_OFLAG_WRONLY          0x002           /**< write only access */
@@ -904,6 +910,7 @@ enum rt_device_class_type
 #define RT_DEVICE_CTRL_CLR_INT          0x11            /**< clear interrupt */
 #define RT_DEVICE_CTRL_GET_INT          0x12            /**< get interrupt status */
 
+#define RT_DEVICE_CHECK_OPTMODE         0x20
 /**
  * special device commands
  */

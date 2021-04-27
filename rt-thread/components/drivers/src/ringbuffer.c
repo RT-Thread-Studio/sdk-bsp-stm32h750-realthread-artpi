@@ -146,6 +146,39 @@ rt_size_t rt_ringbuffer_put_force(struct rt_ringbuffer *rb,
 }
 RTM_EXPORT(rt_ringbuffer_put_force);
 
+rt_size_t rt_ringbuffer_put_update(struct rt_ringbuffer *rb, rt_uint16_t length)
+{
+    rt_uint16_t size;
+
+    RT_ASSERT(rb != RT_NULL);
+
+    /* whether has enough space */
+    size = rt_ringbuffer_space_len(rb);
+
+    /* no space */
+    if (size == 0)
+        return 0;
+
+    /* drop some data */
+    if (size < length)
+        length = size;
+
+    if (rb->buffer_size - rb->write_index > length)
+    {
+        /* this should not cause overflow because there is enough space for
+         * length of data in current mirror */
+        rb->write_index += length;
+        return length;
+    }
+
+    /* we are going into the other side of the mirror */
+    rb->write_mirror = ~rb->write_mirror;
+    rb->write_index = length - (rb->buffer_size - rb->write_index);
+
+    return length;
+}
+RTM_EXPORT(rt_ringbuffer_put_update);
+
 /**
  *  get data from ring buffer
  */
@@ -192,6 +225,78 @@ rt_size_t rt_ringbuffer_get(struct rt_ringbuffer *rb,
     return length;
 }
 RTM_EXPORT(rt_ringbuffer_get);
+
+
+rt_size_t rt_ringbuffer_get_linear_buffer(struct rt_ringbuffer       *rb,
+                                                 rt_uint8_t         **ptr)
+{
+    rt_size_t size;
+
+    RT_ASSERT(rb != RT_NULL);
+
+    *ptr = RT_NULL;
+
+    /* whether has enough data  */
+    size = rt_ringbuffer_data_len(rb);
+
+    /* no data */
+    if (size == 0)
+        return 0;
+
+    *ptr = &rb->buffer_ptr[rb->read_index];
+
+    if(rb->buffer_size - rb->read_index > size)
+    {
+        return size;
+    }
+
+    else
+    {
+        return rb->buffer_size - rb->read_index;
+    }
+
+}
+
+
+/**
+ *  peak data from ring buffer
+ */
+rt_size_t rt_ringbuffer_peak(struct rt_ringbuffer *rb, rt_uint8_t **ptr, rt_uint16_t length)
+{
+    rt_size_t size;
+
+    RT_ASSERT(rb != RT_NULL);
+
+    *ptr = RT_NULL;
+
+    /* whether has enough data  */
+    size = rt_ringbuffer_data_len(rb);
+
+    /* no data */
+    if (size == 0)
+        return 0;
+    
+    /* less data */
+    if(size < length)
+        length = size;
+
+    *ptr = &rb->buffer_ptr[rb->read_index];
+
+    if(rb->buffer_size - rb->read_index > length)
+    {
+        rb->read_index += length;
+        return length;
+    }
+
+    length = rb->buffer_size - rb->read_index;
+
+    /* we are going into the other side of the mirror */
+    rb->read_mirror = ~rb->read_mirror;
+    rb->read_index = 0;
+
+    return length;
+}
+RTM_EXPORT(rt_ringbuffer_peak);
 
 /**
  * put a character into ring buffer

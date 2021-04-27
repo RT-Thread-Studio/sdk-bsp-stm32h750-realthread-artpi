@@ -41,7 +41,7 @@ extern "C" {
 #define UART4_DMA_RX_IRQHandler          DMA1_Stream2_IRQHandler
 #define UART4_RX_DMA_RCC                 RCC_AHB1ENR_DMA1EN
 #define UART4_RX_DMA_INSTANCE            DMA1_Stream2
-#define UART4_RX_DMA_CHANNEL             DMA_CHANNEL_4
+#define UART4_RX_DMA_REQUEST             DMA_REQUEST_UART4_RX
 #define UART4_RX_DMA_IRQ                 DMA1_Stream2_IRQn
 #endif
 
