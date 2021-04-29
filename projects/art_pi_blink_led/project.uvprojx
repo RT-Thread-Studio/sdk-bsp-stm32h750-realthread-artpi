@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32H750xx, USE_HAL_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>applications;rt-thread\libcpu\arm\common;rt-thread\libcpu\arm\cortex-m7;rt-thread\components\drivers\include;rt-thread\components\drivers\include;rt-thread\components\drivers\spi;rt-thread\components\drivers\include;rt-thread\components\drivers\include;board;board\port;board\CubeMX_Config\Core\Inc;libraries\drivers;libraries\drivers\include;libraries\drivers\include\config;rt-thread\components\dfs\include;rt-thread\components\dfs\filesystems\devfs;rt-thread\components\finsh;.;rt-thread\include;rt-thread\components\libc\compilers\common;libraries\samples;libraries\STM32H7xx_HAL\STM32H7xx_HAL_Driver\Inc;libraries\STM32H7xx_HAL\CMSIS\Device\ST\STM32H7xx\Include;libraries\STM32H7xx_HAL\CMSIS\Include</IncludePath>
+              <IncludePath>applications;rt-thread\libcpu\arm\common;rt-thread\libcpu\arm\cortex-m7;rt-thread\components\drivers\include;rt-thread\components\drivers\include;rt-thread\components\drivers\spi;rt-thread\components\drivers\include;rt-thread\components\drivers\include;board;board\port;board\CubeMX_Config\Core\Inc;libraries\drivers;libraries\drivers\include;libraries\drivers\include\config;rt-thread\components\dfs\include;rt-thread\components\dfs\filesystems\devfs;rt-thread\components\finsh;.;rt-thread\include;rt-thread\components\libc\compilers\common;libraries\samples;libraries\STM32H7xx_HAL\STM32H7xx_HAL_Driver\Inc;libraries\STM32H7xx_HAL\CMSIS\Device\ST\STM32H7xx\Include;libraries\STM32H7xx_HAL\CMSIS\Include;rt-thread\components\utilities\utest;rt-thread\components\utilities\ulog</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -391,6 +391,11 @@
               <FileName>uart_sample.c</FileName>
               <FileType>1</FileType>
               <FilePath>applications\uart_sample.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart_testcase.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>applications\uart_testcase.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -930,6 +935,31 @@
               <FileName>stm32h7xx_hal_qspi.c</FileName>
               <FileType>1</FileType>
               <FilePath>libraries\STM32H7xx_HAL\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_qspi.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>utest</GroupName>
+          <Files>
+            <File>
+              <FileName>utest.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>rt-thread\components\utilities\utest\utest.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Utilities</GroupName>
+          <Files>
+            <File>
+              <FileName>ulog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>rt-thread\components\utilities\ulog\ulog.c</FilePath>
+            </File>
+            <File>
+              <FileName>console_be.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>rt-thread\components\utilities\ulog\backend\console_be.c</FilePath>
             </File>
           </Files>
         </Group>

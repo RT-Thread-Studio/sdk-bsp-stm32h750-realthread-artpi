@@ -309,7 +309,7 @@ void utest_assert(int value, const char *file, int line, const char *func, const
     {
         if (utest_log_lv == UTEST_LOG_ALL)
         {
-            LOG_D("[    OK    ] [ unit     ] (%s:%d) is passed", func, line);
+//            LOG_D("[    OK    ] [ unit     ] (%s:%d) is passed", func, line);
         }
         local_utest.error = UTEST_PASSED;
         local_utest.passed_num ++;
