@@ -507,8 +507,7 @@ static rt_err_t rt_serial_open(struct rt_device *dev, rt_uint16_t oflag)
     RT_ASSERT(dev != RT_NULL);
     serial = (struct rt_serial_device *)dev;
 
-    LOG_D("open serial device: 0x%08x with open flag: 0x%04x",
-        dev, oflag);
+    LOG_D("open serial device: 0x%08x with open flag: 0x%04x", dev, oflag);
 
     if ((oflag & RT_SERIAL_RX_BLOCKING) == RT_SERIAL_RX_BLOCKING)
         dev->open_flag |= RT_SERIAL_RX_BLOCKING;
