@@ -520,33 +520,36 @@ static rt_err_t rt_serial_rx_disable(struct rt_device        *dev,
                                             rt_uint16_t       rx_oflag)
 {
     struct rt_serial_device *serial;
+    struct rt_serial_rx_fifo *rx_fifo;
 
     RT_ASSERT(dev != RT_NULL);
     serial = (struct rt_serial_device *)dev;
 
-    if (serial->serial_rx)
-    {
-        struct rt_serial_rx_fifo *rx_fifo;
-        rx_fifo = (struct rt_serial_rx_fifo *)serial->serial_rx;
-        RT_ASSERT(rx_fifo != RT_NULL);
-        rt_free(rx_fifo);
-    }
-
     dev->read = RT_NULL;
+    if (serial->serial_rx == RT_NULL) return RT_EOK;
 
-    if (rx_oflag == RT_SERIAL_RX_NON_BLOCKING)
+    do
     {
-        dev->open_flag &= ~ RT_SERIAL_RX_NON_BLOCKING;
+        if (rx_oflag == RT_SERIAL_RX_NON_BLOCKING)
+        {
+            dev->open_flag &= ~ RT_SERIAL_RX_NON_BLOCKING;
+            serial->ops->control(serial,
+                                RT_DEVICE_CTRL_CLR_INT,
+                                (void *)RT_SERIAL_RX_NON_BLOCKING);
+            break;
+        }
+
+        dev->open_flag &= ~ RT_SERIAL_RX_BLOCKING;
         serial->ops->control(serial,
                             RT_DEVICE_CTRL_CLR_INT,
-                            (void *)RT_SERIAL_RX_NON_BLOCKING);
-        return RT_EOK;
-    }
+                            (void *)RT_SERIAL_RX_BLOCKING);
+    } while (0);
 
-    dev->open_flag &= ~ RT_SERIAL_RX_BLOCKING;
-    serial->ops->control(serial,
-                        RT_DEVICE_CTRL_CLR_INT,
-                        (void *)RT_SERIAL_RX_BLOCKING);
+    rx_fifo = (struct rt_serial_rx_fifo *)serial->serial_rx;
+    RT_ASSERT(rx_fifo != RT_NULL);
+    rt_free(rx_fifo);
+    serial->serial_rx = RT_NULL;
+
     return RT_EOK;
 }
 
@@ -560,35 +563,37 @@ static rt_err_t rt_serial_tx_disable(struct rt_device        *dev,
                                             rt_uint16_t       tx_oflag)
 {
     struct rt_serial_device *serial;
+    struct rt_serial_tx_fifo *tx_fifo;
 
     RT_ASSERT(dev != RT_NULL);
     serial = (struct rt_serial_device *)dev;
 
-    if (serial->serial_tx)
-    {
-        struct rt_serial_tx_fifo *tx_fifo;
-        tx_fifo = (struct rt_serial_tx_fifo *)serial->serial_tx;
-        RT_ASSERT(tx_fifo != RT_NULL);
-
-        rt_free(tx_fifo);
-    }
-
     dev->write = RT_NULL;
+    if (serial->serial_tx == RT_NULL) return RT_EOK;
 
-    if (tx_oflag == RT_SERIAL_TX_NON_BLOCKING)
+    do
     {
-        dev->open_flag &= ~ RT_SERIAL_TX_NON_BLOCKING;
+        if (tx_oflag == RT_SERIAL_TX_NON_BLOCKING)
+        {
+            dev->open_flag &= ~ RT_SERIAL_TX_NON_BLOCKING;
 
+            serial->ops->control(serial,
+                                RT_DEVICE_CTRL_CLR_INT,
+                                (void *)RT_SERIAL_TX_NON_BLOCKING);
+            break;
+        }
+
+        dev->open_flag &= ~ RT_SERIAL_TX_BLOCKING;
         serial->ops->control(serial,
                             RT_DEVICE_CTRL_CLR_INT,
-                            (void *)RT_SERIAL_TX_NON_BLOCKING);
-        return RT_EOK;
-    }
+                            (void *)RT_SERIAL_TX_BLOCKING);
+    } while (0);
 
-    dev->open_flag &= ~ RT_SERIAL_TX_BLOCKING;
-    serial->ops->control(serial,
-                        RT_DEVICE_CTRL_CLR_INT,
-                        (void *)RT_SERIAL_TX_BLOCKING);
+    tx_fifo = (struct rt_serial_tx_fifo *)serial->serial_tx;
+    RT_ASSERT(tx_fifo != RT_NULL);
+    rt_free(tx_fifo);
+    serial->serial_tx = RT_NULL;
+
     return RT_EOK;
 }
 
@@ -684,8 +689,6 @@ static rt_err_t rt_serial_close(struct rt_device *dev)
     rt_serial_tx_disable(dev, dev->open_flag & 
                         (RT_SERIAL_TX_BLOCKING | RT_SERIAL_TX_NON_BLOCKING));
 
-    serial->serial_rx = RT_NULL;
-    serial->serial_tx = RT_NULL;
     /* Call the control() API to close the serial device */
     serial->ops->control(serial, RT_DEVICE_CTRL_CLOSE, RT_NULL);
     dev->flag &= ~RT_DEVICE_FLAG_ACTIVATED;
