@@ -35,6 +35,173 @@
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
+#ifdef RT_USING_POSIX
+#include <dfs_posix.h>
+#include <dfs_poll.h>
+
+#ifdef RT_USING_POSIX_TERMIOS
+#include <posix_termios.h>
+#endif
+
+#ifdef getc
+#undef getc
+#endif
+
+#ifdef putc
+#undef putc
+#endif
+
+static rt_err_t serial_fops_rx_ind(rt_device_t dev, rt_size_t size)
+{
+    rt_wqueue_wakeup(&(dev->wait_queue), (void*)POLLIN);
+
+    return RT_EOK;
+}
+
+/* fops for serial */
+static int serial_fops_open(struct dfs_fd *fd)
+{
+    rt_err_t ret = 0;
+    rt_uint16_t flags = 0;
+    rt_device_t device;
+
+    device = (rt_device_t)fd->data;
+    RT_ASSERT(device != RT_NULL);
+
+    switch (fd->flags & O_ACCMODE)
+    {
+    case O_RDONLY:
+        LOG_D("fops open: O_RDONLY!");
+        flags = RT_DEVICE_FLAG_RDONLY;
+        break;
+    case O_WRONLY:
+        LOG_D("fops open: O_WRONLY!");
+        flags = RT_DEVICE_FLAG_WRONLY;
+        break;
+    case O_RDWR:
+        LOG_D("fops open: O_RDWR!");
+        flags = RT_DEVICE_FLAG_RDWR;
+        break;
+    default:
+        LOG_E("fops open: unknown mode - %d!", fd->flags & O_ACCMODE);
+        break;
+    }
+
+    if ((fd->flags & O_ACCMODE) != O_WRONLY)
+        rt_device_set_rx_indicate(device, serial_fops_rx_ind);
+    ret = rt_device_open(device, flags);
+    if (ret == RT_EOK) return 0;
+
+    return ret;
+}
+
+static int serial_fops_close(struct dfs_fd *fd)
+{
+    rt_device_t device;
+
+    device = (rt_device_t)fd->data;
+
+    rt_device_set_rx_indicate(device, RT_NULL);
+    rt_device_close(device);
+
+    return 0;
+}
+
+static int serial_fops_ioctl(struct dfs_fd *fd, int cmd, void *args)
+{
+    rt_device_t device;
+
+    device = (rt_device_t)fd->data;
+    switch (cmd)
+    {
+    case FIONREAD:
+        break;
+    case FIONWRITE:
+        break;
+    }
+
+    return rt_device_control(device, cmd, args);
+}
+
+static int serial_fops_read(struct dfs_fd *fd, void *buf, size_t count)
+{
+    int size = 0;
+    rt_device_t device;
+
+    device = (rt_device_t)fd->data;
+
+    do
+    {
+        size = rt_device_read(device, -1,  buf, count);
+        if (size <= 0)
+        {
+            if (fd->flags & O_NONBLOCK)
+            {
+                size = -EAGAIN;
+                break;
+            }
+
+            rt_wqueue_wait(&(device->wait_queue), 0, RT_WAITING_FOREVER);
+        }
+    }while (size <= 0);
+
+    return size;
+}
+
+static int serial_fops_write(struct dfs_fd *fd, const void *buf, size_t count)
+{
+    rt_device_t device;
+
+    device = (rt_device_t)fd->data;
+    return rt_device_write(device, -1, buf, count);
+}
+
+static int serial_fops_poll(struct dfs_fd *fd, struct rt_pollreq *req)
+{
+    int mask = 0;
+    int flags = 0;
+    rt_device_t device;
+    struct rt_serial_device *serial;
+
+    device = (rt_device_t)fd->data;
+    RT_ASSERT(device != RT_NULL);
+
+    serial = (struct rt_serial_device *)device;
+
+    /* only support POLLIN */
+    flags = fd->flags & O_ACCMODE;
+    if (flags == O_RDONLY || flags == O_RDWR)
+    {
+        rt_base_t level;
+        struct rt_serial_rx_fifo* rx_fifo;
+
+        rt_poll_add(&(device->wait_queue), req);
+
+        rx_fifo = (struct rt_serial_rx_fifo*) serial->serial_rx;
+
+        level = rt_hw_interrupt_disable();
+        
+        if (rt_ringbuffer_data_len(&rx_fifo->rb))
+            mask |= POLLIN;
+        rt_hw_interrupt_enable(level);
+    }
+    // mask|=POLLOUT;
+   return mask;
+}
+
+const static struct dfs_file_ops _serial_fops =
+{
+    serial_fops_open,
+    serial_fops_close,
+    serial_fops_ioctl,
+    serial_fops_read,
+    serial_fops_write,
+    RT_NULL, /* flush */
+    RT_NULL, /* lseek */
+    RT_NULL, /* getdents */
+    serial_fops_poll,
+};
+#endif
 /**
   * @brief Serial polling receive data routine, This function will receive data
   *        in a continuous loop by one by one byte.
@@ -898,6 +1065,10 @@ rt_err_t rt_hw_serial_register(struct rt_serial_device *serial,
     /* register a character device */
     ret = rt_device_register(device, name, flag);
 
+#if defined(RT_USING_POSIX)
+    /* set fops */
+    device->fops        = &_serial_fops;
+#endif
     return ret;
 }
 
