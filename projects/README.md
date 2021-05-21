@@ -18,3 +18,4 @@ ART-Pi 开源项目如下表所示：
 | [art_pi_ble_mesh_gateway](./art_pi_ble_mesh_gateway) | 实现蓝牙 mesh web 网关功能。 |
 | [art_pi_nes](./art_pi_nes) | 实现 NES 模拟器及游戏试玩 |
 | [uf2_boot]((./uf2_boot)) | 实现 USB 的 bootloader 的功能，使用的文件格式为 uf2 |
+| [art_pi_kboot](./art_pi_kboot) | 实现烧录kernel/uboot/rootfs到qspi/spi flash，并跳转到qspi `0x90000000` 地址，运行uboot |
