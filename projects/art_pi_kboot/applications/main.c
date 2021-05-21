@@ -31,7 +31,7 @@ static rt_uint8_t ota_type = TYPE_OTA_UBOOT;
 static rt_uint32_t fal_partition_ofs = 0;
 static fal_partition_t qspi_part = RT_NULL;
 static rt_uint32_t down_addr = UBOOT_ADDRESS;
-
+extern void art_pi_boot_show_logo(void);
 typedef void (*pFunction)(void);
 pFunction JumpToApplication;
 static rt_err_t rym_download_file(rt_device_t idev);
@@ -98,7 +98,7 @@ int main(void)
 {
     int count = 1;
     switch_baud_2m();
-    rt_kprintf("RTT BOOT\r\n");
+    art_pi_boot_show_logo();
     /* set LED0 pin mode to output */
     rt_pin_mode(LED0_PIN, PIN_MODE_OUTPUT);
     rt_pin_mode(LED1_PIN, PIN_MODE_OUTPUT);
