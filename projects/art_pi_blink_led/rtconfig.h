@@ -77,9 +77,9 @@
 
 #define RT_USING_DFS
 #define DFS_USING_WORKDIR
-#define DFS_FILESYSTEMS_MAX 2
-#define DFS_FILESYSTEM_TYPES_MAX 2
-#define DFS_FD_MAX 16
+#define DFS_FILESYSTEMS_MAX 6
+#define DFS_FILESYSTEM_TYPES_MAX 6
+#define DFS_FD_MAX 32
 #define RT_USING_DFS_DEVFS
 
 /* Device Drivers */
@@ -99,7 +99,6 @@
 
 #define RT_USING_LIBC
 #define RT_USING_POSIX
-/* end of POSIX layer and C standard library */
 
 /* Network */
 
@@ -119,6 +118,7 @@
 
 
 /* Utilities */
+
 
 #define RT_USING_ULOG
 #define ULOG_OUTPUT_LVL_D
