@@ -119,7 +119,6 @@
 
 /* Utilities */
 
-
 #define RT_USING_ULOG
 #define ULOG_OUTPUT_LVL_D
 #define ULOG_OUTPUT_LVL 7
@@ -204,6 +203,10 @@
 /* Onboard Peripheral */
 
 #define BSP_USING_USB_TO_USART
+
+/* On-chip Peripheral */
+
+#define BSP_USING_GPIO
 #define BSP_USING_UART
 #define BSP_USING_UART1
 #define BSP_UART1_RX_USING_DMA
@@ -213,10 +216,6 @@
 #define BSP_USING_UART4
 #define BSP_UART4_RX_BUFSIZE 64
 #define BSP_UART4_TX_BUFSIZE 0
-
-/* On-chip Peripheral */
-
-#define BSP_USING_GPIO
 
 /* External Libraries */
 
