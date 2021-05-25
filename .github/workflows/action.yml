@@ -61,6 +61,7 @@ jobs:
          - {RTT_BSP: "lrs007_lora_radio"}
          - {RTT_BSP: "lrs007_lorawan_end_device"}
          - {RTT_BSP: "art_pi_qboot"}
+         - {RTT_BSP: "art_pi_kboot"}
          - {RTT_BSP: "art_pi_nes"}
          - {RTT_BSP: "art_pi_ble_mesh_gateway"}
     steps:
