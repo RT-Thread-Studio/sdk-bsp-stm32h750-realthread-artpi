@@ -412,6 +412,7 @@ static rt_size_t _serial_fifo_tx_blocking_buf(struct rt_device        *dev,
     struct rt_serial_device *serial;
     struct rt_serial_tx_fifo *tx_fifo = RT_NULL;
     rt_size_t         length;
+    static rt_uint16_t offset = 0;
     RT_ASSERT(dev != RT_NULL);
     if (size == 0) return 0;
 
@@ -429,17 +430,18 @@ static rt_size_t _serial_fifo_tx_blocking_buf(struct rt_device        *dev,
     {
         /* Copy one piece of data into the ringbuffer at a time 
          * until the length of the data is equal to size */
-        tx_fifo->put_size = rt_ringbuffer_put(&(tx_fifo->rb), buffer, size);
+        tx_fifo->put_size = rt_ringbuffer_put(&(tx_fifo->rb), (rt_uint8_t *)buffer + offset, size);
+        offset += tx_fifo->put_size;
         size -= tx_fifo->put_size;
         /* Call the transmit interface for transmission */
         serial->ops->transmit(serial,
-                             (rt_uint8_t *)buffer,
+                             (rt_uint8_t *)buffer + offset,
                              tx_fifo->put_size,
                              RT_SERIAL_TX_BLOCKING);
         /* Waiting for the transmission to complete */
         rt_completion_wait(&(tx_fifo->tx_cpt), RT_WAITING_FOREVER);
     }
-
+    offset = 0;
     return length;
 }
 

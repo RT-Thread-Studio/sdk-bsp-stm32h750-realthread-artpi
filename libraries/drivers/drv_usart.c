@@ -1091,6 +1091,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
     uart = (struct stm32_uart *)huart;
 
     dma_recv_isr(&uart->serial, UART_RX_DMA_IT_TC_FLAG);
+    rt_hw_serial_isr(&uart->serial, RT_SERIAL_EVENT_RX_IND);
 }
 
 /**
@@ -1107,6 +1108,7 @@ void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
     uart = (struct stm32_uart *)huart;
 
     dma_recv_isr(&uart->serial, UART_RX_DMA_IT_HT_FLAG);
+    rt_hw_serial_isr(&uart->serial, RT_SERIAL_EVENT_RX_IND);
 }
 
 /**
