@@ -481,7 +481,12 @@ static rt_err_t stm32_control(struct rt_serial_device *serial, int cmd, void *ar
 
     case RT_DEVICE_CTRL_CONFIG:
         if (ctrl_arg & (RT_DEVICE_FLAG_DMA_RX | RT_DEVICE_FLAG_DMA_TX))
+        {
+
+#ifdef RT_SERIAL_USING_DMA
             stm32_dma_config(serial, ctrl_arg);
+#endif
+        }
         else
             stm32_control(serial, RT_DEVICE_CTRL_SET_INT, (void *)ctrl_arg);
         break;
