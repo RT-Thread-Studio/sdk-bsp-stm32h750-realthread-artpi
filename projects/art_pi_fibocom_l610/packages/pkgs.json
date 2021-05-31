@@ -1,0 +1,27 @@
+[
+ {
+  "path": "/packages/iot/webclient", 
+  "ver": "v2.1.2", 
+  "name": "WEBCLIENT"
+ }, 
+ {
+  "path": "/packages/iot/cJSON", 
+  "ver": "v1.0.2", 
+  "name": "CJSON"
+ }, 
+ {
+  "path": "/packages/iot/at_device", 
+  "ver": "latest", 
+  "name": "AT_DEVICE"
+ }, 
+ {
+  "path": "/packages/iot/iot_cloud/ali-iotkit", 
+  "ver": "v3.0.1", 
+  "name": "ALI_IOTKIT"
+ }, 
+ {
+  "path": "/packages/security/mbedtls", 
+  "ver": "latest", 
+  "name": "MBEDTLS"
+ }
+]
