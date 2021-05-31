@@ -146,7 +146,7 @@ rt_size_t rt_ringbuffer_put_force(struct rt_ringbuffer *rb,
 }
 RTM_EXPORT(rt_ringbuffer_put_force);
 
-rt_size_t rt_ringbuffer_put_update(struct rt_ringbuffer *rb, rt_uint16_t length)
+rt_size_t rt_ringbuffer_update_index(struct rt_ringbuffer *rb, rt_uint16_t length)
 {
     rt_uint16_t size;
 
@@ -177,7 +177,7 @@ rt_size_t rt_ringbuffer_put_update(struct rt_ringbuffer *rb, rt_uint16_t length)
 
     return length;
 }
-RTM_EXPORT(rt_ringbuffer_put_update);
+RTM_EXPORT(rt_ringbuffer_update_index);
 
 /**
  *  get data from ring buffer
@@ -250,13 +250,8 @@ rt_size_t rt_ringbuffer_get_linear_buffer(struct rt_ringbuffer       *rb,
         return size;
     }
 
-    else
-    {
-        return rb->buffer_size - rb->read_index;
-    }
-
+    return rb->buffer_size - rb->read_index;
 }
-
 
 /**
  *  peak data from ring buffer

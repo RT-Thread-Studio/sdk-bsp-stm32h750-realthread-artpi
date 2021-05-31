@@ -605,7 +605,7 @@ static void dma_recv_isr(struct rt_serial_device *serial, rt_uint8_t isr_flag)
 
     rx_fifo->rx_index = index;
     SCB_InvalidateDCache();
-    if(rt_ringbuffer_put_update(&(rx_fifo->rb), recv_len) != recv_len)
+    if(rt_ringbuffer_update_index(&(rx_fifo->rb), recv_len) != recv_len)
     {
         /*
             Increase your code.
