@@ -3,7 +3,7 @@
 ART-Pi 开源项目如下表所示：
 
 | **项目文件夹名称**                             | **项目实现功能**        |
-| :---------------------------------------------------- | :------------------------------ |
+| ----------------------------------------------------- | :------------------------------ |
 | [art_pi_blink_led](./art_pi_blink_led)    | 实现 LED 闪烁功能,可作为二次开发的基础工程 |
 | [art_pi_bootloader](./art_pi_bootloader) | 实现程序从 0x08000000 跳转到 0x90000000 |
 | [art_pi_factory](./art_pi_factory) | 实现 webnet. ART-Pi 的出厂DEMO |
@@ -19,3 +19,4 @@ ART-Pi 开源项目如下表所示：
 | [art_pi_nes](./art_pi_nes) | 实现 NES 模拟器及游戏试玩 |
 | [uf2_boot]((./uf2_boot)) | 实现 USB 的 bootloader 的功能，使用的文件格式为 uf2 |
 | [art_pi_kboot](./art_pi_kboot) | 实现烧录kernel/uboot/rootfs到qspi/spi flash，并跳转到qspi `0x90000000` 地址，运行uboot |
+| [art_pi_fibocom_l610](./art_pi_fibocom_l610) | 实现 fibocom L610open 开机初始化 |
