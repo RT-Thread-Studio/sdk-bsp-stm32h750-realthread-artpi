@@ -1,6 +1,6 @@
 ## 简介
 
-中文页 | [英文页](README.md)
+中文页 | [English Page](README.md)
 
 sdk-bsp-stm32h750-realthread-artpi 是 RT-Thread 团队对 ART-Pi 开发板所作的支持包，也可作为用户开发使用的软件SDK，让用户可以更简单方便的开发自己的应用程序。
 
