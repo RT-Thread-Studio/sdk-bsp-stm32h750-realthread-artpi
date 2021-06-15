@@ -228,7 +228,7 @@ rt_err_t SAIA_tx_dma(void)
     DMA2_Stream3->FCR &= ~(1<<2);
     DMA2_Stream3->FCR &= ~(3<<0);
 
-    DMA2_Stream3->CR| = 1<<4;
+    DMA2_Stream3->CR |= 1<<4;
 
     HAL_NVIC_SetPriority(DMA2_Stream3_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(DMA2_Stream3_IRQn);
