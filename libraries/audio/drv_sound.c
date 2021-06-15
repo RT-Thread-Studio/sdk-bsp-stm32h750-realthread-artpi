@@ -139,7 +139,7 @@ void SAIA_samplebits_set(rt_uint16_t samplebits)
         temp = 4;
         break;
     }
-    sai1->acr1 &=~(7<<5);
+    sai1->acr1 &= ~(7<<5);
     sai1->acr1 |= (temp<<5);
 }
 
@@ -202,33 +202,33 @@ rt_err_t SAIA_config_init()
 
 rt_err_t SAIA_tx_dma(void)
 {
-    RCC->AHB1ENR|=1<<1;
-    RCC->D3AMR|=1<<0;
-    while(DMA2_Stream3->CR&0X01);
-    DMAMUX1_Channel11->CCR=89;
+    RCC->AHB1ENR |= 1<<1;
+    RCC->D3AMR |=  1<<0;
+    while(DMA2_Stream3->CR & 0X01);
+    DMAMUX1_Channel11->CCR = 89;
 
     DMA2->LIFCR|=0X3D<<22;
     DMA2_Stream3->FCR=0X0000021;
 
-    DMA2_Stream3->CR=0;
-    DMA2_Stream3->CR|=1<<6;
-    DMA2_Stream3->CR|=1<<8;
-    DMA2_Stream3->CR|=0<<9;
-    DMA2_Stream3->CR|=1<<10;
+    DMA2_Stream3->CR = 0;
+    DMA2_Stream3->CR |= 1<<6;
+    DMA2_Stream3->CR |= 1<<8;
+    DMA2_Stream3->CR &= ~(1<<9);
+    DMA2_Stream3->CR |= 1<<10;
 
     DMA2_Stream3->PAR  = (rt_uint32_t)&sai1->adr;
     DMA2_Stream3->M0AR = (rt_uint32_t)_stm32_audio_play.tx_fifo;
     DMA2_Stream3->M1AR = (rt_uint32_t)_stm32_audio_play.tx_fifo + (TX_DMA_FIFO_SIZE / 2);
 
-    DMA2_Stream3->CR|=2<<16;
-    DMA2_Stream3->CR|=1<<18;
-    DMA2_Stream3->CR|=0<<21;
-    DMA2_Stream3->CR|=0<<23;
+    DMA2_Stream3->CR |= 2<<16;
+    DMA2_Stream3->CR |= 1<<18;
+    DMA2_Stream3->CR &= ~(1<<21);
+    DMA2_Stream3->CR &= ~(1<<23);
 
-    DMA2_Stream3->FCR&=~(1<<2);
-    DMA2_Stream3->FCR&=~(3<<0);
+    DMA2_Stream3->FCR &= ~(1<<2);
+    DMA2_Stream3->FCR &= ~(3<<0);
 
-    DMA2_Stream3->CR|=1<<4;
+    DMA2_Stream3->CR |= 1<<4;
 
     HAL_NVIC_SetPriority(DMA2_Stream3_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(DMA2_Stream3_IRQn);
@@ -515,7 +515,7 @@ int sai_pin(void)
     RCC->D2CCIP1R &=~(0x7<<6);
     RCC->D2CCIP1R |=(0x1<<6);
 
-    __HAL_RCC_SAI2_CLK_ENABLE();
+    __HAL_RCC_SAI2_CLK_ENABLE(); 
 
     __HAL_RCC_GPIOI_CLK_ENABLE();
     __HAL_RCC_GPIOG_CLK_ENABLE();
