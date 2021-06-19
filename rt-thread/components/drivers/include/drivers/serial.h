@@ -4,11 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
- * Date           Author       Notes
- * 2012-05-15     lgnq         first version.
- * 2012-05-28     bernard      change interfaces
- * 2013-02-20     bernard      use RT_SERIAL_RB_BUFSZ to define
- *                             the size of ring buffer.
+ * Date           Author           Notes
+ * 2021-06-01     KyleChan     first version
  */
 
 #ifndef __SERIAL_H__
@@ -54,20 +51,24 @@
 #define NRZ_NORMAL                      0       /* Non Return to Zero : normal mode */
 #define NRZ_INVERTED                    1       /* Non Return to Zero : inverted mode */
 
-#ifndef RT_SERIAL_RB_BUFSZ
-#define RT_SERIAL_RB_BUFSZ              64
-#endif
+#define RT_DEVICE_FLAG_RX_BLOCKING      0x1000
+#define RT_DEVICE_FLAG_RX_NON_BLOCKING  0x2000
+
+#define RT_DEVICE_FLAG_TX_BLOCKING      0x4000
+#define RT_DEVICE_FLAG_TX_NON_BLOCKING  0x8000
 
 #define RT_SERIAL_RX_BLOCKING           RT_DEVICE_FLAG_RX_BLOCKING
 #define RT_SERIAL_RX_NON_BLOCKING       RT_DEVICE_FLAG_RX_NON_BLOCKING
 #define RT_SERIAL_TX_BLOCKING           RT_DEVICE_FLAG_TX_BLOCKING
 #define RT_SERIAL_TX_NON_BLOCKING       RT_DEVICE_FLAG_TX_NON_BLOCKING
 
+#define RT_DEVICE_CHECK_OPTMODE         0x20
+
 #define RT_SERIAL_EVENT_RX_IND          0x01    /* Rx indication */
 #define RT_SERIAL_EVENT_TX_DONE         0x02    /* Tx complete   */
-//#define RT_SERIAL_EVENT_RX_DMADONE      0x03    /* Rx DMA transfer done */
-//#define RT_SERIAL_EVENT_TX_DMADONE      0x04    /* Tx DMA transfer done */
-//#define RT_SERIAL_EVENT_RX_TIMEOUT      0x05    /* Rx timeout    */
+#define RT_SERIAL_EVENT_RX_DMADONE      0x03    /* Rx DMA transfer done */
+#define RT_SERIAL_EVENT_TX_DMADONE      0x04    /* Tx DMA transfer done */
+#define RT_SERIAL_EVENT_RX_TIMEOUT      0x05    /* Rx timeout    */
 
 #define RT_SERIAL_ERR_OVERRUN           0x01
 #define RT_SERIAL_ERR_FRAMING           0x02
@@ -83,17 +84,17 @@
 #define RT_SERIAL_TX_BLOCKING_NO_BUFFER    0
 
 /* Default config for serial_configure structure */
-#define RT_SERIAL_CONFIG_DEFAULT           \
-{                                          \
-    BAUD_RATE_115200, /* 115200 bits/s */  \
-    DATA_BITS_8,      /* 8 databits */     \
-    STOP_BITS_1,      /* 1 stopbit */      \
-    PARITY_NONE,      /* No parity  */     \
-    BIT_ORDER_LSB,    /* LSB first sent */ \
-    NRZ_NORMAL,       /* Normal mode */    \
-    RT_SERIAL_RB_BUFSZ, /* rxBuf size */   \
-    0,                  /* txBuf size */   \
-    0                                      \
+#define RT_SERIAL_CONFIG_DEFAULT              \
+{                                             \
+    BAUD_RATE_115200,    /* 115200 bits/s */  \
+    DATA_BITS_8,         /* 8 databits */     \
+    STOP_BITS_1,         /* 1 stopbit */      \
+    PARITY_NONE,         /* No parity  */     \
+    BIT_ORDER_LSB,       /* LSB first sent */ \
+    NRZ_NORMAL,          /* Normal mode */    \
+    RT_SERIAL_RX_MINBUFSZ, /* rxBuf size */   \
+    RT_SERIAL_TX_MINBUFSZ, /* txBuf size */   \
+    0                                         \
 }
 
 struct serial_configure
@@ -111,13 +112,11 @@ struct serial_configure
 };
 
 /*
- * Serial FIFO mode 
+ * Serial Receive FIFO mode
  */
 struct rt_serial_rx_fifo
 {
     struct rt_ringbuffer rb;
-
-    rt_uint16_t rx_index;
 
     struct rt_completion rx_cpt;
 
@@ -127,6 +126,9 @@ struct rt_serial_rx_fifo
     rt_uint8_t buffer[];
 };
 
+/*
+ * Serial Transmit FIFO mode
+ */
 struct rt_serial_tx_fifo
 {
     struct rt_ringbuffer rb;
@@ -151,7 +153,6 @@ struct rt_serial_device
     void *serial_rx;
     void *serial_tx;
 };
-typedef struct rt_serial_device *rt_serial_t;
 
 /**
  * uart operators

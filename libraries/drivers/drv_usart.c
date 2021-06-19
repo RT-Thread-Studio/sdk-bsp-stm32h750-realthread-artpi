@@ -5,9 +5,7 @@
  *
  * Change Logs:
  * Date           Author       Notes
- * 2018-10-30     SummerGift   first version
- * 2020-05-23     chenyaxing   modify stm32_uart_config
- * 2020-12-08     wanghaijing  support uart1 dma
+ * 2021-06-01     KyleChan     first version
  */
 
 #include "board.h"
@@ -358,7 +356,10 @@ static rt_err_t stm32_configure(struct rt_serial_device *serial, struct serial_c
     switch (cfg->data_bits)
     {
     case DATA_BITS_8:
-        uart->handle.Init.WordLength = UART_WORDLENGTH_8B;
+        if (cfg->parity == PARITY_ODD || cfg->parity == PARITY_EVEN)
+            uart->handle.Init.WordLength = UART_WORDLENGTH_9B;
+        else
+            uart->handle.Init.WordLength = UART_WORDLENGTH_8B;
         break;
     case DATA_BITS_9:
         uart->handle.Init.WordLength = UART_WORDLENGTH_9B;
@@ -396,6 +397,10 @@ static rt_err_t stm32_configure(struct rt_serial_device *serial, struct serial_c
         uart->handle.Init.Parity     = UART_PARITY_NONE;
         break;
     }
+
+#ifdef RT_SERIAL_USING_DMA
+    uart->dma_rx.remaining_cnt = serial->config.rx_bufsz;
+#endif
 
     if (HAL_UART_Init(&uart->handle) != HAL_OK)
     {
@@ -549,14 +554,6 @@ static rt_size_t stm32_transmit(struct rt_serial_device     *serial,
     if (uart->uart_dma_flag & RT_DEVICE_FLAG_DMA_TX)
     {
         HAL_UART_Transmit_DMA(&uart->handle, buf, size);
-
-        if (tx_flag == RT_DEVICE_FLAG_TX_NON_BLOCKING)
-        {
-            struct rt_serial_tx_fifo *tx_fifo;
-            tx_fifo = (struct rt_serial_tx_fifo *)serial->serial_tx;
-            RT_ASSERT(tx_fifo != RT_NULL);
-            tx_fifo->put_size -= size;
-        }
         return size;
     }
 
@@ -570,46 +567,42 @@ static void dma_recv_isr(struct rt_serial_device *serial, rt_uint8_t isr_flag)
 {
     struct stm32_uart *uart;
     rt_base_t level;
+    rt_size_t recv_len, counter;
 
     RT_ASSERT(serial != RT_NULL);
     uart = rt_container_of(serial, struct stm32_uart, serial);
 
-    struct rt_serial_rx_fifo *rx_fifo;
-    rx_fifo = (struct rt_serial_rx_fifo *) serial->serial_rx;
-    RT_ASSERT(rx_fifo != RT_NULL);
-
-    rt_uint16_t recv_len = 0;
-
     level = rt_hw_interrupt_disable();
-    rt_uint16_t index = __HAL_DMA_GET_COUNTER(&(uart->dma_rx.handle));
+    recv_len = 0;
+    counter = __HAL_DMA_GET_COUNTER(&(uart->dma_rx.handle));
+
     switch (isr_flag)
     {
+    case UART_RX_DMA_IT_IDLE_FLAG:
+        if (counter <= uart->dma_rx.remaining_cnt)
+            recv_len = uart->dma_rx.remaining_cnt - counter;
+        else
+            recv_len = serial->config.rx_bufsz + uart->dma_rx.remaining_cnt - counter;
+        break;
+
     case UART_RX_DMA_IT_HT_FLAG:
-        if(index < rx_fifo->rx_index)
-            recv_len = rx_fifo->rx_index - index;
+        if (counter < uart->dma_rx.remaining_cnt)
+            recv_len = uart->dma_rx.remaining_cnt - counter;
         break;
 
     case UART_RX_DMA_IT_TC_FLAG:
-        if(index >= rx_fifo->rx_index)
-            recv_len = serial->config.rx_bufsz + rx_fifo->rx_index - index;
-        break;
-
-    case UART_RX_DMA_IT_IDLE_FLAG:
-        if(index < rx_fifo->rx_index)
-            recv_len = rx_fifo->rx_index - index;
-        break;
+        if(counter >= uart->dma_rx.remaining_cnt)
+            recv_len = serial->config.rx_bufsz + uart->dma_rx.remaining_cnt - counter;
 
     default:
         break;
     }
 
-    rx_fifo->rx_index = index;
-    SCB_InvalidateDCache();
-    if(rt_ringbuffer_update_index(&(rx_fifo->rb), recv_len) != recv_len)
+    if (recv_len)
     {
-        /*
-            Increase your code.
-        */
+        SCB_InvalidateDCache();
+        uart->dma_rx.remaining_cnt = counter;
+        rt_hw_serial_isr(serial, RT_SERIAL_EVENT_RX_DMADONE | (recv_len << 8));
     }
     rt_hw_interrupt_enable(level);
 
@@ -628,7 +621,7 @@ static void uart_isr(struct rt_serial_device *serial)
 
     RT_ASSERT(serial != RT_NULL);
     uart = rt_container_of(serial, struct stm32_uart, serial);
-    //If the Read data register is not empty and the RXNE interrupt is enabled  （RDR）
+    /* If the Read data register is not empty and the RXNE interrupt is enabled  （RDR） */
     if ((__HAL_UART_GET_FLAG(&(uart->handle), UART_FLAG_RXNE) != RESET) &&
             (__HAL_UART_GET_IT_SOURCE(&(uart->handle), UART_IT_RXNE) != RESET))
     {
@@ -640,7 +633,7 @@ static void uart_isr(struct rt_serial_device *serial)
 
         rt_hw_serial_isr(serial, RT_SERIAL_EVENT_RX_IND);
     }
-    //If the Transmit data register is empty and the TXE interrupt enable is enabled  （TDR）
+    /* If the Transmit data register is empty and the TXE interrupt enable is enabled  （TDR）*/
     else if ((__HAL_UART_GET_FLAG(&(uart->handle), UART_FLAG_TXE) != RESET) &&
                 (__HAL_UART_GET_IT_SOURCE(&(uart->handle), UART_IT_TXE)) != RESET)
     {
@@ -648,12 +641,10 @@ static void uart_isr(struct rt_serial_device *serial)
         tx_fifo = (struct rt_serial_tx_fifo *) serial->serial_tx;
         RT_ASSERT(tx_fifo != RT_NULL);
 
-        if (tx_fifo->put_size)
+        rt_uint8_t put_char = 0;
+        if (rt_ringbuffer_getchar(&(tx_fifo->rb), &put_char))
         {
-            rt_uint8_t put_char = 0;
-            rt_ringbuffer_getchar(&(tx_fifo->rb), &put_char);
             UART_SET_TDR(&uart->handle, put_char);
-            tx_fifo->put_size --;
         }
         else
         {
@@ -666,16 +657,16 @@ static void uart_isr(struct rt_serial_device *serial)
     {
         if (uart->uart_dma_flag & RT_DEVICE_FLAG_DMA_TX)
         {
-            // The HAL_UART_TxCpltCallback will be triggered
+            /* The HAL_UART_TxCpltCallback will be triggered */
             HAL_UART_IRQHandler(&(uart->handle));
         }
         else
         {
-            //Transmission complete interrupt disable ( CR1 Register)
+            /* Transmission complete interrupt disable ( CR1 Register) */
             __HAL_UART_DISABLE_IT(&(uart->handle), UART_IT_TC);
             rt_hw_serial_isr(serial, RT_SERIAL_EVENT_TX_DONE);
         }
-        // Clear Transmission complete interrupt flag ( ISR Register )
+        /* Clear Transmission complete interrupt flag ( ISR Register ) */
         UART_INSTANCE_CLEAR_FUNCTION(&(uart->handle), UART_FLAG_TC);
     }
 
@@ -684,7 +675,6 @@ static void uart_isr(struct rt_serial_device *serial)
              && (__HAL_UART_GET_IT_SOURCE(&(uart->handle), UART_IT_IDLE) != RESET))
     {
         dma_recv_isr(serial, UART_RX_DMA_IT_IDLE_FLAG);
-        rt_hw_serial_isr(serial, RT_SERIAL_EVENT_RX_IND);
         __HAL_UART_CLEAR_IDLEFLAG(&uart->handle);
     }
 #endif
@@ -692,6 +682,7 @@ static void uart_isr(struct rt_serial_device *serial)
     {
         if (__HAL_UART_GET_FLAG(&(uart->handle), UART_FLAG_ORE) != RESET)
         {
+            LOG_E("(%s) serial device Overrun error!", serial->parent.parent.name);
             __HAL_UART_CLEAR_OREFLAG(&uart->handle);
         }
         if (__HAL_UART_GET_FLAG(&(uart->handle), UART_FLAG_NE) != RESET)
@@ -706,9 +697,9 @@ static void uart_isr(struct rt_serial_device *serial)
         {
             __HAL_UART_CLEAR_PEFLAG(&uart->handle);
         }
-#if !defined(SOC_SERIES_STM32L4) && !defined(SOC_SERIES_STM32F7) && !defined(SOC_SERIES_STM32F0) \
+#if !defined(SOC_SERIES_STM32L4) && !defined(SOC_SERIES_STM32WL) && !defined(SOC_SERIES_STM32F7) && !defined(SOC_SERIES_STM32F0) \
     && !defined(SOC_SERIES_STM32L0) && !defined(SOC_SERIES_STM32G0) && !defined(SOC_SERIES_STM32H7) \
-    && !defined(SOC_SERIES_STM32G4)
+    && !defined(SOC_SERIES_STM32G4) && !defined(SOC_SERIES_STM32MP1) && !defined(SOC_SERIES_STM32WB)
         if (__HAL_UART_GET_FLAG(&(uart->handle), UART_FLAG_LBD) != RESET)
         {
             UART_INSTANCE_CLEAR_FUNCTION(&(uart->handle), UART_FLAG_LBD);
@@ -866,7 +857,8 @@ void UART4_DMA_RX_IRQHandler(void)
     /* leave interrupt */
     rt_interrupt_leave();
 }
-#endif /* defined(RT_SERIAL_USING_DMA) && defined(BSP_UART1_RX_USING_DMA) */
+#endif /* defined(BSP_UART_USING_DMA_RX) && defined(BSP_UART4_RX_USING_DMA) */
+
 #if defined(RT_SERIAL_USING_DMA) && defined(BSP_UART4_TX_USING_DMA)
 void UART4_DMA_TX_IRQHandler(void)
 {
@@ -878,8 +870,8 @@ void UART4_DMA_TX_IRQHandler(void)
     /* leave interrupt */
     rt_interrupt_leave();
 }
-#endif /* defined(RT_SERIAL_USING_DMA) && defined(BSP_UART4_TX_USING_DMA) */
-#endif /* BSP_USING_UART4 */
+#endif /* defined(BSP_UART_USING_DMA_TX) && defined(BSP_UART4_TX_USING_DMA) */
+#endif /* BSP_USING_UART4*/
 
 static void stm32_uart_get_config(void)
 {
@@ -1046,6 +1038,7 @@ static void stm32_dma_config(struct rt_serial_device *serial, rt_ubase_t flag)
     if (flag == RT_DEVICE_FLAG_DMA_RX)
     {
         rx_fifo = (struct rt_serial_rx_fifo *)serial->serial_rx;
+        RT_ASSERT(rx_fifo != RT_NULL);
         /* Start DMA transfer */
         if (HAL_UART_Receive_DMA(&(uart->handle), rx_fifo->buffer, serial->config.rx_bufsz) != HAL_OK)
         {
@@ -1094,9 +1087,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
     struct stm32_uart *uart;
     RT_ASSERT(huart != NULL);
     uart = (struct stm32_uart *)huart;
-
     dma_recv_isr(&uart->serial, UART_RX_DMA_IT_TC_FLAG);
-    rt_hw_serial_isr(&uart->serial, RT_SERIAL_EVENT_RX_IND);
 }
 
 /**
@@ -1111,15 +1102,13 @@ void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
     struct stm32_uart *uart;
     RT_ASSERT(huart != NULL);
     uart = (struct stm32_uart *)huart;
-
     dma_recv_isr(&uart->serial, UART_RX_DMA_IT_HT_FLAG);
-    rt_hw_serial_isr(&uart->serial, RT_SERIAL_EVENT_RX_IND);
 }
 
 /**
   * @brief  HAL_UART_TxCpltCallback
   * @param  huart: UART handle
-  * @note   This callback can be called by two functions, first in UART_EndTransmit_IT when 
+  * @note   This callback can be called by two functions, first in UART_EndTransmit_IT when
   *         UART Tx complete and second in UART_DMATransmitCplt function in DMA Circular mode.
   * @retval None
   */
@@ -1141,21 +1130,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 
     if (trans_total_index) return;
 
-    if (serial->parent.open_flag & RT_DEVICE_FLAG_TX_NON_BLOCKING)
-    {
-        struct rt_serial_tx_fifo *tx_fifo;
-        tx_fifo = (struct rt_serial_tx_fifo *)serial->serial_tx;
-        RT_ASSERT(tx_fifo != RT_NULL);
-        rt_uint8_t *put_ptr = RT_NULL;
-        rt_uint8_t data_len = 0, put_size = 0;
-
-        level = rt_hw_interrupt_disable();
-        data_len = rt_ringbuffer_data_len(&(tx_fifo->rb));
-        put_size = data_len - tx_fifo->put_size;
-        rt_ringbuffer_peak(&(tx_fifo->rb), &put_ptr, put_size);
-        rt_hw_interrupt_enable(level);
-    }
-    rt_hw_serial_isr(serial, RT_SERIAL_EVENT_TX_DONE);
+    rt_hw_serial_isr(serial, RT_SERIAL_EVENT_TX_DMADONE);
 
 }
 #endif  /* RT_SERIAL_USING_DMA */
