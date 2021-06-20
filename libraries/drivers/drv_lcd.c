@@ -99,11 +99,11 @@ void HAL_LTDC_LineEventCallback(LTDC_HandleTypeDef *hltdc)
 #endif
 void LTDC_IRQHandler(void)
 {
-    rt_enter_critical();
+    rt_interrupt_enter();
 
     HAL_LTDC_IRQHandler(&LtdcHandle);
 
-    rt_exit_critical();
+    rt_interrupt_leave();
 }
 
 rt_err_t stm32_lcd_init(struct drv_lcd_device *lcd)
