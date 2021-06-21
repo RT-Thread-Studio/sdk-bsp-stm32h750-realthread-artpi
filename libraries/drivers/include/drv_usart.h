@@ -5,9 +5,7 @@
  *
  * Change Logs:
  * Date           Author       Notes
- * 2018.10.30     SummerGift   first version
- * 2019.03.05     whj4674672   add stm32h7
- * 2020-10-14     Dozingfiretruck   Porting for stm32wbxx
+ * 2021-06-01     KyleChan     first version
  */
 
 #ifndef __DRV_USART_H__
@@ -36,11 +34,9 @@ int rt_hw_usart_init(void);
 #define UART_GET_RDR(__HANDLE__)            ((__HANDLE__)->Instance->RDR & 0xFF)
 #endif
 
-#ifdef RT_SERIAL_USING_DMA
-
-#define UART_RX_DMA_IT_HT_FLAG              0x01
-#define UART_RX_DMA_IT_TC_FLAG              0x02
-#define UART_RX_DMA_IT_IDLE_FLAG            0x00
+#define UART_RX_DMA_IT_IDLE_FLAG        0x00
+#define UART_RX_DMA_IT_HT_FLAG          0x01
+#define UART_RX_DMA_IT_TC_FLAG          0x02
 
 #define DMA_INSTANCE_TYPE                   DMA_Stream_TypeDef
 
@@ -50,7 +46,7 @@ struct dma_config {
     IRQn_Type dma_irq;
     rt_uint32_t request;
 };
-#endif
+
 
 /* stm32 config class */
 struct stm32_uart_config
@@ -77,7 +73,7 @@ struct stm32_uart
     struct
     {
         DMA_HandleTypeDef handle;
-        rt_size_t last_index;
+        rt_size_t remaining_cnt;
     } dma_rx;
     struct
     {

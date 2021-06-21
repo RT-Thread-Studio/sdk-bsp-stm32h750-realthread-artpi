@@ -97,6 +97,8 @@
 
 /* POSIX layer and C standard library */
 
+#define RT_USING_LIBC
+#define RT_USING_POSIX
 
 /* Network */
 
@@ -189,102 +191,6 @@
 
 /* Network Utilities */
 
-/* kernel test */
-
-/* ipc */
-
-
-/* kservice test */
-
-
-/* thread */
-
-
-/* object */
-
-
-/* memory */
-
-
-/* timer */
-
-
-/* smp */
-
-
-/* component test */
-
-/* cplusplus test */
-
-/* thread */
-
-
-/* ipc */
-
-
-/* dfs: Device virtual file system */
-
-
-/* drivers */
-
-/* i2c */
-
-
-/* spi */
-
-
-/* wlan */
-
-
-/* uart */
-
-
-/* hwcrypto */
-
-
-/* sensor */
-
-
-/* finsh shell */
-
-
-/* libc */
-
-
-/* at */
-
-/* netdev */
-
-/* lwIP */
-
-/* SAL */
-
-/* Utilities */
-
-/* utest selftest */
-
-
-/* packages test */
-
-/* iot */
-
-/* netutils */
-
-
-/* webclient */
-
-
-/* Paho MQTT */
-
-
-/* system */
-
-/* fal */
-
-
-/* realthread-packages test */
-
-#define PKG_USING_TESTCASES_LATEST_VERSION
 
 /* Hardware Drivers Config */
 
@@ -297,6 +203,10 @@
 /* Onboard Peripheral */
 
 #define BSP_USING_USB_TO_USART
+
+/* On-chip Peripheral */
+
+#define BSP_USING_GPIO
 #define BSP_USING_UART
 #define BSP_USING_UART1
 #define BSP_UART1_RX_USING_DMA
@@ -306,10 +216,6 @@
 #define BSP_USING_UART4
 #define BSP_UART4_RX_BUFSIZE 64
 #define BSP_UART4_TX_BUFSIZE 0
-
-/* On-chip Peripheral */
-
-#define BSP_USING_GPIO
 
 /* External Libraries */
 

@@ -177,8 +177,8 @@ static rt_err_t uart_api(rt_uint16_t test_buf)
     // reinitialize
     struct serial_configure config = RT_SERIAL_CONFIG_DEFAULT; 
     config.baud_rate = BAUD_RATE_3000000;
-    config.rx_bufsz     = 1024;
-    config.tx_bufsz     = 1024;    
+    config.rx_bufsz     = BSP_UART1_RX_BUFSIZE;
+    config.tx_bufsz     = BSP_UART1_TX_BUFSIZE;
     rt_device_control(&serial->parent, RT_DEVICE_CTRL_CONFIG, &config);
 
     result = rt_device_open(&serial->parent, RT_DEVICE_FLAG_RX_NON_BLOCKING | RT_DEVICE_FLAG_TX_BLOCKING);
