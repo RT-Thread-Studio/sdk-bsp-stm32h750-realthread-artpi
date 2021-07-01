@@ -13,16 +13,17 @@
 #include "drv_common.h"
 
 #define LED_PIN GET_PIN(I, 8)
+
 void l610_power_init(void)
 {
-  rt_pin_mode(GET_PIN(I, 5), PIN_MODE_OUTPUT);
+    rt_pin_mode(GET_PIN(I, 5), PIN_MODE_OUTPUT);
 }
+
 int main(void)
 {
     rt_uint32_t count = 1;
-	
-		l610_power_init();
 
+    l610_power_init();
     rt_pin_mode(LED_PIN, PIN_MODE_OUTPUT);
 
     while(count++)

@@ -431,12 +431,12 @@ static void _network_ssl_disconnect(TLSDataParams_t *pTlsData)
     LOG_D("ssl_disconnect");
 }
 
-int32_t HAL_SSL_Read(uintptr_t handle, char *buf, int len, int timeout_ms)
+int HAL_SSL_Read(uintptr_t handle, char *buf, int len, int timeout_ms)
 {
-    return _network_ssl_read((TLSDataParams_t *)handle, buf, len, timeout_ms);;
+    return _network_ssl_read((TLSDataParams_t *)handle, buf, len, timeout_ms);
 }
 
-int32_t HAL_SSL_Write(uintptr_t handle, const char *buf, int len, int timeout_ms)
+int HAL_SSL_Write(uintptr_t handle, const char *buf, int len, int timeout_ms)
 {
     return _network_ssl_write((TLSDataParams_t *)handle, buf, len, timeout_ms);
 }
@@ -456,7 +456,7 @@ int32_t HAL_SSL_Destroy(uintptr_t handle)
 uintptr_t HAL_SSL_Establish(const char *host,
                             uint16_t port,
                             const char *ca_crt,
-                            size_t ca_crt_len)
+                            uint32_t ca_crt_len)
 {
     char port_str[6];
     TLSDataParams_pt pTlsData;

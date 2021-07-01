@@ -249,13 +249,22 @@
 /* system packages */
 
 
+/* Micrium: Micrium software products porting for RT-Thread */
+
+
 /* peripheral libraries and drivers */
+
+
+/* AI packages */
 
 
 /* miscellaneous packages */
 
 
 /* samples: kernel and components samples */
+
+
+/* entertainment: terminal games and other interesting software packages */
 
 
 /* Hardware Drivers Config */
