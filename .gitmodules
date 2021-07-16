@@ -1,6 +1,0 @@
-[submodule "projects/art_pi_fibocom_l610/packages/at_device-latest"]
-	path = projects/art_pi_fibocom_l610/packages/at_device-latest
-	url = https://github.com/RT-Thread-packages/at_device.git
-[submodule "projects/art_pi_fibocom_l610/packages/mbedtls-latest"]
-	path = projects/art_pi_fibocom_l610/packages/mbedtls-latest
-	url = https://github.com/RT-Thread-packages/mbedtls.git
