@@ -11,7 +11,7 @@
  }, 
  {
   "path": "/packages/iot/at_device", 
-  "ver": "latest", 
+  "ver": "v2.0.4", 
   "name": "AT_DEVICE"
  }, 
  {
@@ -21,7 +21,7 @@
  }, 
  {
   "path": "/packages/security/mbedtls", 
-  "ver": "latest", 
+  "ver": "v2.7.10.1", 
   "name": "MBEDTLS"
  }
 ]

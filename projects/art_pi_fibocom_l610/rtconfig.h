@@ -174,8 +174,8 @@
 #define L610_SAMPLE_STATUS_PIN -1
 #define L610_SAMPLE_CLIENT_NAME "uart1"
 #define L610_SAMPLE_RECV_BUFF_LEN 4096
-#define PKG_USING_AT_DEVICE_LATEST_VERSION
-#define PKG_AT_DEVICE_VER_NUM 0x99999
+#define PKG_USING_AT_DEVICE_V204
+#define PKG_AT_DEVICE_VER_NUM 0x20004
 
 /* IoT Cloud */
 
@@ -235,7 +235,7 @@
 #define MBEDTLS_AES_ROM_TABLES
 #define MBEDTLS_ECP_WINDOW_SIZE 2
 #define MBEDTLS_SSL_MAX_CONTENT_LEN 8192
-#define PKG_USING_MBEDTLS_LATEST_VERSION
+#define PKG_USING_MBEDTLS_V27101
 
 /* language packages */
 
@@ -247,6 +247,8 @@
 
 
 /* system packages */
+
+/* acceleration: Assembly language or algorithmic acceleration packages */
 
 
 /* Micrium: Micrium software products porting for RT-Thread */
