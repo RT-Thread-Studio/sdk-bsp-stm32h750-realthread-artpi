@@ -45,6 +45,7 @@ static void rt_hw_dcmi_dma_init(void)
     hdma_dcmi.Init.MemBurst            = DMA_MBURST_SINGLE;
     hdma_dcmi.Init.PeriphBurst         = DMA_PBURST_SINGLE;
 
+    HAL_DMA_DeInit(&hdma_dcmi);
     HAL_DMA_Init(&hdma_dcmi);
 
     __HAL_LINKDMA(&rt_dcmi.DCMI_Handle, DMA_Handle, hdma_dcmi);
@@ -55,7 +56,9 @@ static void rt_hw_dcmi_dma_init(void)
 
 void rt_hw_dcmi_dma_config(rt_uint32_t dst_addr1, rt_uint32_t dst_addr2, rt_uint32_t len)
 {
-      HAL_DMAEx_MultiBufferStart(&hdma_dcmi, (rt_uint32_t)&DCMI->DR, dst_addr1, dst_addr2, len);
+    __HAL_UNLOCK(&hdma_dcmi);
+
+    HAL_DMAEx_MultiBufferStart(&hdma_dcmi, (rt_uint32_t)&DCMI->DR, dst_addr1, dst_addr2, len);
 
     __HAL_DMA_ENABLE_IT(&hdma_dcmi, DMA_IT_TC);
 }
@@ -71,7 +74,7 @@ static rt_err_t rt_hw_dcmi_init(DCMI_HandleTypeDef *device)
     device->Init.HSPolarity        = DCMI_HSPOLARITY_LOW;
     device->Init.CaptureRate       = DCMI_CR_ALL_FRAME;
     device->Init.ExtendedDataMode  = DCMI_EXTEND_DATA_8B;
-    device->Init.JPEGMode          = DCMI_JPEG_ENABLE;
+    device->Init.JPEGMode          = DCMI_JPEG_DISABLE;
     device->Init.ByteSelectMode    = DCMI_BSM_ALL;
     device->Init.ByteSelectStart   = DCMI_OEBS_ODD;
     device->Init.LineSelectMode    = DCMI_LSM_ALL;
@@ -123,6 +126,7 @@ void HAL_DCMI_FrameEventCallback(DCMI_HandleTypeDef *hdcmi)
     rt_interrupt_enter();
     /* move frame data to buffer */
     camera_frame_data_process();
+
     __HAL_DCMI_ENABLE_IT(&rt_dcmi.DCMI_Handle, DCMI_IT_FRAME);
 
     /* leave interrupt */
@@ -140,7 +144,6 @@ void DMA2_Stream1_IRQHandler(void)
         __HAL_DMA_CLEAR_FLAG(&hdma_dcmi, DMA_FLAG_TCIF1_5);
         /* move dma data to buffer */
         camera_dma_data_process();
-        SCB_CleanInvalidateDCache();
     }
 
     /* leave interrupt */
@@ -155,6 +158,7 @@ static rt_err_t rt_dcmi_init(rt_device_t dev)
     result = rt_hw_dcmi_init(&rt_dcmi.DCMI_Handle);
     if (result != RT_EOK)
     {
+        rt_kprintf("dcmi error\n");
         return result;
     }
 

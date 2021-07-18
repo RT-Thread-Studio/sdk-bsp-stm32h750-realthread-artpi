@@ -11,21 +11,23 @@
 #ifndef __LCD_PORT_H__
 #define __LCD_PORT_H__
 
+struct drv_lcd_device
+{
+    struct rt_device parent;
+
+    struct rt_device_graphic_info lcd_info;
+
+    struct rt_semaphore lcd_lock;
+
+    /* 0:front_buf is being used 1: back_buf is being used*/
+    rt_uint8_t cur_buf;
+    rt_uint8_t *front_buf;
+    rt_uint8_t *back_buf;
+};
+
 /* rt-thread 3.5 inch screen, 320 * 480 */
-#define LCD_HOR_SCREEN
-#define LCD_FULL_COLOR      BLACK
-
-#ifndef LCD_FULL_COLOR
-#define LCD_FULL_COLOR      WHITE
-#endif
-
-#ifndef LCD_HOR_SCREEN
 #define LCD_WIDTH           320
 #define LCD_HEIGHT          480
-#else
-#define LCD_WIDTH           480
-#define LCD_HEIGHT          320
-#endif
 #define LCD_BITS_PER_PIXEL  24
 #define LCD_BYTES_PER_PIXEL  (LCD_BITS_PER_PIXEL / 8)
 #define LCD_BUF_SIZE        (LCD_WIDTH * LCD_HEIGHT * LCD_BYTES_PER_PIXEL)

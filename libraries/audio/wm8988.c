@@ -99,7 +99,7 @@ static void wm8988_reg_wrtie(struct rt_i2c_bus_device *dev, rt_uint16_t data)
 
     if (rt_i2c_transfer(dev, &msg, 1) != 1)
     {
-        LOG_D("wm8988 write register failed.");
+        //LOG_D("wm8988 write register failed.");
     }
 }
 
