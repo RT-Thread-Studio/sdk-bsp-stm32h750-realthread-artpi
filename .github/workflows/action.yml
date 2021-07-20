@@ -64,6 +64,7 @@ jobs:
          - {RTT_BSP: "art_pi_kboot"}
          - {RTT_BSP: "art_pi_nes"}
          - {RTT_BSP: "art_pi_ble_mesh_gateway"}
+         - {RTT_BSP: "art_pi_fibocom_l610"}
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
