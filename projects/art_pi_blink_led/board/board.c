@@ -11,6 +11,7 @@
 #include <rtthread.h>
 #include <board.h>
 #include <drv_common.h>
+#include <rtdevice.h>
 
 #define DBG_TAG "board"
 #define DBG_LVL DBG_INFO
@@ -36,8 +37,10 @@ void system_clock_config(int target_freq_mhz)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48|RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48|RCC_OSCILLATORTYPE_LSI
+                              |RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
@@ -74,7 +77,7 @@ void system_clock_config(int target_freq_mhz)
                               |RCC_PERIPHCLK_UART4|RCC_PERIPHCLK_SPI4
                               |RCC_PERIPHCLK_SPI1|RCC_PERIPHCLK_SDMMC
                               |RCC_PERIPHCLK_ADC|RCC_PERIPHCLK_USB
-                              |RCC_PERIPHCLK_FMC;
+                              |RCC_PERIPHCLK_LPTIM1|RCC_PERIPHCLK_FMC;
   PeriphClkInitStruct.PLL2.PLL2M = 2;
   PeriphClkInitStruct.PLL2.PLL2N = 64;
   PeriphClkInitStruct.PLL2.PLL2P = 2;
@@ -97,6 +100,7 @@ void system_clock_config(int target_freq_mhz)
   PeriphClkInitStruct.Spi45ClockSelection = RCC_SPI45CLKSOURCE_PLL3;
   PeriphClkInitStruct.Usart234578ClockSelection = RCC_USART234578CLKSOURCE_D2PCLK1;
   PeriphClkInitStruct.UsbClockSelection = RCC_USBCLKSOURCE_HSI48;
+  PeriphClkInitStruct.Lptim1ClockSelection = RCC_LPTIM1CLKSOURCE_LSI;
   PeriphClkInitStruct.AdcClockSelection = RCC_ADCCLKSOURCE_PLL2;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
   {
@@ -146,3 +150,34 @@ RT_WEAK void rt_hw_board_init()
 #endif
 
 }
+
+#ifdef RT_USING_PM
+/**
+  * @brief  Configures system clock after wake-up from STOP: enable HSI, PLL
+  *         and select PLL as system clock source.
+  * @param  None
+  * @retval None
+  */
+void SystemClock_ReConfig(uint8_t mode)
+{
+    switch (mode)
+    {
+    case PM_RUN_MODE_HIGH_SPEED:
+//        SystemClock_480M();
+        break;
+    case PM_RUN_MODE_NORMAL_SPEED:
+//        SystemClock_240M();
+        break;
+    case PM_RUN_MODE_MEDIUM_SPEED:
+//        SystemClock_120M();
+        break;
+    case PM_RUN_MODE_LOW_SPEED:
+//        SystemClock_60M();
+        break;
+    default:
+        break;
+    }
+
+    // SystemClock_MSI_OFF();
+}
+#endif

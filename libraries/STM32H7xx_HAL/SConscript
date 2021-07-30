@@ -26,6 +26,8 @@ STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.c
 STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rng.c
 STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sram.c
 STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.c
+STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.c
+STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.c
 ''')
 
 if rtconfig.CROSS_TOOL == 'gcc':
@@ -67,9 +69,9 @@ if GetDepend(['BSP_USING_ETH']):
     src += ['STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_eth.c']
     src += ['STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_eth_ex.c']
 
-if GetDepend(['RT_USING_ADC']):
-    src += ['STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.c']
-    src += ['STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.c']
+#if GetDepend(['RT_USING_ADC']):
+#    src += ['STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.c']
+#    src += ['STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.c']
 
 if GetDepend(['RT_USING_RTC']):
     src += ['STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rtc.c']
@@ -109,6 +111,9 @@ if GetDepend(['BSP_USING_LCD']):
 
 if GetDepend(['BSP_USING_DCMI']):
     src += ['STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dcmi.c']
+
+if GetDepend(['RT_USING_PM']):
+    src += ['STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_lptim.c']
 
 path = [cwd + '/STM32H7xx_HAL_Driver/Inc',
     cwd + '/CMSIS/Device/ST/STM32H7xx/Include',
