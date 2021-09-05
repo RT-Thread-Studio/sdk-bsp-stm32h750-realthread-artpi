@@ -4,7 +4,7 @@
 
 本例程提供了rust应用程序、驱动程序的支持。
 应用程序需要额外进行编译。
-代码仓库位于：XXXXXXX
+代码仓库位于：[driver_for_rtt](https://github.com/vito-chl/driver_for_rtt.git)
 
 ## 软件说明
 
@@ -23,5 +23,5 @@ rust入口应用程序会自动运行。
 
 ## 注意事项
 
-更多内容请参考仓库：xxxxxxc
+更多内容请参考仓库：[rtt_rs](https://github.com/vito-chl/rtt_rs.git)
 
