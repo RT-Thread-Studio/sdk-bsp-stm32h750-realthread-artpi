@@ -12,23 +12,7 @@
 #include <rtdevice.h>
 #include "drv_common.h"
 
-#define LED_PIN GET_PIN(I, 8)
-
-int main(void)
-{
-    rt_uint32_t count = 1;
-
-    rt_pin_mode(LED_PIN, PIN_MODE_OUTPUT);
-
-    while(count++)
-    {
-        rt_thread_mdelay(500);
-        rt_pin_write(LED_PIN, PIN_HIGH);
-        rt_thread_mdelay(500);
-        rt_pin_write(LED_PIN, PIN_LOW);
-    }
-    return RT_EOK;
-}
+int main(void){}
 
 #include "stm32h7xx.h"
 static int vtor_config(void)
