@@ -1,6 +1,6 @@
 ---
 yaml_version: 3
-pkg_version: 1.2.0
+pkg_version: 1.2.1
 pkg_vendor: RealThread
 pkg_type: Board_Support_Packages
 board:
@@ -15,8 +15,8 @@ board:
   sale_contact_global: https://www.rt-thread.org/
   buy_url_cn: https://item.taobao.com/item.htm?id=629477793246
   buy_url_global: https://item.taobao.com/item.htm?id=629477793246
-  price_cn: 189 CNY
-  price_global: 27.99 USD
+  price_cn: 288 CNY
+  price_global: 43.99 USD
   debugger: ST-LINK
   debug_interface: SWD
   emulator_machine: ''
@@ -97,6 +97,27 @@ example_projects:
   project_type: rt-thread|@full|@4.0.3
   builtin_files:
   - source_path_offset: projects/art_pi_blink_led
+    target_path_offset: ''
+    files_and_folders:
+    - "*"
+  - source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders:
+    - libraries
+    - rt-thread
+  external_files:
+  - package_type: Chip_Support_Packages
+    package_vendor: RealThread
+    package_name: STM32H7
+    package_version: 0.1.9
+    source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders: []
+- project_name: art_pi_rust
+  project_description: creat this peoject if user choose rt-thread project
+  project_type: rt-thread|@full|@4.0.3
+  builtin_files:
+  - source_path_offset: projects/art_pi_rust
     target_path_offset: ''
     files_and_folders:
     - "*"
@@ -265,11 +286,157 @@ example_projects:
   project_type: rt-thread|@full|@4.0.3
   builtin_files:
   - source_path_offset: projects/lrs007_lorawan_end_device
+    target_path_offset: ''
+    files_and_folders:
+    - "*"
+  - source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders:
+    - libraries
+    - rt-thread
+  external_files:
+  - package_type: Chip_Support_Packages
+    package_vendor: RealThread
+    package_name: STM32H7
+    package_version: 0.1.9
+    source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders: []
 - project_name: art_pi_sensor485_app
   project_description: creat this peoject if user choose rt-thread project
   project_type: rt-thread|@full|@4.0.3
   builtin_files:
   - source_path_offset: projects/art_pi_sensor485_app
+    target_path_offset: ''
+    files_and_folders:
+    - "*"
+  - source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders:
+    - libraries
+    - rt-thread
+  external_files:
+  - package_type: Chip_Support_Packages
+    package_vendor: RealThread
+    package_name: STM32H7
+    package_version: 0.1.9
+    source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders: []
+- project_name: art_pi_qboot
+  project_description: creat this peoject if user choose rt-thread project
+  project_type: rt-thread|@full|@4.0.3
+  builtin_files:
+  - source_path_offset: projects/art_pi_qboot
+    target_path_offset: ''
+    files_and_folders:
+    - "*"
+  - source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders:
+    - libraries
+    - rt-thread
+  external_files:
+  - package_type: Chip_Support_Packages
+    package_vendor: RealThread
+    package_name: STM32H7
+    package_version: 0.1.9
+    source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders: []
+- project_name: uf2_boot
+  project_description: creat this peoject if user choose rt-thread project
+  project_type: bare-metal|@notUsed|@notUsed
+  builtin_files:
+  - source_path_offset: projects/uf2_boot
+    target_path_offset: ''
+    files_and_folders:
+    - ".settings"
+    - "Core"
+    - "Drivers"
+    - "GCC"
+    - "Middlewares"
+    - "USB_DEVICE"
+    - ".cproject"
+    - ".project"
+    - "makefile.targets"
+    - "README.md"
+  external_files:
+  - package_type: Chip_Support_Packages
+    package_vendor: RealThread
+    package_name: STM32H7
+    package_version: 0.1.9
+    source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders: []
+- project_name: art_pi_nes
+  project_description: creat this peoject if user choose rt-thread project
+  project_type: rt-thread|@full|@4.0.3
+  builtin_files:
+  - source_path_offset: projects/art_pi_nes
+    target_path_offset: ''
+    files_and_folders:
+    - "*"
+  - source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders:
+    - libraries
+    - rt-thread
+  external_files:
+  - package_type: Chip_Support_Packages
+    package_vendor: RealThread
+    package_name: STM32H7
+    package_version: 0.1.9
+    source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders: []
+- project_name: art_pi_ble_mesh_gateway
+  project_description: creat this peoject if user choose rt-thread project
+  project_type: rt-thread|@full|@4.0.3
+  builtin_files:
+  - source_path_offset: projects/art_pi_ble_mesh_gateway
+    target_path_offset: ''
+    files_and_folders:
+    - "*"
+  - source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders:
+    - libraries
+    - rt-thread
+  external_files:
+  - package_type: Chip_Support_Packages
+    package_vendor: RealThread
+    package_name: STM32H7
+    package_version: 0.1.9
+    source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders: []
+- project_name: art_pi_kboot
+  project_description: creat this peoject if user choose rt-thread project
+  project_type: rt-thread|@full|@4.0.3
+  builtin_files:
+  - source_path_offset: projects/art_pi_kboot
+    target_path_offset: ''
+    files_and_folders:
+    - "*"
+  - source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders:
+    - libraries
+    - rt-thread
+  external_files:
+  - package_type: Chip_Support_Packages
+    package_vendor: RealThread
+    package_name: STM32H7
+    package_version: 0.1.9
+    source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders: []
+- project_name: art_pi_fibocom_l610
+  project_description: creat this peoject if user choose rt-thread project
+  project_type: rt-thread|@full|@4.0.3
+  builtin_files:
+  - source_path_offset: projects/art_pi_fibocom_l610
     target_path_offset: ''
     files_and_folders:
     - "*"
