@@ -100,6 +100,14 @@ menu "Onboard Peripheral"
         select RT_USING_SFUD
         default n
         
+    config BSP_USING_QSPI_FLASH
+        bool "Enable QSPI FLASH (w25q64 qspi)"
+        select BSP_USING_QSPI
+        select FAL_USING_SFUD_PORT
+        select RT_USING_SFUD
+        select RT_SFUD_USING_QSPI
+        default n
+
     config BSP_USING_WIFI
         bool "Enable wifi (AP6212)"
         select ART_PI_USING_WIFI_6212_LIB
@@ -200,6 +208,13 @@ menu "On-chip Peripheral"
                 bool "Enable SPI4"
                 default n
         endif
+        
+    config BSP_USING_QSPI
+        bool "Enable QSPI BUS"
+        select RT_USING_QSPI
+        select RT_USING_SPI
+        default n
+
     menuconfig BSP_USING_I2C
         bool "Enable I2C BUS (software simulation)"
         select RT_USING_I2C

@@ -1,0 +1,65 @@
+import os
+import rtconfig
+from building import *
+
+cwd = GetCurrentDir()
+
+# add file
+src = Split('''
+platform/posix/btstack_stdin_posix.c
+platform/posix/btstack_uart_block_posix.c
+platform/posix/btstack_tlv_posix.c
+platform/posix/btstack_run_loop_posix.c
+
+rtt_adapter/rtt_btstack_gatt_blufi.c
+
+chipset/bcm/btstack_chipset_bcm.c
+chipset/bcm/btstack_chipset_bcm_download_firmware.c
+
+src/btstack_util.c
+src/btstack_run_loop.c
+src/btstack_tlv.c
+src/hci_dump.c
+src/hci_cmd.c
+src/ad_parser.c
+src/btstack_linked_list.c
+src/btstack_crypto.c
+
+
+src/hci.c
+src/l2cap.c
+src/l2cap_signaling.c
+src/btstack_memory.c
+src/btstack_memory_pool.c
+src/hci_transport_h4.c
+
+src/classic/btstack_link_key_db_tlv.c
+
+src/ble/le_device_db_tlv.c
+src/ble/att_server.c
+src/ble/sm.c
+src/ble/att_dispatch.c
+src/ble/att_db.c
+
+src/ble/gatt-service/battery_service_server.c
+
+port/posix-h4-bcm/btstack_main.c
+rtt_adapter/rtt_btstack_adapter.c
+''')
+
+
+path =  [cwd]
+path += [cwd + '/src']
+path += [cwd + '/example/inc']
+path += [cwd + '/platform/posix']
+path += [cwd + '/chipset/bcm']
+path += [cwd + '/port/posix-h4-bcm']
+path += [cwd + '/rtt_adapter']
+
+LOCAL_CCFLAGS = ''
+if rtconfig.CROSS_TOOL == 'keil':
+    LOCAL_CCFLAGS += ' --gnu'
+
+group = DefineGroup('RTT_BTSTACK', src, depend = [''], CPPPATH = path, LOCAL_CCFLAGS = LOCAL_CCFLAGS)
+
+Return('group')

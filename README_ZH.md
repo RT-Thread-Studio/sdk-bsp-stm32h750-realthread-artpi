@@ -1,6 +1,6 @@
 ## 简介
 
-中文页 | [英文页](README.md)
+中文页 | [English Page](README.md)
 
 sdk-bsp-stm32h750-realthread-artpi 是 RT-Thread 团队对 ART-Pi 开发板所作的支持包，也可作为用户开发使用的软件SDK，让用户可以更简单方便的开发自己的应用程序。
 
@@ -72,6 +72,18 @@ sdk-bsp-stm32h750-realthread-artpi 支持 RT-Thread Studio 和 MDK 开发
     <img src="documents\figures\creat_project.png" alt="image-20200926143024666" style="zoom:50%;" />
 
 ### MDK 开发
+
+为了避免 SDK 在持续更新中，每一个 `projects` 都创建一份 `rt-thread` 文件夹 和 `libraries` 文件夹导致的 SDK 越来越臃肿，所以这些通用文件夹被单独提取了出来。这样就会导致直接打开 `MDK` 的工程编译会提示缺少上述两个文件夹的文件，我们有两个方法来解决这个问题：
+
+**方法一：**
+
+1. 双击 `project` 目录下的 `mklinks.bat` 文件，如 `sdk-bsp-stm32h750-realthread-artpi\projects\art_pi_blink_led` 目录下的 `mklinks.bat`
+
+2. 查看 `sdk-bsp-stm32h750-realthread-artpi\projects\art_pi_blink_led` 目录下是否有 `rt-thread` 和 `libraries` 的文件夹图标
+3. 使用 [ENV](https://club.rt-thread.org/ask/question/5699.html) 工具执行 scons --target=mdk5 更新 MDK5 工程文件
+
+**方法二**
+
 1. 在 [ART-Pi SDK仓库](https://github.com/RT-Thread-Studio/sdk-bsp-stm32h750-realthread-artpi) 下载 SDK
 
 2. 进入工程目录。如：sdk-bsp-stm32h750-realthread-artpi\projects\art_pi_blink_led
@@ -87,7 +99,7 @@ sdk-bsp-stm32h750-realthread-artpi 支持 RT-Thread Studio 和 MDK 开发
    
    E:\project\sdk-bsp-stm32h750-realthread-artpi\projects>
    ```
-4. 使用 [ENV](https://club.rt-thread.org/ask/question/5699.html) 工具执行 scons --target=mdk5 即可更新 MDK5 工程文件
+4. 使用 [ENV](https://club.rt-thread.org/ask/question/5699.html) 工具执行 scons --target=mdk5 更新 MDK5 工程文件
 
 
 ## ART-Pi 交流平台

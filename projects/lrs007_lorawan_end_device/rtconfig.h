@@ -93,6 +93,7 @@
 #define RT_USING_DEVICE_IPC
 #define RT_PIPE_BUFSZ 512
 #define RT_USING_SERIAL
+#define RT_SERIAL_USING_DMA
 #define RT_SERIAL_RB_BUFSZ 64
 #define RT_USING_PIN
 #define RT_USING_RTC
@@ -265,12 +266,6 @@
 
 /* peripheral libraries and drivers */
 
-#define PKG_USING_LITTLED
-#define PKG_USING_LITTLED_PERIOD 1000
-#define PKG_USING_LITTLED_PULSE 500
-#define PKG_USING_LITTLED_BELL_TIME 50000
-#define PKG_USING_LITTLED_BEEP_COUNT 3
-#define PKG_USING_LITTLED_LATEST_VERSION
 #define PKG_USING_MULTI_RTIMER
 
 /* Select Target MCU and Peripheral */
@@ -287,24 +282,23 @@
 
 /* Select Supported LoRa Module [SX126X] */
 
-#define LORA_RADIO_DRIVER_USING_LORA_MODULE_LSD4RF_2R717N40
-
-/* LoRa Chip SX1268 (SPI module) */
-
 #define LORA_RADIO_USE_TCXO
 #define LORA_RADIO_GPIO_SETUP
-
-/* Select Supported Target Borad */
-
 #define LORA_RADIO_SPI_SETUP
 #define LORA_RADIO_GPIO_SETUP_BY_PIN_NUMBER
 #define LORA_RADIO_NSS_PIN 68
 #define LORA_RADIO_RESET_PIN 114
 #define LORA_RADIO_DIO1_PIN 16
+#define LORA_RADIO_BUSY_PIN 6
+#define LORA_RADIO_DRIVER_USING_LORA_MODULE_LSD4RF_2R717N40
+
+/* LoRa Chip SX1268 (SPI module) */
+
+/* Select Supported Target Borad */
+
 #define LORA_RADIO_DIO2_PIN 115
 #define LORA_RADIO_RFSW1_PIN 17
 #define LORA_RADIO_RFSW2_PIN 18
-#define LORA_RADIO_BUSY_PIN 6
 #define LORA_RADIO_DRIVER_USING_TRAGET_BOARD_ART_PI_AND_LRS007_RF_B
 /* end of Select Supported Target Borad */
 /* end of Select Supported LoRa Module [SX126X] */
@@ -325,6 +319,10 @@
 #define PKG_USING_LORA_RADIO_DRIVER_V130
 /* end of peripheral libraries and drivers */
 
+/* AI packages */
+
+/* end of AI packages */
+
 /* miscellaneous packages */
 
 
@@ -332,9 +330,9 @@
 
 /* end of samples: kernel and components samples */
 
-/* games: games run on RT-Thread console */
+/* entertainment: terminal games and other interesting software packages */
 
-/* end of games: games run on RT-Thread console */
+/* end of entertainment: terminal games and other interesting software packages */
 /* end of miscellaneous packages */
 /* end of RT-Thread online packages */
 

@@ -1,0 +1,39 @@
+from building import * 
+import rtconfig
+
+# get current dir path
+cwd = GetCurrentDir()
+
+# init src and inc vars
+src = []
+inc = []
+
+# add LittlevGL common include
+inc = inc + [cwd]
+inc = inc + [cwd + "/lv_core"]
+inc = inc + [cwd + "/lv_draw"]
+inc = inc + [cwd + "/lv_hal"]
+inc = inc + [cwd + "/lv_misc"]
+inc = inc + [cwd + "/lv_font"]
+inc = inc + [cwd + "/lv_widgets"]
+inc = inc + [cwd + "/lv_themes"]
+
+# add LittlevGL basic code
+src = src + Glob('./lv_core/*.c')
+src = src + Glob('./lv_draw/*.c')
+src = src + Glob('./lv_hal/*.c')
+src = src + Glob('./lv_misc/*.c')
+src = src + Glob('./lv_font/*.c')
+src = src + Glob('./lv_widgets/*.c')
+src = src + Glob('./lv_themes/*.c')
+
+LOCAL_CCFLAGS = ''
+
+if rtconfig.CROSS_TOOL == 'gcc':
+    LOCAL_CCFLAGS += ' -std=c99'
+elif rtconfig.CROSS_TOOL == 'keil':
+    LOCAL_CCFLAGS += ' --c99 --gnu -g -W'
+
+group = DefineGroup('LittlevGL2RTT', src, depend = ['PKG_USING_LITTLEVGL2RTT'], CPPPATH = inc, LOCAL_CCFLAGS = LOCAL_CCFLAGS)
+
+Return('group')
