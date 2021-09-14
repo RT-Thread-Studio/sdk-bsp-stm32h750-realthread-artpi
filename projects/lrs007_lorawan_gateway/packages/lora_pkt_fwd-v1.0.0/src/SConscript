@@ -1,0 +1,23 @@
+from building import *
+
+src   = []
+cwd   = GetCurrentDir()
+include_path = [cwd+'/../inc']
+
+# sx130x
+if GetDepend('LORA_PKT_FWD_USING_MULTI_CHANNEL_MODE'):
+    src = Split('''
+    base64.c
+    jitqueue.c
+    parson.c
+    lora_pkt_fwd_conf.c
+    lora_pkt_fwd_shell.c
+    ''')
+
+if GetDepend('LORA_PKT_FWD_USING_PROTOCOL_SEMTECH_GWMP'):
+    src += ['lora_pkt_fwd_gwmp.c']
+
+
+group = DefineGroup('lora_pkt_fwd', src, depend = [''], CPPPATH = include_path)
+
+Return('group')

@@ -1,0 +1,20 @@
+from building import *
+
+src   = []
+cwd   = GetCurrentDir()
+include_path = [cwd+'/../inc']
+
+src = Split('''
+    lora_pkt_sniffer.c
+    lora_pkt_sniffer_nvm.c
+    lora_pkt_sniffer_shell.c
+    ''')
+
+if GetDepend('LORA_PKT_SNIFFER_USING_WIRESHARK_MODE'):
+    src += Split('''
+    lora_pkt_sniffer_udp.c
+    ''')
+
+group = DefineGroup('lora_pkt_sniffer', src, depend = ['PKG_USING_LORA_PKT_SNIFFER'], CPPPATH = include_path)
+
+Return('group')
