@@ -18,8 +18,8 @@ ART-Pi lookback示例基于RTOS(RT-Thread)、ART-Pi、LRS007的SX1302模块与SX
 
 - 频段范围：
 
-  - TX: 470~510 MHz，最大功率~22dBm
-    RX: 470~480 MHz
+  - TX: 470~510 MHz，最大发射功率约22dBm
+  - RX: 470~480 MHz
 
 - 发射性能：~1W@5V、17dBm
 

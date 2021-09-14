@@ -27,8 +27,8 @@ ART-Pi lora-gw-driver-tester基于RTOS(RT-Thread)、ART-Pi与LRS007[SX1302]等�
 
 - 频段范围：
 
-  - TX: 470~510 MHz，最大功率~22dBm
-    RX: 470~480 MHz
+  - TX: 470~510 MHz，最大发射功率约22dBm
+  - RX: 470~480 MHz
 
 - 发射性能：~1W@5V、17dBm
 

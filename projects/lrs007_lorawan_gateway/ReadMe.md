@@ -63,8 +63,8 @@ ART-Pi LoRaWAN 8通道室内网关基于ART-Pi[STM32H7与LRS007[SX1302]模块实
 
 - 频段范围：
 
-  - TX: 470~510 MHz，最大功率~22dBm
-    RX: 470~480 MHz
+  - TX: 470~510 MHz，最大发射功率约22dBm
+  - RX: 470~480 MHz
 
 - 发射性能：~1W@5V、17dBm
 
