@@ -989,7 +989,7 @@ int lpf_init(void)
     }
     else
     {
-        MSG("lpf main thread create had created\n");
+        MSG("lpf main thread had created\n");
     }
     return 0;
 }

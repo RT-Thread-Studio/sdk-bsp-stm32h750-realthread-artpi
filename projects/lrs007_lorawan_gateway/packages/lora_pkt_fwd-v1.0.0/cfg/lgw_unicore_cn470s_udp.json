@@ -1,0 +1,101 @@
+{
+    "SX130x_conf": {
+        "spidev_path": "/dev/spidev0.0",
+        "lorawan_public": true,
+        "clksrc": 0,
+        "antenna_gain": 0, /* antenna gain, in dBi */
+        "full_duplex": false,
+        "precision_timestamp": {
+            "enable": false,
+            "max_ts_metrics": 255,
+            "nb_symbols": 1
+        },
+        "radio_0": {
+            "enable": true,
+            "type": "SX1250",
+            "single_input_mode": true,
+            "freq": 475600000,
+            "rssi_offset": -207.0,
+            "rssi_tcomp": {"coeff_a": 0, "coeff_b": 0, "coeff_c": 20.41, "coeff_d": 2162.56, "coeff_e": 0},
+            "tx_enable": true,
+            "tx_freq_min": 470000000,
+            "tx_freq_max": 510000000,
+            "tx_gain_lut":[
+                {"rf_power": 4, "pa_gain": 0, "pwr_idx": 4}
+                {"rf_power": 6, "pa_gain": 0, "pwr_idx":  6},
+                {"rf_power": 8, "pa_gain": 0, "pwr_idx":  8},
+                {"rf_power": 10, "pa_gain": 0, "pwr_idx":  11},
+                {"rf_power": 11, "pa_gain": 0, "pwr_idx":  12},
+                {"rf_power": 12, "pa_gain": 0, "pwr_idx":  13},
+                {"rf_power": 13, "pa_gain": 0, "pwr_idx":  14},
+                {"rf_power": 14, "pa_gain": 0, "pwr_idx":  15},
+                {"rf_power": 15, "pa_gain": 0, "pwr_idx":  16},
+                {"rf_power": 16, "pa_gain": 0, "pwr_idx":  17},
+                {"rf_power": 17, "pa_gain": 0, "pwr_idx":  18},
+                {"rf_power": 18, "pa_gain": 0, "pwr_idx": 19},
+                {"rf_power": 19, "pa_gain": 0, "pwr_idx": 20},
+                {"rf_power": 20, "pa_gain": 0, "pwr_idx": 21},
+                {"rf_power": 21, "pa_gain": 0, "pwr_idx": 22},
+                {"rf_power": 22, "pa_gain": 0, "pwr_idx": 22}
+            ]
+        },
+        "radio_1": {
+            "enable": true,
+            "type": "SX1250",
+            "single_input_mode": true,
+            "freq": 476400000,
+            "rssi_offset": -207.0,
+            "rssi_tcomp": {"coeff_a": 0, "coeff_b": 0, "coeff_c": 20.41, "coeff_d": 2162.56, "coeff_e": 0},
+            "tx_enable": false
+        },
+        "chan_multiSF_0": {"enable": true, "radio": 0, "if": -300000},
+        "chan_multiSF_1": {"enable": true, "radio": 0, "if": -100000},
+        "chan_multiSF_2": {"enable": true, "radio": 0, "if":  100000},
+        "chan_multiSF_3": {"enable": true, "radio": 0, "if":  300000},
+        "chan_multiSF_4": {"enable": true, "radio": 1, "if": -300000},
+        "chan_multiSF_5": {"enable": true, "radio": 1, "if": -100000},
+        "chan_multiSF_6": {"enable": true, "radio": 1, "if":  100000},
+        "chan_multiSF_7": {"enable": true, "radio": 1, "if":  300000},
+        "chan_Lora_std":  {"enable": true, "radio": 1, "if": -200000, "bandwidth": 250000, "spread_factor": 7,
+                           "implicit_hdr": false, "implicit_payload_length": 17, "implicit_crc_en": false, "implicit_coderate": 1},
+        "chan_FSK":       {"enable": true, "radio": 1, "if":  300000, "bandwidth": 125000, "datarate": 50000}
+    },
+
+    "gateway_conf": {
+        /* Defined your gateway_ID */
+        "gateway_ID": "009569FFFF000008",
+        /* change with default server address/ports */
+        "server_address": "47.110.127.110",
+        "serv_port_up": 8441,
+        "serv_port_down": 8441,
+        /* adjust the following parameters for your network */
+        "keepalive_interval": 10,
+        "stat_interval": 30,
+        "push_timeout_ms": 100,
+        /* forward only valid packets */
+        "forward_crc_valid": true,
+        "forward_crc_error": false,
+        "forward_crc_disabled": false,
+        /* GPS configuration */
+        "gps_tty_path": "/dev/ttyS0",
+        /* GPS reference coordinates */
+        "ref_latitude": 0.0,
+        "ref_longitude": 0.0,
+        "ref_altitude": 0,
+        /* Beaconing parameters */
+        "beacon_period": 0,
+        "beacon_freq_hz": 479525000,
+        "beacon_datarate": 9,
+        "beacon_bw_hz": 125000,
+        "beacon_power": 17,
+        "beacon_infodesc": 0
+    },
+
+    "debug_conf": {
+        "ref_payload":[
+            {"id": "0xCAFE1234"},
+            {"id": "0xCAFE2345"}
+        ],
+        "log_file": "loragw_hal.log"
+    }
+}
