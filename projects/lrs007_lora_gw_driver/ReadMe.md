@@ -4,6 +4,8 @@
 
 ART-Pi lora-gw-driver-tester基于RTOS(RT-Thread)、ART-Pi与LRS007[SX1302]等实现，通过串口shell命令来控制LoRa网关模块(SX1302)的工作模式（Concentrator mode、device mode、CW mode），实现LoRa网关模块(SX1302)点对点单\双\主\从通信、空口抓包、CW性能测试等。
 
+详细说明可查看《[基于ART-Pi与SX1302的lora-gw-driver应用笔记](https://club.rt-thread.org/ask/article/3056.html)》
+
 ![lgd-function-block](./figures/lrs007-lgd-function-block.png)
 
 - CW模式

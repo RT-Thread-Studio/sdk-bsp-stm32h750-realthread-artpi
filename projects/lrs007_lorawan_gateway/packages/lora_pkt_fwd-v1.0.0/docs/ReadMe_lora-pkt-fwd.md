@@ -37,12 +37,14 @@ lora-pkt-fwd软件包功能框图如下所示
 ```c
 $ lora-pkt-fwd
 ├── README.md
+├── cfg
+|   ├── xxx.json    
 ├── docs
 |   ├── images
 |   └── readme.md 
 ├── inc
 ├── src
-	├── lora_pkt_fwd.c
+    ├── lora_pkt_fwd.c
     ├── lora_pkt_fwd_shell.c
     ├── base64.c
     ├── jitqueue.c

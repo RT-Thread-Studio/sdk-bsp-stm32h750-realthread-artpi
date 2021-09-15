@@ -4,7 +4,7 @@
 
 ART-Pi LoRaWAN 8通道室内网关基于ART-Pi[STM32H7与LRS007[SX1302]模块实现，支持Semtech定义GWMP协议，可对接到利尔达Unicore平台、TTN平台、腾讯云IoT explorer平台等LoRaWAN服务器。
 
-详细说明可查看《[基于ART-Pi与SX1302的8通道LoRaWAN室内网关(WiFi)应用笔记]()》
+详细说明可查看《[基于ART-Pi与SX1302的8通道LoRaWAN室内网关(WiFi)应用笔记](https://club.rt-thread.org/ask/article/3055.html)》
 
 ![lrs007-lgw-function-block](./figures/lrs007-lgw-function-block.png)
 

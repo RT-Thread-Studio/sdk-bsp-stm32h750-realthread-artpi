@@ -4,6 +4,8 @@
 
 ART-Pi lookback示例基于RTOS(RT-Thread)、ART-Pi、LRS007的SX1302模块与SX1268模块实现，lookback主要实现了在同一个ART-Pi硬件板上同时运行lora-gw-driver-tester与lora-radio-driver-tester，进而实现LRS007板上的SX1302模块与SX1268模块的双向通信测试等。
 
+详细说明可查看《[基于ART-Pi与SX1302的lora-gw-driver应用笔记](https://club.rt-thread.org/ask/article/3056.html)》
+
 ![lgd-function-block-loopback](./figures/lrs007-lgd-function-block-loopback.png)
 
 - SX1302模块主动发送ping包，等待LoRa终端模块[SX1268]回发ack。

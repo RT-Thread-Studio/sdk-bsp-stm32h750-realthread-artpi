@@ -4,7 +4,7 @@
 
 ART-Pi lora-pkt-sniffer抓包工具基于RTOS(RT-Thread)、ART-Pi与LoRa网关模块(SX1302模块..)实现，主要用于捕获与解析空口的LoRa(WAN)数据包，可以辅助用于理解LoRa私有协议\LoRaWAN协议、分析LoRa\LoRaWAN产品开发问题等。
 
-详细说明可查看《[基于ART-Pi与SX1302的lora-pkt-sniffer抓包工具应用笔记]()》
+详细说明可查看《[基于ART-Pi与SX1302的lora-pkt-sniffer抓包工具应用笔记](https://club.rt-thread.org/ask/article/3054.html)》
 
 ![art-pi-lora-pkt-sniffer-block](./figures/lrs007-lps-function-block.png)
 
