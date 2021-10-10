@@ -1,0 +1,12 @@
+[
+ {
+  "path": "/packages/peripherals/lora_radio_driver", 
+  "ver": "v1.4.3", 
+  "name": "LORA_RADIO_DRIVER"
+ }, 
+ {
+  "path": "/packages/peripherals/lora_gw_driver_lib", 
+  "ver": "v0.3.0", 
+  "name": "LORA_GW_DRIVER_LIB"
+ }
+]

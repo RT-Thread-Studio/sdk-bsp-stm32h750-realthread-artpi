@@ -1,0 +1,10 @@
+from building import *
+
+src = []
+
+if GetDepend('LORA_GW_DRIVER_USING_LORA_CHIP_SX1302') or GetDepend('LORA_GW_DRIVER_LIB_USING_LORA_CHIP_SX1302'):
+    src += ['stm32_adapter/loragw_board.c']
+
+group = DefineGroup('lora_gw_driver/board', src, depend = [], CPPPATH = [])
+
+Return('group')

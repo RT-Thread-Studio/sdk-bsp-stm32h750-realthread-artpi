@@ -1,0 +1,17 @@
+Import('rtconfig')
+from building import *
+
+cwd = GetCurrentDir()
+src = []
+include_path = [cwd +'/../inc']
+libs = []
+libpath = [cwd + '/libs']
+
+if rtconfig.CROSS_TOOL == 'gcc':
+    libs += ['lora_gw_driver_armcm7_0.3.0_gcc'] # don't add lib prefix for rt-thread studio
+elif rtconfig.CROSS_TOOL == 'keil':
+    libs += ['liblora_gw_driver_armcm7_0.3.0_keil']
+
+group = DefineGroup('lora_gw_driver_lib', src, depend = ['PKG_USING_LORA_GW_DRIVER_LIB'], CPPPATH = include_path, LIBS = libs, LIBPATH = libpath)
+
+Return('group')
