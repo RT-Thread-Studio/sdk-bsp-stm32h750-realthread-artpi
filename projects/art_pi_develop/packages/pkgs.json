@@ -1,1 +1,7 @@
-[]
+[
+ {
+  "path": "/packages/multimedia/lvgl/LittlevGL2RTT", 
+  "ver": "latest", 
+  "name": "LITTLEVGL2RTT"
+ }
+]
