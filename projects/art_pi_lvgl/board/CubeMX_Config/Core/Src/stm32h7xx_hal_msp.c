@@ -248,50 +248,6 @@ void HAL_ETH_MspDeInit(ETH_HandleTypeDef* heth)
 }
 
 /**
-* @brief LPTIM MSP Initialization
-* This function configures the hardware resources used in this example
-* @param hlptim: LPTIM handle pointer
-* @retval None
-*/
-void HAL_LPTIM_MspInit(LPTIM_HandleTypeDef* hlptim)
-{
-  if(hlptim->Instance==LPTIM1)
-  {
-  /* USER CODE BEGIN LPTIM1_MspInit 0 */
-
-  /* USER CODE END LPTIM1_MspInit 0 */
-    /* Peripheral clock enable */
-    __HAL_RCC_LPTIM1_CLK_ENABLE();
-  /* USER CODE BEGIN LPTIM1_MspInit 1 */
-
-  /* USER CODE END LPTIM1_MspInit 1 */
-  }
-
-}
-
-/**
-* @brief LPTIM MSP De-Initialization
-* This function freeze the hardware resources used in this example
-* @param hlptim: LPTIM handle pointer
-* @retval None
-*/
-void HAL_LPTIM_MspDeInit(LPTIM_HandleTypeDef* hlptim)
-{
-  if(hlptim->Instance==LPTIM1)
-  {
-  /* USER CODE BEGIN LPTIM1_MspDeInit 0 */
-
-  /* USER CODE END LPTIM1_MspDeInit 0 */
-    /* Peripheral clock disable */
-    __HAL_RCC_LPTIM1_CLK_DISABLE();
-  /* USER CODE BEGIN LPTIM1_MspDeInit 1 */
-
-  /* USER CODE END LPTIM1_MspDeInit 1 */
-  }
-
-}
-
-/**
 * @brief LTDC MSP Initialization
 * This function configures the hardware resources used in this example
 * @param hltdc: LTDC handle pointer
@@ -641,6 +597,34 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
 
   /* USER CODE END SPI1_MspInit 1 */
   }
+  else if(hspi->Instance==SPI2)
+  {
+  /* USER CODE BEGIN SPI2_MspInit 0 */
+
+  /* USER CODE END SPI2_MspInit 0 */
+    /* Peripheral clock enable */
+    __HAL_RCC_SPI2_CLK_ENABLE();
+
+    __HAL_RCC_GPIOI_CLK_ENABLE();
+    /**SPI2 GPIO Configuration
+    PI1     ------> SPI2_SCK
+    PI2     ------> SPI2_MISO
+    PI3     ------> SPI2_MOSI
+    */
+    GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH; // GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
+    HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
+
+    /* SPI2 interrupt Init */
+    HAL_NVIC_SetPriority(SPI2_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(SPI2_IRQn);
+  /* USER CODE BEGIN SPI2_MspInit 1 */
+
+  /* USER CODE END SPI2_MspInit 1 */
+  }
   else if(hspi->Instance==SPI4)
   {
   /* USER CODE BEGIN SPI4_MspInit 0 */
@@ -699,6 +683,27 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
   /* USER CODE BEGIN SPI1_MspDeInit 1 */
 
   /* USER CODE END SPI1_MspDeInit 1 */
+  }
+  else if(hspi->Instance==SPI2)
+  {
+  /* USER CODE BEGIN SPI2_MspDeInit 0 */
+
+  /* USER CODE END SPI2_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __HAL_RCC_SPI2_CLK_DISABLE();
+
+    /**SPI2 GPIO Configuration
+    PI1     ------> SPI2_SCK
+    PI2     ------> SPI2_MISO
+    PI3     ------> SPI2_MOSI
+    */
+    HAL_GPIO_DeInit(GPIOI, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3);
+
+    /* SPI2 interrupt DeInit */
+    HAL_NVIC_DisableIRQ(SPI2_IRQn);
+  /* USER CODE BEGIN SPI2_MspDeInit 1 */
+
+  /* USER CODE END SPI2_MspDeInit 1 */
   }
   else if(hspi->Instance==SPI4)
   {
