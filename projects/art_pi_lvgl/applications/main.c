@@ -1,33 +1,42 @@
 /*
- * Copyright (c) 2006-2020, RT-Thread Development Team
+ * Copyright (c) 2006-2022, RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
  * Date           Author       Notes
- * 2020-09-02     RT-Thread    first version
+ * 2021-03-17     supperthomas first version
  */
 
 #include <rtthread.h>
 #include <rtdevice.h>
-#include "drv_common.h"
+#include <board.h>
 
-#define LED_PIN GET_PIN(I, 8)
+/* defined the LED0 pin: PI8 */
+#define LED0_PIN    GET_PIN(I, 8)
+
+#ifdef RT_USING_WIFI
+    extern void wlan_autoconnect_init(void);
+#endif
 
 int main(void)
 {
-    rt_uint32_t count = 1;
+    /* set LED0 pin mode to output */
+    rt_pin_mode(LED0_PIN, PIN_MODE_OUTPUT);
+    #ifdef RT_USING_WIFI
+    /* init Wi-Fi auto connect feature */
+    wlan_autoconnect_init();
+    /* enable auto reconnect on WLAN device */
+    rt_wlan_config_autoreconnect(RT_TRUE);
+    #endif
 
-    rt_pin_mode(LED_PIN, PIN_MODE_OUTPUT);
-
-    while(count++)
+    while (1)
     {
+        rt_pin_write(LED0_PIN, PIN_HIGH);
         rt_thread_mdelay(500);
-        rt_pin_write(LED_PIN, PIN_HIGH);
+        rt_pin_write(LED0_PIN, PIN_LOW);
         rt_thread_mdelay(500);
-        rt_pin_write(LED_PIN, PIN_LOW);
     }
-    return RT_EOK;
 }
 
 #include "stm32h7xx.h"
@@ -38,5 +47,3 @@ static int vtor_config(void)
     return 0;
 }
 INIT_BOARD_EXPORT(vtor_config);
-
-
