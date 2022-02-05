@@ -1,1 +1,17 @@
-[]
+[
+ {
+  "name": "LVGL",
+  "path": "/packages/multimedia/LVGL/LVGL",
+  "ver": "v8.1.0"
+ },
+ {
+  "name": "LV_MUSIC_DEMO",
+  "path": "/packages/multimedia/LVGL/lv_music_demo",
+  "ver": "v0.1.1"
+ },
+ {
+  "name": "FT6236",
+  "path": "/packages/peripherals/touch/ft6236",
+  "ver": "latest"
+ }
+]
