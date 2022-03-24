@@ -254,6 +254,6 @@ static int ap6212_init(void)
 
     return 0;
 }
-INIT_DEVICE_EXPORT(ap6212_init);
+INIT_PREV_EXPORT(ap6212_init);
 
 #endif /* RT_USING_WIFI */
