@@ -142,10 +142,12 @@ int rtthread_startup(void)
     rt_hw_spin_lock(&_cpus_lock);
 #endif /*RT_USING_SMP*/
 
+#ifndef FIRMWARE_EXEC_USING_QEMU
     MX_QUADSPI_Init();
 
     W25QXX_ExitQPIMode();
     W25QXX_Reset();
+#endif
     
     /* start scheduler */
     rt_system_scheduler_start();

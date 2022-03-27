@@ -400,3 +400,15 @@ menu "External Libraries"
         default n
 
 endmenu
+
+choice
+    prompt "The target of download and execute firmware"
+    default FIRMWARE_EXEC_USING_QSPI_FLASH
+
+    config FIRMWARE_EXEC_USING_QSPI_FLASH
+        bool "QSPI Flash"
+
+    config FIRMWARE_EXEC_USING_QEMU
+        bool "QEMU"
+
+endchoice
