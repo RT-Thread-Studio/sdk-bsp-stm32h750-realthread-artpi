@@ -392,7 +392,9 @@ static int rt_hw_qspi_bus_init(void)
 {
     return stm32_qspi_register_bus(&_stm32_qspi_bus, "qspi1");
 }
+#ifndef FIRMWARE_EXEC_USING_QEMU
 INIT_BOARD_EXPORT(rt_hw_qspi_bus_init);
+#endif
 
 #endif /* BSP_USING_QSPI */
 #endif /* RT_USING_QSPI */

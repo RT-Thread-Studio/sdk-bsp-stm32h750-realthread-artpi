@@ -1,0 +1,32 @@
+[
+ {
+  "path": "/packages/iot/netutils", 
+  "ver": "v1.3.1", 
+  "name": "NETUTILS"
+ }, 
+ {
+  "path": "/packages/iot/lora_pkt_fwd", 
+  "ver": "v1.0.0", 
+  "name": "LORA_PKT_FWD"
+ }, 
+ {
+  "path": "/packages/iot/agile_ftp", 
+  "ver": "latest", 
+  "name": "AGILE_FTP"
+ }, 
+ {
+  "path": "/packages/tools/EasyFlash", 
+  "ver": "v4.1.0", 
+  "name": "EASYFLASH"
+ }, 
+ {
+  "path": "/packages/system/fal", 
+  "ver": "v0.5.0", 
+  "name": "FAL"
+ }, 
+ {
+  "path": "/packages/peripherals/lora_gw_driver_lib", 
+  "ver": "v0.3.0", 
+  "name": "LORA_GW_DRIVER_LIB"
+ }
+]

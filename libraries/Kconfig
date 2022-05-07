@@ -64,22 +64,6 @@ menu "Board extended module"
                 bool "Enable Ethernet"
                 default y
         endif
-
-    menuconfig ART_PI_USING_LORA_SHIELD_LRS007
-        bool "LoRa Shield"
-        default n
-        if ART_PI_USING_LORA_SHIELD_LRS007
-            config ART_PI_USING_LORA_SHIELD_LRS007_RF_A
-                select BSP_USING_SPI
-                select BSP_USING_SPI2
-                bool "Enable LRS007 RF_A Channel"
-                default n
-            config ART_PI_USING_LORA_SHIELD_LRS007_RF_B
-                select BSP_USING_SPI
-                select BSP_USING_SPI4
-                bool "Enable LRS007 RF_B Channel"
-                default n
-        endif
         
 endmenu
 
@@ -416,3 +400,15 @@ menu "External Libraries"
         default n
 
 endmenu
+
+choice
+    prompt "The target of download and execute firmware"
+    default FIRMWARE_EXEC_USING_QSPI_FLASH
+
+    config FIRMWARE_EXEC_USING_QSPI_FLASH
+        bool "QSPI Flash"
+
+    config FIRMWARE_EXEC_USING_QEMU
+        bool "QEMU"
+
+endchoice

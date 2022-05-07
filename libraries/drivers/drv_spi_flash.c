@@ -27,4 +27,6 @@ static int rt_flash_init(void)
 
     return 0;
 }
+#ifndef FIRMWARE_EXEC_USING_QEMU
 INIT_ENV_EXPORT(rt_flash_init);
+#endif

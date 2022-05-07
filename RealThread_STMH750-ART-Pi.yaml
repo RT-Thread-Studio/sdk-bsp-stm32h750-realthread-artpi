@@ -83,6 +83,10 @@ template_projects:
     files_and_folders:
     - libraries
     - rt-thread
+  - source_path_offset: 'debug/stldr'
+    target_path_offset: 'board/stldr'
+    files_and_folders:
+    - ART-Pi_W25Q64.stldr
   external_files:
   - package_type: Chip_Support_Packages
     package_vendor: RealThread
@@ -105,6 +109,10 @@ example_projects:
     files_and_folders:
     - libraries
     - rt-thread
+  - source_path_offset: 'debug/stldr'
+    target_path_offset: 'board/stldr'
+    files_and_folders:
+    - ART-Pi_W25Q64.stldr
   external_files:
   - package_type: Chip_Support_Packages
     package_vendor: RealThread
@@ -147,6 +155,10 @@ example_projects:
     files_and_folders:
     - libraries
     - rt-thread
+  - source_path_offset: 'debug/stldr'
+    target_path_offset: 'board/stldr'
+    files_and_folders:
+    - ART-Pi_W25Q64.stldr
   external_files:
   - package_type: Chip_Support_Packages
     package_vendor: RealThread
@@ -168,6 +180,10 @@ example_projects:
     files_and_folders:
     - libraries
     - rt-thread
+  - source_path_offset: 'debug/stldr'
+    target_path_offset: 'board/stldr'
+    files_and_folders:
+    - ART-Pi_W25Q64.stldr
   external_files:
   - package_type: Chip_Support_Packages
     package_vendor: RealThread
@@ -189,6 +205,10 @@ example_projects:
     files_and_folders:
     - libraries
     - rt-thread
+  - source_path_offset: 'debug/stldr'
+    target_path_offset: 'board/stldr'
+    files_and_folders:
+    - ART-Pi_W25Q64.stldr
   external_files:
   - package_type: Chip_Support_Packages
     package_vendor: RealThread
@@ -210,6 +230,10 @@ example_projects:
     files_and_folders:
     - libraries
     - rt-thread
+  - source_path_offset: 'debug/stldr'
+    target_path_offset: 'board/stldr'
+    files_and_folders:
+    - ART-Pi_W25Q64.stldr
   external_files:
   - package_type: Chip_Support_Packages
     package_vendor: RealThread
@@ -416,6 +440,90 @@ example_projects:
   project_type: rt-thread|@full|@4.0.3
   builtin_files:
   - source_path_offset: projects/art_pi_fibocom_l610
+    target_path_offset: ''
+    files_and_folders:
+    - "*"
+  - source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders:
+    - libraries
+    - rt-thread
+  external_files:
+  - package_type: Chip_Support_Packages
+    package_vendor: RealThread
+    package_name: STM32H7
+    package_version: 0.1.9
+    source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders: []
+- project_name: art_pi_lrs007_lora_gw_driver
+  project_description: creat this peoject if user choose rt-thread project
+  project_type: rt-thread|@full|@4.0.3
+  builtin_files:
+  - source_path_offset: projects/art_pi_lrs007_lora_gw_driver
+    target_path_offset: ''
+    files_and_folders:
+    - "*"
+  - source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders:
+    - libraries
+    - rt-thread
+  external_files:
+  - package_type: Chip_Support_Packages
+    package_vendor: RealThread
+    package_name: STM32H7
+    package_version: 0.1.9
+    source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders: []
+- project_name: art_pi_lrs007_lora_loopback
+  project_description: creat this peoject if user choose rt-thread project
+  project_type: rt-thread|@full|@4.0.3
+  builtin_files:
+  - source_path_offset: projects/art_pi_lrs007_lora_loopback
+    target_path_offset: ''
+    files_and_folders:
+    - "*"
+  - source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders:
+    - libraries
+    - rt-thread
+  external_files:
+  - package_type: Chip_Support_Packages
+    package_vendor: RealThread
+    package_name: STM32H7
+    package_version: 0.1.9
+    source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders: []
+- project_name: art_pi_lrs007_lora_pkt_sniffer
+  project_description: creat this peoject if user choose rt-thread project
+  project_type: rt-thread|@full|@4.0.3
+  builtin_files:
+  - source_path_offset: projects/art_pi_lrs007_lora_pkt_sniffer
+    target_path_offset: ''
+    files_and_folders:
+    - "*"
+  - source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders:
+    - libraries
+    - rt-thread
+  external_files:
+  - package_type: Chip_Support_Packages
+    package_vendor: RealThread
+    package_name: STM32H7
+    package_version: 0.1.9
+    source_path_offset: ''
+    target_path_offset: ''
+    files_and_folders: []
+- project_name: art_pi_lrs007_lorawan_gateway
+  project_description: creat this peoject if user choose rt-thread project
+  project_type: rt-thread|@full|@4.0.3
+  builtin_files:
+  - source_path_offset: projects/art_pi_lrs007_lorawan_gateway
     target_path_offset: ''
     files_and_folders:
     - "*"

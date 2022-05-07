@@ -45,10 +45,11 @@ struct rthw_sdio
     struct stm32_sdio_des sdio_des;
     struct rt_event event;
     struct sdio_pkg *pkg;
+    rt_uint8_t *cache_buf;
 };
 
 ALIGN(SDIO_ALIGN_LEN)
-static rt_uint8_t cache_buf[SDIO_BUFF_SIZE];
+static rt_uint8_t cache_buf1[SDIO_BUFF_SIZE], cache_buf2[SDIO_BUFF_SIZE];
 
 /**
   * @brief  This function get order from sdio.
@@ -159,11 +160,11 @@ static void rthw_sdio_wait_completed(struct rthw_sdio *sdio)
 
     if (cmd->err == RT_EOK)
     {
-        LOG_D("sta:0x%08X [%08X %08X %08X %08X]", status, cmd->resp[0], cmd->resp[1], cmd->resp[2], cmd->resp[3]);
+        LOG_D("sdio:%p sta:0x%08X [%08X %08X %08X %08X]", sdio, status, cmd->resp[0], cmd->resp[1], cmd->resp[2], cmd->resp[3]);
     }
     else
     {
-        LOG_D("send command error = %d", cmd->err);
+        LOG_E("sdio:%p send command error = %d", sdio, cmd->err);
     }
 }
 
@@ -184,7 +185,8 @@ static void rthw_sdio_send_command(struct rthw_sdio *sdio, struct sdio_pkg *pkg)
     /* save pkg */
     sdio->pkg = pkg;
 
-    LOG_D("CMD:%d ARG:0x%08x RES:%s%s%s%s%s%s%s%s%s rw:%c len:%d blksize:%d\n",
+    LOG_D("sdio:%p CMD:%d ARG:0x%08x RES:%s%s%s%s%s%s%s%s%s rw:%c len:%d blksize:%d\n",
+          sdio,
           cmd->cmd_code,
           cmd->arg,
           resp_type(cmd) == RESP_NONE ? "NONE"  : "",
@@ -214,7 +216,7 @@ static void rthw_sdio_send_command(struct rthw_sdio *sdio, struct sdio_pkg *pkg)
         hw_sdio->dtimer = HW_SDIO_DATATIMEOUT;
         hw_sdio->dlen = data->blks * data->blksize;
         hw_sdio->dctrl = (get_order(data->blksize)<<4) | (data->flags & DATA_DIR_READ ? SDMMC_DCTRL_DTDIR : 0);
-        hw_sdio->idmabase0r = (rt_uint32_t)cache_buf;
+        hw_sdio->idmabase0r = (rt_uint32_t)sdio->cache_buf;
         hw_sdio->idmatrlr = SDMMC_IDMA_IDMAEN;
     }
 
@@ -248,7 +250,7 @@ static void rthw_sdio_send_command(struct rthw_sdio *sdio, struct sdio_pkg *pkg)
     {
         if (data->flags & DATA_DIR_READ)
         {
-            rt_memcpy(data->buf, cache_buf, data->blks * data->blksize);
+            rt_memcpy(data->buf, sdio->cache_buf, data->blks * data->blksize);
             SCB_CleanInvalidateDCache();
         }
     }
@@ -266,9 +268,6 @@ static void rthw_sdio_request(struct rt_mmcsd_host *host, struct rt_mmcsd_req *r
     struct rthw_sdio *sdio = host->private_data;
     struct rt_mmcsd_data *data;
 
-
-    rt_mutex_take(mmcsd_mutex, RT_WAITING_FOREVER);
-
     if (req->cmd != RT_NULL)
     {
         rt_memset(&pkg, 0, sizeof(pkg));
@@ -283,7 +282,7 @@ static void rthw_sdio_request(struct rt_mmcsd_host *host, struct rt_mmcsd_req *r
 
             if (data->flags & DATA_DIR_WRITE)
             {
-                rt_memcpy(cache_buf, data->buf, size);
+                rt_memcpy(sdio->cache_buf, data->buf, size);
             }
         }
 
@@ -298,8 +297,6 @@ static void rthw_sdio_request(struct rt_mmcsd_host *host, struct rt_mmcsd_req *r
     }
 
     mmcsd_req_complete(sdio->host);
-
-    rt_mutex_release(mmcsd_mutex);
 }
 
 
@@ -333,7 +330,8 @@ static void rthw_sdio_iocfg(struct rt_mmcsd_host *host, struct rt_mmcsd_io_cfg *
     struct rthw_sdio *sdio = host->private_data;
     struct stm32_sdio *hw_sdio = sdio->sdio_des.hw_sdio;
 
-    LOG_D("clk:%dK width:%s%s%s power:%s%s%s",
+    LOG_D("sdio:%p clk:%dK width:%s%s%s power:%s%s%s",
+          sdio,
           clk/1000,
           io_cfg->bus_width == MMCSD_BUS_WIDTH_8 ? "8" : "",
           io_cfg->bus_width == MMCSD_BUS_WIDTH_4 ? "4" : "",
@@ -376,9 +374,10 @@ static const struct rt_mmcsd_host_ops ops =
 /**
   * @brief  This function create mmcsd host.
   * @param  sdio_des stm32_sdio_des
+  * @param  cache_buf cache buf
   * @retval rt_mmcsd_host
   */
-struct rt_mmcsd_host *sdio_host_create(struct stm32_sdio_des *sdio_des)
+struct rt_mmcsd_host *sdio_host_create(struct stm32_sdio_des *sdio_des, rt_uint8_t cache_buf[SDIO_BUFF_SIZE])
 {
     struct rt_mmcsd_host *host;
     struct rthw_sdio *sdio = RT_NULL;
@@ -395,6 +394,7 @@ struct rt_mmcsd_host *sdio_host_create(struct stm32_sdio_des *sdio_des)
         return RT_NULL;
     }
     rt_memset(sdio, 0, sizeof(struct rthw_sdio));
+    sdio->cache_buf = cache_buf;
 
     host = mmcsd_alloc_host();
     if (host == RT_NULL)
@@ -473,7 +473,7 @@ int rt_hw_sdio_init(void)
     sdio_des1.hsd.Instance = SDMMC1;
     HAL_SD_MspInit(&sdio_des1.hsd);
 
-    host1 = sdio_host_create(&sdio_des1);
+    host1 = sdio_host_create(&sdio_des1, cache_buf1);
     if (host1 == RT_NULL)
     {
         LOG_E("host create fail");
@@ -487,7 +487,7 @@ int rt_hw_sdio_init(void)
     sdio_des2.hsd.Instance = SDMMC2;
     HAL_SD_MspInit(&sdio_des2.hsd);
 
-    host2 = sdio_host_create(&sdio_des2);
+    host2 = sdio_host_create(&sdio_des2, cache_buf2);
     if (host2 == RT_NULL)
     {
         LOG_E("host2 create fail");
@@ -496,12 +496,6 @@ int rt_hw_sdio_init(void)
     /* wifi auto change */
     mmcsd_change(host2);
 #endif
-    mmcsd_mutex = rt_mutex_create("mmutex", RT_IPC_FLAG_FIFO);
-    if (mmcsd_mutex == RT_NULL)
-    {
-        rt_kprintf("create mmcsd mutex failed.\n");
-        return -1;
-    }
 
     return 0;
 }

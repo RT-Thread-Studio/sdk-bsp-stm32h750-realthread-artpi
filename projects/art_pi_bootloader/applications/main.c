@@ -32,9 +32,10 @@ int main(void)
     /* set LED0 pin mode to output */
     rt_pin_mode(LED0_PIN, PIN_MODE_OUTPUT);
 
+#ifndef FIRMWARE_EXEC_USING_QEMU
     W25QXX_Init();
-
     W25Q_Memory_Mapped_Enable();
+#endif
 
     SCB_DisableICache();
     SCB_DisableDCache();

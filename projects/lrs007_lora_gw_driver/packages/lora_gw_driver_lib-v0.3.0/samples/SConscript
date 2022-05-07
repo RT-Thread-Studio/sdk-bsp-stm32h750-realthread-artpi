@@ -1,0 +1,13 @@
+from building import *
+
+src   = []
+cwd   = GetCurrentDir()
+include_path = [cwd]
+
+if GetDepend('LORA_GW_DRIVER_USING_LGD_TESTER') or GetDepend('LORA_GW_DRIVER_LIB_USING_LGD_TESTER'):
+    src += Glob('lgd_tester/lgd_tester.c')
+
+
+group = DefineGroup('lora_gw_driver/sample', src, depend = [''], CPPPATH = include_path)
+
+Return('group')

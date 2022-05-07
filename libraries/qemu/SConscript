@@ -1,0 +1,16 @@
+from building import *
+
+objs = []
+cwd     = GetCurrentDir()
+list = os.listdir(cwd)
+src     = Glob('*.c') + Glob('*.cpp')
+CPPPATH = [cwd, str(Dir('#'))]
+
+group = DefineGroup('QEMU', src, depend = ['FIRMWARE_EXEC_USING_QEMU'], CPPPATH = CPPPATH)
+
+objs = group
+for item in list:
+    if os.path.isfile(os.path.join(cwd, item, 'SConscript')):
+        objs = objs + SConscript(os.path.join(item, 'SConscript'))
+
+Return('objs')
