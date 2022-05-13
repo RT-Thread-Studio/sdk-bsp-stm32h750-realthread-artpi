@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2012, Real-Thread Information Technology Ltd
+ * COPYRIGHT (C) 2011-2021, Real-Thread Information Technology Ltd
  * All rights reserved
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -13,7 +13,7 @@
 #include <rthw.h>
 #include "ymodem.h"
 
-#ifdef YMODEM_USING_CRC_TABLE 
+#ifdef YMODEM_USING_CRC_TABLE
 static const rt_uint16_t ccitt_table[256] =
 {
     0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50A5, 0x60C6, 0x70E7,
@@ -627,7 +627,7 @@ rt_err_t rym_recv_on_device(
     rt_err_t res;
     rt_err_t (*odev_rx_ind)(rt_device_t dev, rt_size_t size);
     rt_uint16_t odev_flag;
-    int int_lvl;
+    rt_base_t level;
 
     RT_ASSERT(_rym_the_ctx == 0);
     _rym_the_ctx = ctx;
@@ -641,13 +641,13 @@ rt_err_t rym_recv_on_device(
     odev_rx_ind = dev->rx_indicate;
     /* no data should be received before the device has been fully setted up.
      */
-    int_lvl = rt_hw_interrupt_disable();
+    level = rt_hw_interrupt_disable();
     rt_device_set_rx_indicate(dev, _rym_rx_ind);
 
     odev_flag = dev->open_flag;
     /* make sure the device don't change the content. */
     dev->open_flag &= ~RT_DEVICE_FLAG_STREAM;
-    rt_hw_interrupt_enable(int_lvl);
+    rt_hw_interrupt_enable(level);
 
     res = rt_device_open(dev, oflag);
     if (res != RT_EOK)
@@ -660,12 +660,12 @@ rt_err_t rym_recv_on_device(
 __exit:
     /* no rx_ind should be called before the callback has been fully detached.
      */
-    int_lvl = rt_hw_interrupt_disable();
+    level = rt_hw_interrupt_disable();
     rt_sem_detach(&ctx->sem);
 
     dev->open_flag = odev_flag;
     rt_device_set_rx_indicate(dev, odev_rx_ind);
-    rt_hw_interrupt_enable(int_lvl);
+    rt_hw_interrupt_enable(level);
 
     _rym_the_ctx = RT_NULL;
 
@@ -684,7 +684,7 @@ rt_err_t rym_send_on_device(
     rt_err_t res = 0;
     rt_err_t (*odev_rx_ind)(rt_device_t dev, rt_size_t size);
     rt_uint16_t odev_flag;
-    int int_lvl;
+    rt_base_t level;
 
     RT_ASSERT(_rym_the_ctx == 0);
     _rym_the_ctx = ctx;
@@ -698,13 +698,13 @@ rt_err_t rym_send_on_device(
     odev_rx_ind = dev->rx_indicate;
     /* no data should be received before the device has been fully setted up.
      */
-    int_lvl = rt_hw_interrupt_disable();
+    level = rt_hw_interrupt_disable();
     rt_device_set_rx_indicate(dev, _rym_rx_ind);
 
     odev_flag = dev->open_flag;
     /* make sure the device don't change the content. */
     dev->open_flag &= ~RT_DEVICE_FLAG_STREAM;
-    rt_hw_interrupt_enable(int_lvl);
+    rt_hw_interrupt_enable(level);
 
     res = rt_device_open(dev, oflag);
     if (res != RT_EOK)
@@ -716,12 +716,12 @@ rt_err_t rym_send_on_device(
 
 __exit:
 
-    int_lvl = rt_hw_interrupt_disable();
+    level = rt_hw_interrupt_disable();
     rt_sem_detach(&ctx->sem);
 
     dev->open_flag = odev_flag;
     rt_device_set_rx_indicate(dev, odev_rx_ind);
-    rt_hw_interrupt_enable(int_lvl);
+    rt_hw_interrupt_enable(level);
 
     _rym_the_ctx = RT_NULL;
 
