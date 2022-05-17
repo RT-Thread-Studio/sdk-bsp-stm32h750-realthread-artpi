@@ -963,7 +963,7 @@ static struct rt_pipe_device *mqtt_pipe_init(int filds[2])
     struct rt_pipe_device *pipe = RT_NULL;
 
     rt_snprintf(dname, sizeof(dname), "MQTT%d", pipeno++);
-    pipe = rt_pipe_create(dname, PIPE_BUFSZ);
+    pipe = rt_pipe_create(dname, RT_USING_POSIX_PIPE_SIZE);
     if (pipe == RT_NULL)
     {
         LOG_E("create mqtt pipe fail\n");
