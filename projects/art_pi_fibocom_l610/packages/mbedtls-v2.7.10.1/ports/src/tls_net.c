@@ -61,7 +61,10 @@ static int wsa_init_done = 0;
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/select.h>
+#include <sys/ioctl.h>
 #include <netdb.h>
+#include <errno.h>
+#include <fcntl.h>
 
 #include <rtthread.h>
 
