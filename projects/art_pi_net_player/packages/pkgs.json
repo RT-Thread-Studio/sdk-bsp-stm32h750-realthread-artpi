@@ -1,17 +1,17 @@
 [
  {
   "path": "/packages/iot/webclient", 
-  "ver": "latest", 
+  "ver": "v2.2.0", 
   "name": "WEBCLIENT"
  }, 
  {
   "path": "/packages/security/mbedtls", 
-  "ver": "latest", 
+  "ver": "v2.7.10.1", 
   "name": "MBEDTLS"
  }, 
  {
   "path": "/packages/language/XML/ezXML", 
-  "ver": "latest", 
+  "ver": "v0.8.6.1", 
   "name": "EZXML"
  }, 
  {

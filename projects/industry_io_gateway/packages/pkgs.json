@@ -26,7 +26,7 @@
  }, 
  {
   "path": "/packages/peripherals/agile_console", 
-  "ver": "latest", 
+  "ver": "v1.0.1", 
   "name": "AGILE_CONSOLE"
  }
 ]

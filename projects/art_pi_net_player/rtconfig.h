@@ -64,6 +64,7 @@
 #define RT_USING_USER_MAIN
 #define RT_MAIN_THREAD_STACK_SIZE 2048
 #define RT_MAIN_THREAD_PRIORITY 10
+#define RT_USING_LEGACY
 #define RT_USING_MSH
 #define RT_USING_FINSH
 #define FINSH_USING_MSH
@@ -268,8 +269,8 @@
 #define PKG_USING_WEBCLIENT
 #define WEBCLIENT_USING_FILE_DOWMLOAD
 #define WEBCLIENT_USING_MBED_TLS
-#define PKG_USING_WEBCLIENT_LATEST_VERSION
-#define PKG_WEBCLIENT_VER_NUM 0x99999
+#define PKG_USING_WEBCLIENT_V220
+#define PKG_WEBCLIENT_VER_NUM 0x20200
 
 /* Wi-Fi */
 
@@ -308,7 +309,7 @@
 #define MBEDTLS_AES_ROM_TABLES
 #define MBEDTLS_ECP_WINDOW_SIZE 2
 #define MBEDTLS_SSL_MAX_CONTENT_LEN 16384
-#define PKG_USING_MBEDTLS_LATEST_VERSION
+#define PKG_USING_MBEDTLS_V27101
 /* end of security packages */
 
 /* language packages */
@@ -320,7 +321,7 @@
 /* XML: Extensible Markup Language */
 
 #define PKG_USING_EZXML
-#define PKG_USING_EZXML_LATEST_VERSION
+#define PKG_USING_EZXML_V0681
 /* end of XML: Extensible Markup Language */
 /* end of language packages */
 
