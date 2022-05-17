@@ -84,7 +84,7 @@ static void lcd_fb_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_colo
             color_p += x2 - act_x2;
         }
     }
-#ifndef BSP_USING_SPI_LCD_ILI9488
+
     /* 24 or 32 bit per pixel */
     else if (info.bits_per_pixel == 24 || info.bits_per_pixel == 32)
     {
@@ -102,24 +102,6 @@ static void lcd_fb_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_colo
             color_p += x2 - act_x2;
         }
     }
-#else
-    else if (info.bits_per_pixel == 24 || info.bits_per_pixel == 32)
-    {
-        uint8_t * lcd_buf = (uint8_t *)info.framebuffer;
-        for (y = act_y1; y <= act_y2; y++)
-        {
-            for (x = act_x1; x <= act_x2; x++)
-            {
-                location = (x) + (y)*info.width;
-                lcd_buf[3 * location] = color_p->ch.red;
-                lcd_buf[3 * location + 1] = color_p->ch.green;
-                lcd_buf[3 * location + 2] = color_p->ch.blue;
-                color_p++;
-            }
-            color_p += x2 - act_x2;
-        }
-    }
-#endif
 
     struct rt_device_rect_info rect_info;
 
@@ -299,7 +281,7 @@ rt_err_t littlevgl2rtt_init(const char *name)
         return RT_ERROR;
     }
 #endif
-    fbuf = rt_malloc(info.width * info.height * sizeof(*fbuf));
+    fbuf = rt_malloc(info.width * 10 * sizeof(*fbuf));
     if (!fbuf)
     {
         rt_kprintf("Error: alloc disp buf fail\n");
@@ -328,7 +310,7 @@ rt_err_t littlevgl2rtt_init(const char *name)
         disp_drv.flush_cb = lcd_fb_flush;
     }
 
-    lv_disp_buf_init(&disp_buf, fbuf, NULL, info.width * info.height);
+    lv_disp_buf_init(&disp_buf, fbuf, NULL, info.width * 10);
     disp_drv.buffer = &disp_buf;
     lv_disp_drv_register(&disp_drv);
 

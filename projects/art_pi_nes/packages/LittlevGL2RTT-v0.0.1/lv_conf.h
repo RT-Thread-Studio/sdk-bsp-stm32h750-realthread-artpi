@@ -439,7 +439,7 @@ typedef void * lv_indev_drv_user_data_t;            /*Type of user data in the i
  * #define LV_FONT_CUSTOM_DECLARE LV_FONT_DECLARE(my_font_1) \
  *                                LV_FONT_DECLARE(my_font_2)
  */
-#define LV_FONT_CUSTOM_DECLARE  LV_FONT_DECLARE(lv_fonr_nes_14)
+#define LV_FONT_CUSTOM_DECLARE
 
 /* Enable it if you have fonts with a lot of characters.
  * The limit depends on the font size, font face and bpp
@@ -495,12 +495,12 @@ typedef void * lv_font_user_data_t;
 #define LV_USE_THEME_MONO        1
 
 #define LV_THEME_DEFAULT_INCLUDE            <stdint.h>      /*Include a header for the init. function*/
-#define LV_THEME_DEFAULT_INIT               lv_theme_mono_init
+#define LV_THEME_DEFAULT_INIT               lv_theme_material_init
 #define LV_THEME_DEFAULT_COLOR_PRIMARY      lv_color_hex(0x01a2b1)
 #define LV_THEME_DEFAULT_COLOR_SECONDARY    lv_color_hex(0x44d1b6)
 #define LV_THEME_DEFAULT_FLAG               LV_THEME_MATERIAL_FLAG_LIGHT
 #define LV_THEME_DEFAULT_FONT_SMALL         &lv_font_montserrat_14
-#define LV_THEME_DEFAULT_FONT_NORMAL        &lv_fonr_nes_14
+#define LV_THEME_DEFAULT_FONT_NORMAL        &lv_font_montserrat_14
 #define LV_THEME_DEFAULT_FONT_SUBTITLE      &lv_font_montserrat_14
 #define LV_THEME_DEFAULT_FONT_TITLE         &lv_font_montserrat_14
 
