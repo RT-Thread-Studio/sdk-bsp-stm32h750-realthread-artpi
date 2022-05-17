@@ -48,7 +48,7 @@
 #ifdef RT_USING_FINSH
 #include <finsh.h>
 #define JS_MODULE(NAME, MODULE_INIT)    \
-    FINSH_FUNCTION_EXPORT_CMD(MODULE_INIT, __jsm_ ##NAME, RT_NULL)
+    MSH_CMD_EXPORT_ALIAS(MODULE_INIT, __jsm_ ##NAME, RT_NULL)
 #else
 #define JS_MODULE(NAME, MODULE_INIT)
 #endif
