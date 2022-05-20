@@ -41,6 +41,7 @@
 *.su
 *.idb
 *.pdb
+.vscode
 
 # Kernel Module Compile Results
 *.mod*
@@ -50,3 +51,8 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Documentation
+doc/doxygen/output/*
+!doc/doxygen/output/index.html
+!doc/doxygen/output/figures

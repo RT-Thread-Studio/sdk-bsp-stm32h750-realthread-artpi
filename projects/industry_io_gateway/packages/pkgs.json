@@ -6,7 +6,7 @@
  }, 
  {
   "path": "/packages/iot/agile_telnet", 
-  "ver": "v2.0.0", 
+  "ver": "v2.0.3", 
   "name": "AGILE_TELNET"
  }, 
  {
@@ -26,7 +26,7 @@
  }, 
  {
   "path": "/packages/peripherals/agile_console", 
-  "ver": "v1.0.1", 
+  "ver": "v1.1.0", 
   "name": "AGILE_CONSOLE"
  }
 ]
