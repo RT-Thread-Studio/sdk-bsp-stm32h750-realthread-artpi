@@ -80,8 +80,9 @@
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/env_support/rt-thread}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/core}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/draw/arm2d}&quot;" />
-                  <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/draw/nxp_pxp}&quot;" />
-                  <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/draw/nxp_vglite}&quot;" />
+                  <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/draw/nxp/pxp}&quot;" />
+                  <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/draw/nxp/vglite}&quot;" />
+                  <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/draw/nxp}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/draw/sdl}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/draw/stm32_dma2d}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/draw/swm341_dma2d}&quot;" />
@@ -249,8 +250,9 @@
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/env_support/rt-thread}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/core}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/draw/arm2d}&quot;" />
-                  <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/draw/nxp_pxp}&quot;" />
-                  <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/draw/nxp_vglite}&quot;" />
+                  <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/draw/nxp/pxp}&quot;" />
+                  <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/draw/nxp/vglite}&quot;" />
+                  <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/draw/nxp}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/draw/sdl}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/draw/stm32_dma2d}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/LVGL-latest/src/draw/swm341_dma2d}&quot;" />

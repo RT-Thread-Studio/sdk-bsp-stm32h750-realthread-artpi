@@ -1,11 +1,12 @@
 /*
- * Copyright (c) 2006-2018, RT-Thread Development Team
+ * Copyright (c) 2006-2022, RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
  * Date           Author            Notes
  * 2020-08-10     zylx              first version
+ * 2022-02-01     Rudy Lo           add lcd_fill_array function
  */
 
 #include <board.h>
@@ -31,7 +32,7 @@
 
 #define LCD_DEVICE(dev)     (struct drv_lcd_device*)(dev)
 
-#define LCD_CLEAR_SEND_NUMBER (320 * 480 *3)
+#define LCD_CLEAR_SEND_NUMBER (LCD_H * LCD_W *3)
 
 static rt_uint32_t BACK_COLOR = WHITE, FORE_COLOR = BLACK;
 static struct rt_spi_device *spi_dev_lcd;
@@ -244,7 +245,7 @@ int rt_hw_spi_lcd_init(void)
     rt_thread_mdelay(120);
     lcd_write_cmd(0x29);
 
-    rt_thread_mdelay(50);	//delay screen update to prevent screen appears white when the default color is black
+    rt_thread_mdelay(50);   //delay screen update to prevent screen appears white when the default color is black
 
     return RT_EOK;
 }
@@ -412,8 +413,8 @@ void lcd_fill(rt_uint16_t x_start, rt_uint16_t y_start, rt_uint16_t x_end, rt_ui
     rt_uint8_t *fill_buf = RT_NULL;
 
     size = (x_end - x_start) * (y_end - y_start) * 3;
-	
-	if (size > LCD_CLEAR_SEND_NUMBER)
+
+    if (size > LCD_CLEAR_SEND_NUMBER)
     {
         /* the number of remaining to be filled */
         size_remain = size - LCD_CLEAR_SEND_NUMBER;
@@ -462,6 +463,47 @@ void lcd_fill(rt_uint16_t x_start, rt_uint16_t y_start, rt_uint16_t x_end, rt_ui
             for (j = x_start; j <= x_end; j++)lcd_write_three_bytes(color);
         }
     }
+}
+
+/**
+ * full color array on the lcd.
+ *
+ * @param   x_start     start of x position
+ * @param   y_start     start of y position
+ * @param   x_end       end of x position
+ * @param   y_end       end of y position
+ * @param   pcolor      Fill color array's pointer
+ *
+ * @return  void
+ */
+void lcd_fill_array(rt_uint16_t x_start, rt_uint16_t y_start, rt_uint16_t x_end, rt_uint16_t y_end, void *pcolor)
+{
+    rt_uint32_t size = 0;
+    rt_uint8_t *array = RT_NULL;
+
+    size = (x_end - x_start + 1) * (y_end - y_start + 1) * 3 /* 24bit */;
+    array = (rt_uint8_t *)rt_malloc(size);
+
+    if (!array) {
+        LOG_E("not enough memory");
+        return ;
+    }
+
+    rt_uint32_t *color_p = (rt_uint32_t *)pcolor;
+
+    for (rt_uint16_t i = 0; i < size / 3; i++)
+    {
+        array[3 * i] = *color_p >> 16;
+        array[3 * i + 1] = *color_p >> 8;
+        array[3 * i + 2] = *color_p;
+        color_p++;
+    }
+
+    lcd_address_set(x_start, y_start, x_end, y_end);
+    rt_pin_write(LCD_DC_PIN, PIN_HIGH);
+    rt_spi_send(spi_dev_lcd, array, size);
+
+    rt_free(array);
 }
 
 /**
@@ -1067,7 +1109,7 @@ int ili9488_test()
     lcd_show_string(10, 69+16, 24, "RT-Thread");
     lcd_show_string(10, 69+16+24, 32, "RT-Thread");
 
-    lcd_draw_line(0, 69+16+24+32, 320, 69+16+24+32);
+    lcd_draw_line(0, 69+16+24+32, LCD_H, 69+16+24+32);
 
     lcd_draw_point(160, 310);
     for (int i = 0; i < 150; i += 4)
