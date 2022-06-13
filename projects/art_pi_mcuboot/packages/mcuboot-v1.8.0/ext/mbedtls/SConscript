@@ -1,0 +1,12 @@
+import rtconfig
+from building import *
+
+cwd  = GetCurrentDir()
+path = [cwd]
+src  = Glob('library/*.c')
+CPPPATH = [cwd + '/include']
+CPPPATH += [cwd + '/library']
+
+group = DefineGroup('Mbedtls', src, depend = [''], CPPPATH = CPPPATH)
+
+Return('group')
