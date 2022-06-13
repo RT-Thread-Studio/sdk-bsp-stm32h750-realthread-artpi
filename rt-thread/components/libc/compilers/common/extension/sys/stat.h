@@ -14,10 +14,6 @@
 #include <sys/types.h>
 #include <sys/time.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #define S_IFMT               00170000
 #define S_IFSOCK             0140000
 #define S_IFLNK              0120000
@@ -83,9 +79,5 @@ int    mkfifo(const char *, mode_t);
 int    mknod(const char *, mode_t, dev_t);
 int    stat(const char *, struct stat *);
 mode_t umask(mode_t);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif

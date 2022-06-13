@@ -31,7 +31,6 @@
  */
 
 #include <rtdef.h>
-#include <stdint.h>
 
 typedef uint8_t  uByte;
 typedef uint16_t uWord;

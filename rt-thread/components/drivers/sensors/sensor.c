@@ -40,7 +40,6 @@ static char *const sensor_name_str[] =
     "spo2_",     /* SpO2 sensor       */
     "iaq_",      /* IAQ sensor        */
     "etoh_",     /* EtOH sensor       */
-    "bp_"        /* Blood Pressure    */
 };
 
 /* Sensor interrupt correlation function */

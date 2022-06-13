@@ -41,26 +41,20 @@ static rt_size_t _adc_read(rt_device_t dev, rt_off_t pos, void *buffer, rt_size_
 
 static rt_err_t _adc_control(rt_device_t dev, int cmd, void *args)
 {
-    rt_err_t result = -RT_EINVAL;
+    rt_err_t result = RT_EOK;
     rt_adc_device_t adc = (struct rt_adc_device *)dev;
 
-    if (cmd == RT_ADC_CMD_ENABLE && adc->ops->enabled)
+    if (adc->ops->enabled == RT_NULL)
+    {
+        return -RT_ENOSYS;
+    }
+    if (cmd == RT_ADC_CMD_ENABLE)
     {
         result = adc->ops->enabled(adc, (rt_uint32_t)args, RT_TRUE);
     }
-    else if (cmd == RT_ADC_CMD_DISABLE && adc->ops->enabled)
+    else if (cmd == RT_ADC_CMD_DISABLE)
     {
         result = adc->ops->enabled(adc, (rt_uint32_t)args, RT_FALSE);
-    }
-    else if (cmd == RT_ADC_CMD_GET_RESOLUTION && adc->ops->get_resolution)
-    {
-        rt_uint8_t resolution = adc->ops->get_resolution(adc);
-        if(resolution != 0)
-        {
-            *((rt_uint8_t*)args) = resolution;
-            LOG_D("resolution: %d bits", resolution);
-            result = RT_EOK;
-        }
     }
 
     return result;
@@ -83,7 +77,7 @@ rt_err_t rt_hw_adc_register(rt_adc_device_t device, const char *name, const stru
     rt_err_t result = RT_EOK;
     RT_ASSERT(ops != RT_NULL && ops->convert != RT_NULL);
 
-    device->parent.type = RT_Device_Class_ADC;
+    device->parent.type = RT_Device_Class_Miscellaneous;
     device->parent.rx_indicate = RT_NULL;
     device->parent.tx_complete = RT_NULL;
 
@@ -121,7 +115,6 @@ rt_err_t rt_adc_enable(rt_adc_device_t dev, rt_uint32_t channel)
     rt_err_t result = RT_EOK;
 
     RT_ASSERT(dev);
-
     if (dev->ops->enabled != RT_NULL)
     {
         result = dev->ops->enabled(dev, channel, RT_TRUE);
@@ -139,7 +132,6 @@ rt_err_t rt_adc_disable(rt_adc_device_t dev, rt_uint32_t channel)
     rt_err_t result = RT_EOK;
 
     RT_ASSERT(dev);
-
     if (dev->ops->enabled != RT_NULL)
     {
         result = dev->ops->enabled(dev, channel, RT_FALSE);

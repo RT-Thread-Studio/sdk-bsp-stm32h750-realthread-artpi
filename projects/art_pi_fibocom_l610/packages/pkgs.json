@@ -5,11 +5,6 @@
   "name": "WEBCLIENT"
  }, 
  {
-  "path": "/packages/iot/cJSON", 
-  "ver": "v1.0.2", 
-  "name": "CJSON"
- }, 
- {
   "path": "/packages/iot/at_device", 
   "ver": "v2.0.4", 
   "name": "AT_DEVICE"
@@ -23,5 +18,10 @@
   "path": "/packages/security/mbedtls", 
   "ver": "v2.7.10.1", 
   "name": "MBEDTLS"
+ }, 
+ {
+  "path": "/packages/language/JSON/cJSON", 
+  "ver": "v1.0.2", 
+  "name": "CJSON"
  }
 ]

@@ -30,12 +30,16 @@ int system(const char *command)
 {
     extern int msh_exec(char *cmd, rt_size_t length);
 
-    if (command)
+    int ret = -RT_ENOMEM;
+    char *cmd = rt_strdup(command);
+
+    if (cmd)
     {
-        msh_exec((char *)command, rt_strlen(command));
+        ret = msh_exec(cmd, rt_strlen(cmd));
+        rt_free(cmd);
     }
 
-    return 0;
+    return ret;
 }
 RTM_EXPORT(system);
-#endif /* RT_USING_MSH */
+#endif

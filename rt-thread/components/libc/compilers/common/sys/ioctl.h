@@ -15,10 +15,6 @@
 #include <winsock.h>
 #endif
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 struct winsize
 {
     unsigned short ws_row;
@@ -274,9 +270,5 @@ struct winsize
 #define SIOCPROTOPRIVATE    0x89E0
 
 int ioctl(int fildes, int cmd, ...);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif

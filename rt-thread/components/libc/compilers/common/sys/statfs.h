@@ -12,10 +12,6 @@
 
 #include <stddef.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 struct statfs
 {
     size_t f_bsize;   /* block size */
@@ -25,9 +21,5 @@ struct statfs
 
 int statfs(const char *path, struct statfs *buf);
 int fstatfs(int fd, struct statfs *buf);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif

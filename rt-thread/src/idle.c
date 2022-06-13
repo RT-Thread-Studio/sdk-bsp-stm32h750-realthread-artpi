@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2022, RT-Thread Development Team
+ * Copyright (c) 2006-2021, RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -155,13 +155,13 @@ void rt_thread_defunct_enqueue(rt_thread_t thread)
  */
 rt_thread_t rt_thread_defunct_dequeue(void)
 {
-    rt_base_t level;
+    register rt_base_t lock;
     rt_thread_t thread = RT_NULL;
     rt_list_t *l = &_rt_thread_defunct;
 
 #ifdef RT_USING_SMP
     /* disable interrupt */
-    level = rt_hw_interrupt_disable();
+    lock = rt_hw_interrupt_disable();
     if (l->next != l)
     {
         thread = rt_list_entry(l->next,
@@ -169,16 +169,16 @@ rt_thread_t rt_thread_defunct_dequeue(void)
                 tlist);
         rt_list_remove(&(thread->tlist));
     }
-    rt_hw_interrupt_enable(level);
+    rt_hw_interrupt_enable(lock);
 #else
     if (l->next != l)
     {
         thread = rt_list_entry(l->next,
                 struct rt_thread,
                 tlist);
-        level = rt_hw_interrupt_disable();
+        lock = rt_hw_interrupt_disable();
         rt_list_remove(&(thread->tlist));
-        rt_hw_interrupt_enable(level);
+        rt_hw_interrupt_enable(lock);
     }
 #endif
     return thread;
@@ -344,9 +344,9 @@ void rt_thread_idle_init(void)
 rt_thread_t rt_thread_idle_gethandler(void)
 {
 #ifdef RT_USING_SMP
-    int id = rt_hw_cpu_id();
+    register int id = rt_hw_cpu_id();
 #else
-    int id = 0;
+    register int id = 0;
 #endif /* RT_USING_SMP */
 
     return (rt_thread_t)(&idle[id]);

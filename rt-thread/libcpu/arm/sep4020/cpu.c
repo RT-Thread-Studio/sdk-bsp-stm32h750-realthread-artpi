@@ -11,7 +11,7 @@
 #include <rtthread.h>
 #include <sep4020.h>
 
-extern rt_base_t rt_hw_interrupt_disable(void);
+extern rt_uint32_t rt_hw_interrupt_disable(void);
 
 //TODO
 #warning I DON'T KNOW IF THE MMU OPERATION WORKS ON SEP4020
@@ -175,14 +175,12 @@ RT_WEAK void rt_hw_cpu_reset()
  */
 RT_WEAK void rt_hw_cpu_shutdown()
 {
-    rt_base_t level;
+    rt_uint32_t UNUSED level;
     rt_kprintf("shutdown...\n");
 
     level = rt_hw_interrupt_disable();
-    while (level)
-    {
-        RT_ASSERT(RT_NULL);
-    }
+
+    RT_ASSERT(RT_NULL);
 }
 
 /*@}*/

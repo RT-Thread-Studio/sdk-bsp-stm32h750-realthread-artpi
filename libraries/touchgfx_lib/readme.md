@@ -57,10 +57,10 @@
 
 ### 使用 MDK 开发
 1. 在 [ART-Pi SDK仓库](https://github.com/RT-Thread-Studio/sdk-bsp-stm32h750-realthread-artpi) 下载 SDK
-2. 进入工程目录。如：sdk-bsp-stm32h750-realthread-artpi\projects\art_pi_blink_led
+2. 进入工程目录。如：sdk-bsp-stm32h750-realthread-artpi\projects\art_pi_rust
 3. 以管理员权限打开 windows 命令行 ，执行 mklink 命令，分别为 `rt-thread` 及 `libraries` 文件创建符号链接
 ```c
-E:\project\sdk-bsp-stm32h750-realthread-artpi\projects\art_pi_blink_led>mklink /D rt-thread ..\..\rt-thread
+E:\project\sdk-bsp-stm32h750-realthread-artpi\projects\art_pi_rust>mklink /D rt-thread ..\..\rt-thread
 为 rt-thread <<===>> ..\..\rt-thread 创建的符号链接
 
 E:\project\sdk-bsp-stm32h750-realthread-artpi\projects>mklink /D libraries ..\..\libraries

@@ -18,7 +18,7 @@
 #include <rt_sys.h>
 #include <rtthread.h>
 #include <string.h>
-//#include <fcntl.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <compiler_private.h>
