@@ -1,12 +1,12 @@
 [
  {
   "path": "/packages/multimedia/LVGL/LVGL", 
-  "ver": "latest", 
+  "ver": "v8.2.0", 
   "name": "LVGL"
  }, 
  {
   "path": "/packages/multimedia/LVGL/lv_music_demo", 
-  "ver": "latest", 
+  "ver": "v0.2.0", 
   "name": "LV_MUSIC_DEMO"
  }, 
  {

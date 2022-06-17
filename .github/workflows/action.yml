@@ -52,7 +52,7 @@ jobs:
        legs:
          - {RTT_BSP: "art_pi_blink_led"}
          - {RTT_BSP: "art_pi_bootloader"}
-        #  - {RTT_BSP: "art_pi_lvgl"}
+         - {RTT_BSP: "art_pi_lvgl"}
          - {RTT_BSP: "art_pi_rust"}
          - {RTT_BSP: "art_pi_gc0328c_camera"}
          - {RTT_BSP: "art_pi_net_player"}

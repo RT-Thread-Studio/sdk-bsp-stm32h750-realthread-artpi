@@ -52,7 +52,7 @@
 #define RT_CONSOLEBUF_SIZE 128
 #define RT_CONSOLE_DEVICE_NAME "uart4"
 /* end of Kernel Device Object */
-#define RT_VER_NUM 0x40101
+#define RT_VER_NUM 0x40100
 /* end of RT-Thread Kernel */
 #define ARCH_ARM
 #define RT_USING_CPU_FFS
@@ -173,7 +173,7 @@
 #define PKG_LVGL_THREAD_PRIO 20
 #define PKG_LVGL_THREAD_STACK_SIZE 4096
 #define PKG_LVGL_DISP_REFR_PERIOD 5
-#define PKG_LVGL_VER_NUM 0x99999
+#define PKG_LVGL_VER_NUM 0x08020
 #define PKG_USING_LV_MUSIC_DEMO
 /* end of LVGL: powerful and easy-to-use embedded GUI library */
 
