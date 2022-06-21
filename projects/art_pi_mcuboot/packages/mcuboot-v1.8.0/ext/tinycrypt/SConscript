@@ -1,0 +1,11 @@
+import rtconfig
+from building import *
+
+cwd  = GetCurrentDir()
+path = [cwd]
+src  = Glob('lib/source/*.c')
+CPPPATH = [cwd + '/lib/include/']
+
+group = DefineGroup('Tinycrtpt', src, depend = [''], CPPPATH = CPPPATH)
+
+Return('group')

@@ -79,7 +79,7 @@ menu "Onboard Peripheral"
         bool "Enable SPI FLASH (spi1)"
         select BSP_USING_SPI
         select BSP_USING_SPI1
-        select PKG_USING_FAL
+        select RT_USING_FAL
         select FAL_USING_SFUD_PORT
         select RT_USING_SFUD
         default n
@@ -115,10 +115,36 @@ menu "Onboard Peripheral"
         select BSP_USING_I2C2
         default n
 
+    menuconfig BSP_USING_LVGL
+        bool "Enable LVGL for LCD"
+        select PKG_USING_LVGL
+        select PKG_USING_LV_MUSIC_DEMO
+        default n
+        if BSP_USING_LVGL      
+            config BSP_USING_ILI9488
+                bool "Enable LVGL for LCD_ILI9488"
+                select BSP_USING_SPI_LCD_ILI9488
+                default n
+            config BSP_USING_LCD_RGB
+                bool "Enable LVGL for LCD_RGB565"
+                select BSP_USING_LCD
+                select RT_TOUCH_PIN_IRQ
+                default n
+                if BSP_USING_LCD_RGB
+                    config BSP_USING_TOUCH
+                    select BSP_USING_I2C
+                    select BSP_USING_I2C1
+                    bool "enable Touch GT9147"
+                    select PKG_USING_GT9147                    
+                    default n
+                endif
+        endif
+
     menuconfig BSP_USING_FS
         bool "Enable filesystem"
         select RT_USING_DFS
         select RT_USING_DFS_ROMFS
+        select RT_USING_POSIX_FS
         default n
         if BSP_USING_FS
             config BSP_USING_SDCARD_FS
@@ -380,7 +406,7 @@ menu "External Libraries"
 
     config ART_PI_USING_OTA_LIB
         bool "Using RT-Thread OTA Library"
-        select PKG_USING_FAL
+        select RT_USING_FAL
         select FAL_USING_SFUD_PORT
         select RT_USING_SFUD
         select RT_USING_RYM

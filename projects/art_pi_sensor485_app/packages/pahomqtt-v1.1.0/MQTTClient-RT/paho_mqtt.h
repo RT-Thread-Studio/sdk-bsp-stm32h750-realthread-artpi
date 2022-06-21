@@ -91,7 +91,7 @@ struct MQTTClient
 
     /* publish interface */
     rt_mutex_t pub_mutex;             /* publish data mutex for blocking */
-#if defined(RT_USING_POSIX) && (defined(RT_USING_DFS_NET) || defined(SAL_USING_POSIX))
+#if defined(DFS_USING_POSIX) && (defined(RT_USING_DFS_NET) || defined(SAL_USING_POSIX))
     struct rt_pipe_device* pipe_device;
     int pub_pipe[2];
 #else

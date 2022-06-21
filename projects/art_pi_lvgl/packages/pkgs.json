@@ -1,0 +1,22 @@
+[
+ {
+  "path": "/packages/multimedia/LVGL/LVGL", 
+  "ver": "v8.2.0", 
+  "name": "LVGL"
+ }, 
+ {
+  "path": "/packages/multimedia/LVGL/lv_music_demo", 
+  "ver": "v0.2.0", 
+  "name": "LV_MUSIC_DEMO"
+ }, 
+ {
+  "path": "/packages/peripherals/touch/gt9147", 
+  "ver": "v1.1.0", 
+  "name": "GT9147"
+ }, 
+ {
+  "path": "/packages/peripherals/touch/ft6236", 
+  "ver": "v1.0.0", 
+  "name": "FT6236"
+ }
+]

@@ -1,6 +1,4 @@
-menu "AT commands"
-
-config RT_USING_AT
+menuconfig RT_USING_AT
     bool "Enable AT commands"
     default n
 
@@ -68,7 +66,7 @@ if RT_USING_AT
         config AT_USING_CLI
             bool "Enable CLI(Command-Line Interface) for AT commands"
             default y
-            depends on FINSH_USING_MSH
+            depends on RT_USING_FINSH
 
        config AT_PRINT_RAW_CMD
             bool "Enable print RAW format AT command communication data"
@@ -82,10 +80,8 @@ if RT_USING_AT
 
     config AT_SW_VERSION_NUM
         hex
-        default 0x10300
+        default 0x10301
         help
             software module version number
 
 endif
-
-endmenu

@@ -1,5 +1,10 @@
 [
  {
+  "path": "/packages/multimedia/LVGL/LittlevGL2RTT", 
+  "ver": "v0.0.1", 
+  "name": "LITTLEVGL2RTT"
+ }, 
+ {
   "path": "/packages/multimedia/helix", 
   "ver": "v1.0.0", 
   "name": "HELIX"
@@ -8,16 +13,6 @@
   "path": "/packages/tools/gbk2utf8", 
   "ver": "v1.0.0", 
   "name": "GBK2UTF8"
- }, 
- {
-  "path": "/packages/system/fal", 
-  "ver": "v0.5.0", 
-  "name": "FAL"
- }, 
- {
-  "path": "/packages/system/LittlevGL2RTT", 
-  "ver": "v0.0.1", 
-  "name": "LITTLEVGL2RTT"
  }, 
  {
   "path": "/packages/system/littlefs", 

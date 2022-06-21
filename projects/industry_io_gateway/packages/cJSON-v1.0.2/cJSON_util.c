@@ -16,7 +16,6 @@ void cJSON_free(void *ptr)
 const char * cJSON_item_get_string(cJSON *object, const char *item_name)
 {
     cJSON *item;
-    const char * string;
 
     item = cJSON_GetObjectItem(object, item_name);
 
@@ -35,7 +34,6 @@ const char * cJSON_item_get_string(cJSON *object, const char *item_name)
 int cJSON_item_get_number(cJSON *object, const char *item_name, int * result)
 {
     cJSON *item;
-    const char * string;
 
     item = cJSON_GetObjectItem(object, item_name);
 

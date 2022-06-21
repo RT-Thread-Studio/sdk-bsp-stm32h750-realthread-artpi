@@ -1,0 +1,18 @@
+import rtconfig
+from building import *
+
+cwd  = GetCurrentDir()
+path = [cwd]
+src  = Glob('src/*.c')
+if GetDepend(['MCUBOOT_FLASH_DEVICE_W25Q']):
+    src  += Glob('rtthread/bootutil_flash_w25q.c')
+CPPPATH = [cwd + '/include']
+CPPPATH += [cwd + '/src']
+CPPPATH += [cwd + '/include/bootutil']
+CPPPATH += [cwd + '/src/mcuboot_config']
+CPPPATH += [cwd + '/src/os']
+CPPPATH += [cwd + '/src/sysflash']
+
+group = DefineGroup('Mcuboot', src, depend = [''], CPPPATH = CPPPATH)
+
+Return('group')

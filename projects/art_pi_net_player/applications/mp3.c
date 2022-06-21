@@ -9,7 +9,10 @@
  */
 
 #include <rtthread.h>
-#include <dfs_posix.h>
+
+#include <dirent.h>
+#include <fcntl.h>
+
 #include <rtdevice.h>
 #include <string.h>
 #include "mp3.h"

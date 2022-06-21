@@ -12,6 +12,9 @@
 #define __LCD_PORT_H__
 
 /* atk 4.3 inch screen, 800 * 480 */
+#include <rtthread.h>
+#include <rtdevice.h>
+#include <board.h>
 
 struct drv_lcd_device
 {
@@ -29,15 +32,15 @@ struct drv_lcd_device
 
 #define LCD_WIDTH           800
 #define LCD_HEIGHT          480
-#define LCD_BITS_PER_PIXEL  24
+#define LCD_BITS_PER_PIXEL  16
 #define LCD_BUF_SIZE        (LCD_WIDTH * LCD_HEIGHT * LCD_BITS_PER_PIXEL / 8)
-#define LCD_PIXEL_FORMAT    RTGRAPHIC_PIXEL_FORMAT_RGB888
+#define LCD_PIXEL_FORMAT    RTGRAPHIC_PIXEL_FORMAT_RGB565
 
 #define LCD_HSYNC_WIDTH     1
 #define LCD_VSYNC_HEIGHT    1
-#define LCD_HBP             88
+#define LCD_HBP             40
 #define LCD_VBP             32
-#define LCD_HFP             40
+#define LCD_HFP             48
 #define LCD_VFP             13
 
 #define LCD_BACKLIGHT_USING_GPIO

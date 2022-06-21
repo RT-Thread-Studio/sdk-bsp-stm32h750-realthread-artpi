@@ -1,18 +1,18 @@
 [
  {
   "path": "/packages/iot/webclient", 
-  "ver": "v2.1.1", 
+  "ver": "v2.2.0", 
   "name": "WEBCLIENT"
  }, 
  {
-  "path": "/packages/iot/ezXML", 
-  "ver": "v0.8.6", 
-  "name": "EZXML"
+  "path": "/packages/security/mbedtls", 
+  "ver": "v2.7.10.1", 
+  "name": "MBEDTLS"
  }, 
  {
-  "path": "/packages/security/mbedtls", 
-  "ver": "v2.7.10", 
-  "name": "MBEDTLS"
+  "path": "/packages/language/XML/ezXML", 
+  "ver": "v0.8.6.1", 
+  "name": "EZXML"
  }, 
  {
   "path": "/packages/multimedia/helix", 
@@ -23,11 +23,6 @@
   "path": "/packages/tools/EasyFlash", 
   "ver": "v4.0.0", 
   "name": "EASYFLASH"
- }, 
- {
-  "path": "/packages/system/fal", 
-  "ver": "v0.5.0", 
-  "name": "FAL"
  }, 
  {
   "path": "/packages/system/littlefs", 

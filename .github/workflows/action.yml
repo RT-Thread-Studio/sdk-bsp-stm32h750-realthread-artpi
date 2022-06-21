@@ -52,18 +52,19 @@ jobs:
        legs:
          - {RTT_BSP: "art_pi_blink_led"}
          - {RTT_BSP: "art_pi_bootloader"}
-         - {RTT_BSP: "art_pi_factory"}
+         - {RTT_BSP: "art_pi_lvgl"}
+         - {RTT_BSP: "art_pi_rust"}
          - {RTT_BSP: "art_pi_gc0328c_camera"}
          - {RTT_BSP: "art_pi_net_player"}
          - {RTT_BSP: "art_pi_sensor485_app"}
          - {RTT_BSP: "art_pi_wifi"}
-         - {RTT_BSP: "industry_io_gateway"}
          - {RTT_BSP: "lrs007_lora_radio"}
          - {RTT_BSP: "lrs007_lorawan_end_device"}
+         - {RTT_BSP: "industry_io_gateway"}         
          - {RTT_BSP: "art_pi_qboot"}
          - {RTT_BSP: "art_pi_kboot"}
+         - {RTT_BSP: "art_pi_mcuboot"}
          - {RTT_BSP: "art_pi_nes"}
-         - {RTT_BSP: "art_pi_ble_mesh_gateway"}
          - {RTT_BSP: "art_pi_fibocom_l610"}
     steps:
       - uses: actions/checkout@v2

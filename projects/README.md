@@ -20,3 +20,6 @@ ART-Pi 开源项目如下表所示：
 | [uf2_boot]((./uf2_boot)) | 实现 USB 的 bootloader 的功能，使用的文件格式为 uf2 |
 | [art_pi_kboot](./art_pi_kboot) | 实现烧录kernel/uboot/rootfs到qspi/spi flash，并跳转到qspi `0x90000000` 地址，运行uboot |
 | [art_pi_fibocom_l610](./art_pi_fibocom_l610) | 实现 fibocom L610open 开机初始化 |
+| [art_pi_mcuboot](./art_pi_mcuboot) | 实现了在 ART-Pi 上对 MCUboot 的支持 |
+| [art_pi_lvgl](./art_pi_lvgl) | 实现了在媒体拓展版和 RGB 屏幕上对 LVGL 的支持 |
+| [art_pi_rust](./art_pi_rust) | 实现了使用 Rust 语言对应用程序、驱动程序的支持 |

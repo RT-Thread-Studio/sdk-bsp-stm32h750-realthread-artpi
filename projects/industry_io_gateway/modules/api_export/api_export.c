@@ -51,7 +51,7 @@ RTM_EXPORT(set_date);
 RTM_EXPORT(set_time);
 
 // time
-RTM_EXPORT(localtime_r);
+//RTM_EXPORT(localtime_r);
 
 // netdev
 RTM_EXPORT(netdev_default);

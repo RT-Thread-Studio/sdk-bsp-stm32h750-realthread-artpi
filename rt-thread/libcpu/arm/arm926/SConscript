@@ -9,7 +9,7 @@ src     = Glob('*.c') + Glob('*.cpp')
 CPPPATH = [cwd]
 ASFLAGS = ''
 
-if rtconfig.PLATFORM == 'armcc':
+if rtconfig.PLATFORM == 'armcc' or rtconfig.PLATFORM == 'armclang':
     src += Glob('*_rvds.S')
     ASFLAGS = ' --cpreproc'
 
@@ -20,6 +20,6 @@ if rtconfig.PLATFORM == 'gcc':
 if rtconfig.PLATFORM == 'iar':
     src += Glob('*_iar.S')
 
-group = DefineGroup('cpu', src, depend = [''], CPPPATH = CPPPATH, ASFLAGS = ASFLAGS)
+group = DefineGroup('CPU', src, depend = [''], CPPPATH = CPPPATH, ASFLAGS = ASFLAGS)
 
 Return('group')
