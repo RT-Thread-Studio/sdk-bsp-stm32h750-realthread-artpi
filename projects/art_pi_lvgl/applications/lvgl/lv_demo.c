@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2006-2022, RT-Thread Development Team
+ * Copyright (c) 2006-2021, RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
  * Date           Author        Notes
- * 2022-01-28     Rudy Lo       The first version
+ * 2021-10-17     Meco Man      First version
  */
 #include <rtthread.h>
 #include <lvgl.h>
@@ -15,37 +15,40 @@
 #include <rtdbg.h>
 
 #ifndef LV_THREAD_STACK_SIZE
-#define LV_THREAD_STACK_SIZE 4096
+    #define LV_THREAD_STACK_SIZE 4096
 #endif
 
 #ifndef LV_THREAD_PRIO
-#define LV_THREAD_PRIO (RT_THREAD_PRIORITY_MAX * 2 / 3)
+    #define LV_THREAD_PRIO (RT_THREAD_PRIORITY_MAX * 2 / 3)
 #endif
 
-static void lvgl_thread(void *parameter)
+static struct rt_thread lvgl_thread;
+static rt_uint8_t lvgl_thread_stack[LV_THREAD_STACK_SIZE];
+
+static void lvgl_entry(void *parameter)
 {
     extern void lv_demo_music(void);
     lv_demo_music();
 
-    /* handle the tasks of LVGL */
     while(1)
     {
         lv_task_handler();
-        rt_thread_mdelay(10);
+        rt_thread_mdelay(LV_DISP_DEF_REFR_PERIOD);
     }
 }
 
 static int lvgl_demo_init(void)
 {
-    rt_thread_t tid;
-
-    tid = rt_thread_create("LVGL", lvgl_thread, RT_NULL, LV_THREAD_STACK_SIZE, LV_THREAD_PRIO, 0);
-    if(tid == RT_NULL)
-    {
-        LOG_E("Fail to create 'LVGL' thread");
-    }
-    rt_thread_startup(tid);
+    rt_thread_init(&lvgl_thread,
+                   "LVGL",
+                   lvgl_entry,
+                   RT_NULL,
+                   &lvgl_thread_stack[0],
+                   sizeof(lvgl_thread_stack),
+                   LV_THREAD_PRIO,
+                   10);
+    rt_thread_startup(&lvgl_thread);
 
     return 0;
 }
-INIT_APP_EXPORT(lvgl_demo_init);
+INIT_ENV_EXPORT(lvgl_demo_init);

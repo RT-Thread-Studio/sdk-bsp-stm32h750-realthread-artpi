@@ -29,14 +29,6 @@ menu "Board extended module"
                 select PKG_USING_PERSIMMON_SRC
                 bool "Enable Screen"
                 default y
-            if MEDIA_IO_USING_SCREEN
-            config BSP_USING_LVGL
-                bool "Enable LVGL for LCD"
-                select BSP_USING_SPI_LCD_ILI9488
-                select PKG_USING_LVGL
-                select PKG_USING_LV_MUSIC_DEMO
-                default n
-            endif
             config MEDIA_IO_USING_TOUCH
                 select RT_USING_I2C
                 select RT_USING_I2C_BITOPS
@@ -122,6 +114,31 @@ menu "Onboard Peripheral"
         select BSP_USING_I2C
         select BSP_USING_I2C2
         default n
+
+    menuconfig BSP_USING_LVGL
+        bool "Enable LVGL for LCD"
+        select PKG_USING_LVGL
+        select PKG_USING_LV_MUSIC_DEMO
+        default n
+        if BSP_USING_LVGL      
+            config BSP_USING_ILI9488
+                bool "Enable LVGL for LCD_ILI9488"
+                select BSP_USING_SPI_LCD_ILI9488
+                default n
+            config BSP_USING_LCD_RGB
+                bool "Enable LVGL for LCD_RGB565"
+                select BSP_USING_LCD
+                select RT_TOUCH_PIN_IRQ
+                default n
+                if BSP_USING_LCD_RGB
+                    config BSP_USING_TOUCH
+                    select BSP_USING_I2C
+                    select BSP_USING_I2C1
+                    bool "enable Touch GT9147"
+                    select PKG_USING_GT9147                    
+                    default n
+                endif
+        endif
 
     menuconfig BSP_USING_FS
         bool "Enable filesystem"

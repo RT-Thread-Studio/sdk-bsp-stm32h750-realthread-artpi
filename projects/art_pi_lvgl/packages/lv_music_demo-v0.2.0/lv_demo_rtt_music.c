@@ -87,20 +87,20 @@ static const char * genre_list[] = {
 };
 
 static const uint32_t time_list[] = {
-    1*60 + 14,
-    2*60 + 26,
-    1*60 + 54,
-    2*60 + 24,
-    2*60 + 37,
-    3*60 + 33,
-    1*60 + 56,
-    3*60 + 31,
-    2*60 + 20,
-    2*60 + 19,
-    2*60 + 20,
-    2*60 + 19,
-    2*60 + 20,
-    2*60 + 19,
+    1 * 60 + 14,
+    2 * 60 + 26,
+    1 * 60 + 54,
+    2 * 60 + 24,
+    2 * 60 + 37,
+    3 * 60 + 33,
+    1 * 60 + 56,
+    3 * 60 + 31,
+    2 * 60 + 20,
+    2 * 60 + 19,
+    2 * 60 + 20,
+    2 * 60 + 19,
+    2 * 60 + 20,
+    2 * 60 + 19,
 };
 
 /**********************
@@ -158,10 +158,10 @@ static void auto_step_cb(lv_timer_t * t)
     static uint32_t state = 0;
 
 #if LV_DEMO_RTT_MUSIC_LARGE
-    const lv_font_t * font_small = &lv_font_montserrat_22;
+    // const lv_font_t * font_small = &lv_font_montserrat_22;
     const lv_font_t * font_large = &lv_font_montserrat_32;
 #else
-    const lv_font_t * font_small = &lv_font_montserrat_12;
+    // const lv_font_t * font_small = &lv_font_montserrat_12;
     const lv_font_t * font_large = &lv_font_montserrat_16;
 #endif
 
@@ -226,7 +226,7 @@ static void auto_step_cb(lv_timer_t * t)
           lv_obj_t * num = lv_label_create(bg);
           lv_obj_set_style_text_font(num, font_large, 0);
 #if LV_USE_PERF_MONITOR
-          lv_label_set_text_fmt(num, "%d", lv_refr_get_fps_avg());
+          lv_label_set_text_fmt(num, "%ld", lv_refr_get_fps_avg());
 #endif
           lv_obj_align(num, LV_ALIGN_TOP_MID, 0, 230);
 
@@ -234,7 +234,7 @@ static void auto_step_cb(lv_timer_t * t)
           lv_obj_t* version_attr = lv_label_create(bg);
           lv_obj_set_style_text_align(version_attr, LV_TEXT_ALIGN_CENTER, 0);
           lv_obj_set_style_text_font(version_attr, font_large, 0);
-          lv_label_set_text_fmt(version_attr, "LVGL %d.%d.%d & RT-Thread %d.%d.%d",
+          lv_label_set_text_fmt(version_attr, "LVGL %d.%d.%d & RT-Thread %ld.%ld.%ld",
               LVGL_VERSION_MAJOR, LVGL_VERSION_MINOR, LVGL_VERSION_PATCH,
               RT_VERSION, RT_SUBVERSION, RT_REVISION);
           lv_obj_align(version_attr, LV_ALIGN_BOTTOM_MID, 0, -40);

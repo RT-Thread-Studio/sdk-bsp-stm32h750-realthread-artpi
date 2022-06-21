@@ -285,9 +285,9 @@ int drv_lcd_hw_init(void)
     _lcd.lcd_info.pixel_format = LCD_PIXEL_FORMAT;
 
     /* malloc memory for Triple Buffering */
-    _lcd.lcd_info.framebuffer = rt_malloc(LCD_BUF_SIZE);
-    _lcd.back_buf = rt_malloc(LCD_BUF_SIZE);
-    _lcd.front_buf = rt_malloc(LCD_BUF_SIZE);
+    _lcd.lcd_info.framebuffer = rt_malloc_align(LCD_BUF_SIZE, LCD_BUF_SIZE);
+    _lcd.back_buf = rt_malloc_align(LCD_BUF_SIZE, LCD_BUF_SIZE);
+    _lcd.front_buf = rt_malloc_align(LCD_BUF_SIZE, LCD_BUF_SIZE);
     if (_lcd.lcd_info.framebuffer == RT_NULL || _lcd.back_buf == RT_NULL || _lcd.front_buf == RT_NULL)
     {
         LOG_E("init frame buffer failed!\n");
@@ -415,9 +415,6 @@ int lcd_test()
         lcd->parent.control(&lcd->parent, RTGRAPHIC_CTRL_RECT_UPDATE, RT_NULL);
         rt_thread_mdelay(1000);
     }
-
-
-
 }
 MSH_CMD_EXPORT(lcd_test, lcd_test);
 #endif /* FINSH_USING_MSH */

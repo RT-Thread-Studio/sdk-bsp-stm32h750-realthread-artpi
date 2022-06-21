@@ -23,11 +23,11 @@
 #define BAR_COLOR2          lv_color_hex(0x6f8af6)
 #define BAR_COLOR3          lv_color_hex(0xffffff)
 #if LV_DEMO_RTT_MUSIC_LARGE
-# define BAR_COLOR1_STOP     160
-# define BAR_COLOR2_STOP     200
+    #define BAR_COLOR1_STOP     160
+    #define BAR_COLOR2_STOP     200
 #else
-# define BAR_COLOR1_STOP     80
-# define BAR_COLOR2_STOP     100
+    #define BAR_COLOR1_STOP     80
+    #define BAR_COLOR2_STOP     100
 #endif
 #define BAR_COLOR3_STOP     (2 * LV_HOR_RES / 3)
 #define BAR_CNT             20
@@ -82,7 +82,7 @@ static uint32_t bar_ofs = 0;
 static uint32_t spectrum_lane_ofs_start = 0;
 static uint32_t bar_rot = 0;
 static uint32_t time_act;
-static lv_timer_t *  sec_counter_timer;
+static lv_timer_t * sec_counter_timer;
 static const lv_font_t * font_small;
 static const lv_font_t * font_large;
 static uint32_t track_id;
@@ -210,7 +210,7 @@ lv_obj_t * _lv_demo_music_main_create(lv_obj_t * parent)
 
     start_anim = true;
 
-    lv_timer_t * timer =  lv_timer_create(stop_start_anim, INTRO_TIME + 6000, NULL);
+    lv_timer_t * timer = lv_timer_create(stop_start_anim, INTRO_TIME + 6000, NULL);
     lv_timer_set_repeat_count(timer, 1);
 
     lv_anim_init(&a);
@@ -783,7 +783,7 @@ static void spectrum_draw_event_cb(lv_event_t * e)
         for(i = 0; i < BAR_CNT; i++) {
             uint32_t deg_space = 1;
             uint32_t deg = i * DEG_STEP + 90;
-            uint32_t j =  (i + bar_rot + rnd_array[bar_ofs %10]) % BAR_CNT;
+            uint32_t j = (i + bar_rot + rnd_array[bar_ofs %10]) % BAR_CNT;
             uint32_t k = (i + bar_rot + rnd_array[(bar_ofs + 1) % 10]) % BAR_CNT;
 
             uint32_t v = (r[k] * animv + r[j] * (amax - animv)) / amax;

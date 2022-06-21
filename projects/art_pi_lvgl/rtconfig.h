@@ -98,6 +98,7 @@
 #define RT_USING_PIN
 #define RT_USING_SPI
 #define RT_USING_TOUCH
+#define RT_TOUCH_PIN_IRQ
 
 /* Using USB */
 
@@ -196,10 +197,6 @@
 
 /* end of enhanced kernel services */
 
-/* POSIX extension functions */
-
-/* end of POSIX extension functions */
-
 /* acceleration: Assembly language or algorithmic acceleration packages */
 
 /* end of acceleration: Assembly language or algorithmic acceleration packages */
@@ -216,6 +213,8 @@
 /* peripheral libraries and drivers */
 
 #define PKG_USING_TOUCH_DRIVERS
+#define PKG_USING_GT9147
+#define PKG_USING_GT9147_V110
 #define PKG_USING_FT6236
 #define PKG_USING_FT6236_V100
 /* end of peripheral libraries and drivers */
@@ -247,17 +246,14 @@
 
 /* Board extended module */
 
-#define ART_PI_USING_MEDIA_IO
-#define BSP_USING_SPI_LCD_ILI9488
-#define PKG_USING_PERSIMMON_SRC
-#define MEDIA_IO_USING_SCREEN
-#define BSP_USING_LVGL
-#define MEDIA_IO_USING_TOUCH
 /* end of Board extended module */
 
 /* Onboard Peripheral */
 
 #define BSP_USING_USB_TO_USART
+#define BSP_USING_LVGL
+#define BSP_USING_LCD_RGB
+#define BSP_USING_TOUCH
 /* end of Onboard Peripheral */
 
 /* On-chip Peripheral */
@@ -268,6 +264,12 @@
 #define BSP_USING_SPI
 #define BSP_USING_SPI2
 #define BSP_USING_I2C
+#define BSP_USING_I2C1
+
+/* Notice: PB6 --> 22; PB7 --> 23 */
+
+#define BSP_I2C1_SCL_PIN 22
+#define BSP_I2C1_SDA_PIN 23
 #define BSP_USING_I2C2
 
 /* Notice: PH13 --> 125; PH15 --> 127 */
@@ -275,6 +277,7 @@
 #define BSP_I2C2_SCL_PIN 127
 #define BSP_I2C2_SDA_PIN 125
 #define BSP_USING_SDRAM
+#define BSP_USING_LCD
 /* end of On-chip Peripheral */
 /* end of Hardware Drivers Config */
 

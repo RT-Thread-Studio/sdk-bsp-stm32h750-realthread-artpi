@@ -13,15 +13,21 @@
 
 #include <rtconfig.h>
 
-#define LCD_W 480
-#define LCD_H 320
-
-#define LV_COLOR_16_SWAP    0
-#define LV_COLOR_DEPTH      32
 #define LV_USE_PERF_MONITOR 1
+#define LV_DISP_DEF_REFR_PERIOD 5
 
-#define LV_HOR_RES_MAX          LCD_W
-#define LV_VER_RES_MAX          LCD_H
+#ifdef BSP_USING_ILI9488
+#   define LV_COLOR_16_SWAP         0
+#   define LV_COLOR_DEPTH           32
+#   define LV_HOR_RES_MAX           480
+#   define LV_VER_RES_MAX           320
+#else
+#   define LV_COLOR_DEPTH           16
+#   define LV_USE_GPU_STM32_DMA2D   1
+#   define LV_GPU_DMA2D_CMSIS_INCLUDE "stm32h750xx.h"
+#   define LV_HOR_RES_MAX           800
+#   define LV_VER_RES_MAX           480
+#endif
 
 #define LV_USE_DEMO_RTT_MUSIC       1
 #define LV_DEMO_RTT_MUSIC_AUTO_PLAY 1
