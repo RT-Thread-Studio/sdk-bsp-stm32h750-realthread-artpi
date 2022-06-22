@@ -29,15 +29,13 @@ static lv_disp_draw_buf_t disp_buf;
 #ifdef BSP_USING_LCD_RGB
 static DMA2D_HandleTypeDef hdma2d;
 extern LTDC_HandleTypeDef LtdcHandle;
-volatile uint8_t g_gpu_state = 0;
+static rt_sem_t trans_done_semphr = RT_NULL;
 
 static void mDMA2Dcallvack(DMA2D_HandleTypeDef *hdma2d)
 {
-    if (g_gpu_state == 1)
-    {
-        g_gpu_state = 0;
-        lv_disp_flush_ready((lv_disp_drv_t *)&disp_drv);
-    }
+    lv_disp_flush_ready((lv_disp_drv_t *)&disp_drv);
+
+    rt_sem_release(trans_done_semphr);
 }
 
 static void lvgl_dma2d_config(void)
@@ -74,6 +72,7 @@ void DMA2D_IRQHandler(void)
 
     HAL_DMA2D_IRQHandler(&hdma2d);
 
+    /* exit interrupt */
     rt_interrupt_leave();
 }
 #endif
@@ -85,6 +84,8 @@ static void lcd_fb_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_colo
     lcd_fill_array(area->x1, area->y1, area->x2, area->y2, color_p);
     lv_disp_flush_ready(disp_drv);
 #else
+    rt_sem_take(trans_done_semphr, RT_WAITING_FOREVER);
+
     uint32_t OffLineSrc = LV_HOR_RES_MAX - (area->x2 - area->x1 + 1);
     uint32_t addr = (uint32_t) LtdcHandle.LayerCfg[0].FBStartAdress + 2 * (LV_HOR_RES_MAX * area->y1 + area->x1);
 
@@ -107,8 +108,6 @@ static void lcd_fb_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_colo
     DMA2D->CR |= DMA2D_IT_TC | DMA2D_IT_TE | DMA2D_IT_CE;
 
     DMA2D->CR |= DMA2D_CR_START;
-
-    g_gpu_state = 1;
 #endif
 }
 
@@ -142,6 +141,13 @@ void lv_port_disp_init(void)
               info.bits_per_pixel == 24 || info.bits_per_pixel == 32);
 
     lvgl_dma2d_config();
+
+    trans_done_semphr = rt_sem_create("lvgl_sem", 1, RT_IPC_FLAG_PRIO);
+    if (trans_done_semphr == RT_NULL)
+    {
+        rt_kprintf("create transform done semphr failed.\n");
+        return;
+    }
 #endif
 
     /*Initialize `disp_buf` with the buffer(s). With only one buffer use NULL instead buf_2 */
