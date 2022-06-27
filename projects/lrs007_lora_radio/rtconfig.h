@@ -12,12 +12,17 @@
 #define RT_TICK_PER_SECOND 1000
 #define RT_USING_OVERFLOW_CHECK
 #define RT_USING_HOOK
+#define RT_HOOK_USING_FUNC_PTR
 #define RT_USING_IDLE_HOOK
 #define RT_IDLE_HOOK_LIST_SIZE 4
 #define IDLE_THREAD_STACK_SIZE 256
 #define RT_USING_TIMER_SOFT
 #define RT_TIMER_THREAD_PRIO 4
 #define RT_TIMER_THREAD_STACK_SIZE 512
+
+/* kservice optimization */
+
+/* end of kservice optimization */
 #define RT_DEBUG
 
 /* Inter-Thread communication */
@@ -33,7 +38,9 @@
 
 #define RT_USING_MEMPOOL
 #define RT_USING_MEMHEAP
+#define RT_MEMHEAP_FAST_MODE
 #define RT_USING_MEMHEAP_AS_HEAP
+#define RT_USING_MEMHEAP_AUTO_BINDING
 #define RT_USING_HEAP
 /* end of Memory Management */
 
@@ -44,7 +51,7 @@
 #define RT_CONSOLEBUF_SIZE 128
 #define RT_CONSOLE_DEVICE_NAME "uart4"
 /* end of Kernel Device Object */
-#define RT_VER_NUM 0x40003
+#define RT_VER_NUM 0x40100
 /* end of RT-Thread Kernel */
 #define ARCH_ARM
 #define RT_USING_CPU_FFS
@@ -57,42 +64,33 @@
 #define RT_USING_USER_MAIN
 #define RT_MAIN_THREAD_STACK_SIZE 2048
 #define RT_MAIN_THREAD_PRIORITY 10
-
-/* C++ features */
-
-/* end of C++ features */
-
-/* Command shell */
-
+#define RT_USING_MSH
 #define RT_USING_FINSH
+#define FINSH_USING_MSH
 #define FINSH_THREAD_NAME "tshell"
+#define FINSH_THREAD_PRIORITY 20
+#define FINSH_THREAD_STACK_SIZE 4096
 #define FINSH_USING_HISTORY
 #define FINSH_HISTORY_LINES 5
 #define FINSH_USING_SYMTAB
-#define FINSH_USING_DESCRIPTION
-#define FINSH_THREAD_PRIORITY 20
-#define FINSH_THREAD_STACK_SIZE 4096
 #define FINSH_CMD_SIZE 80
-#define FINSH_USING_MSH
-#define FINSH_USING_MSH_DEFAULT
+#define MSH_USING_BUILT_IN_COMMANDS
+#define FINSH_USING_DESCRIPTION
 #define FINSH_ARG_MAX 10
-/* end of Command shell */
-
-/* Device virtual file system */
-
 #define RT_USING_DFS
+#define DFS_USING_POSIX
 #define DFS_USING_WORKDIR
 #define DFS_FILESYSTEMS_MAX 6
 #define DFS_FILESYSTEM_TYPES_MAX 6
 #define DFS_FD_MAX 32
 #define RT_USING_DFS_DEVFS
-/* end of Device virtual file system */
 
 /* Device Drivers */
 
 #define RT_USING_DEVICE_IPC
-#define RT_PIPE_BUFSZ 512
 #define RT_USING_SERIAL
+#define RT_USING_SERIAL_V1
+#define RT_SERIAL_USING_DMA
 #define RT_SERIAL_RB_BUFSZ 64
 #define RT_USING_PIN
 #define RT_USING_SPI
@@ -102,34 +100,25 @@
 /* end of Using USB */
 /* end of Device Drivers */
 
-/* POSIX layer and C standard library */
+/* C/C++ and POSIX layer */
 
-#define RT_USING_LIBC
-#define RT_USING_POSIX
-/* end of POSIX layer and C standard library */
+#define RT_LIBC_DEFAULT_TIMEZONE 8
+
+/* POSIX (Portable Operating System Interface) layer */
+
+
+/* Interprocess Communication (IPC) */
+
+
+/* Socket is in the 'Network' category */
+
+/* end of Interprocess Communication (IPC) */
+/* end of POSIX (Portable Operating System Interface) layer */
+/* end of C/C++ and POSIX layer */
 
 /* Network */
 
-/* Socket abstraction layer */
-
-/* end of Socket abstraction layer */
-
-/* Network interface device */
-
-/* end of Network interface device */
-
-/* light weight TCP/IP stack */
-
-/* end of light weight TCP/IP stack */
-
-/* AT commands */
-
-/* end of AT commands */
 /* end of Network */
-
-/* VBUS(Virtual Software BUS) */
-
-/* end of VBUS(Virtual Software BUS) */
 
 /* Utilities */
 
@@ -177,10 +166,28 @@
 
 /* language packages */
 
+/* JSON: JavaScript Object Notation, a lightweight data-interchange format */
+
+/* end of JSON: JavaScript Object Notation, a lightweight data-interchange format */
+
+/* XML: Extensible Markup Language */
+
+/* end of XML: Extensible Markup Language */
 /* end of language packages */
 
 /* multimedia packages */
 
+/* LVGL: powerful and easy-to-use embedded GUI library */
+
+/* end of LVGL: powerful and easy-to-use embedded GUI library */
+
+/* u8g2: a monochrome graphic library */
+
+/* end of u8g2: a monochrome graphic library */
+
+/* PainterEngine: A cross-platform graphics application framework written in C language */
+
+/* end of PainterEngine: A cross-platform graphics application framework written in C language */
 /* end of multimedia packages */
 
 /* tools packages */
@@ -189,6 +196,21 @@
 
 /* system packages */
 
+/* enhanced kernel services */
+
+/* end of enhanced kernel services */
+
+/* acceleration: Assembly language or algorithmic acceleration packages */
+
+/* end of acceleration: Assembly language or algorithmic acceleration packages */
+
+/* CMSIS: ARM Cortex-M Microcontroller Software Interface Standard */
+
+/* end of CMSIS: ARM Cortex-M Microcontroller Software Interface Standard */
+
+/* Micrium: Micrium software products porting for RT-Thread */
+
+/* end of Micrium: Micrium software products porting for RT-Thread */
 /* end of system packages */
 
 /* peripheral libraries and drivers */
@@ -202,30 +224,27 @@
 
 /* Select Supported LoRa Module [SX126X] */
 
-#define LORA_RADIO_DRIVER_USING_LORA_MODULE_LSD4RF_2R717N40
-
-/* LoRa Chip SX1268 (SPI module) */
-
 #define LORA_RADIO_USE_TCXO
 #define LORA_RADIO_GPIO_SETUP
-
-/* Select Supported Target Borad */
-
 #define LORA_RADIO_SPI_SETUP
 #define LORA_RADIO_GPIO_SETUP_BY_PIN_NUMBER
 #define LORA_RADIO_NSS_PIN 68
 #define LORA_RADIO_RESET_PIN 114
 #define LORA_RADIO_DIO1_PIN 16
-#define LORA_RADIO_DIO2_PIN 115
-#define LORA_RADIO_RFSW1_PIN 17
-#define LORA_RADIO_RFSW2_PIN 18
 #define LORA_RADIO_BUSY_PIN 6
+#define LORA_RADIO_RFSW1_PIN 17
+#define LORA_RADIO_DRIVER_USING_LORA_MODULE_LSD4RF_2R717N40
+
+/* LoRa Chip SX1268 (SPI module) */
+
+/* Select Supported Target Borad */
+
+#define LORA_RADIO_DIO2_PIN 115
+#define LORA_RADIO_RFSW2_PIN 18
 #define LORA_RADIO_DRIVER_USING_TRAGET_BOARD_ART_PI_AND_LRS007_RF_B
 /* end of Select Supported Target Borad */
 /* end of Select Supported LoRa Module [SX126X] */
 #define LORA_RADIO_DRIVER_USING_LORA_RADIO_DEBUG
-#define LR_DBG_APP_CONFIG
-#define LR_DBG_APP 1
 #define LR_DBG_INTERFACE_CONFIG
 #define LR_DBG_INTERFACE 1
 #define LR_DBG_CHIP_CONFIG
@@ -235,19 +254,27 @@
 
 /* Select LoRa Radio Driver Example */
 
-#define LORA_RADIO_DRIVER_USING_LORA_RADIO_TEST_SHELL
-#define PHY_REGION_CN470
-#define USE_MODEM_LORA
 /* end of Select LoRa Radio Driver Example */
 #define PKG_USING_LORA_RADIO_DRIVER_V130
 /* end of peripheral libraries and drivers */
 
+/* AI packages */
+
+/* end of AI packages */
+
 /* miscellaneous packages */
 
+/* project laboratory */
+
+/* end of project laboratory */
 
 /* samples: kernel and components samples */
 
 /* end of samples: kernel and components samples */
+
+/* entertainment: terminal games and other interesting software packages */
+
+/* end of entertainment: terminal games and other interesting software packages */
 /* end of miscellaneous packages */
 /* end of RT-Thread online packages */
 
@@ -278,6 +305,7 @@
 /* External Libraries */
 
 /* end of External Libraries */
+#define FIRMWARE_EXEC_USING_QSPI_FLASH
 #define RT_STUDIO_BUILT_IN
 
 #endif

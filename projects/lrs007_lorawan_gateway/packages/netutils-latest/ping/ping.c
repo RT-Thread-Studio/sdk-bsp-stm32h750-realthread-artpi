@@ -1,21 +1,7 @@
 /*
- * File      : ping.c
- * This file is part of RT-Thread RTOS
- * COPYRIGHT (C) 2006-2018, RT-Thread Development Team
+ * Copyright (c) 2006-2022, RT-Thread Development Team
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License along
- *  with this program; if not, write to the Free Software Foundation, Inc.,
- *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
  * Date           Author       Notes
@@ -175,15 +161,15 @@ rt_err_t ping(char* target_name, rt_uint32_t times, rt_size_t size)
         size = PING_DATA_SIZE;
     }
 
-    memset(&hint, 0, sizeof(hint));
+    rt_memset(&hint, 0, sizeof(hint));
     /* convert URL to IP */
     if (lwip_getaddrinfo(target_name, NULL, &hint, &res) != 0)
     {
         rt_kprintf("ping: unknown host %s\n", target_name);
         return -RT_ERROR;
     }
-    memcpy(&h, &res->ai_addr, sizeof(struct sockaddr_in *));
-    memcpy(&ina, &h->sin_addr, sizeof(ina));
+    rt_memcpy(&h, &res->ai_addr, sizeof(struct sockaddr_in *));
+    rt_memcpy(&ina, &h->sin_addr, sizeof(ina));
     lwip_freeaddrinfo(res);
     if (inet_aton(inet_ntoa(ina), &target_addr) == 0)
     {
@@ -239,8 +225,6 @@ rt_err_t ping(char* target_name, rt_uint32_t times, rt_size_t size)
 #ifdef RT_USING_FINSH
 #include <finsh.h>
 
-FINSH_FUNCTION_EXPORT(ping, ping network host);
-
 int cmd_ping(int argc, char **argv)
 {
     if (argc == 1)
@@ -254,6 +238,6 @@ int cmd_ping(int argc, char **argv)
 
     return 0;
 }
-FINSH_FUNCTION_EXPORT_ALIAS(cmd_ping, __cmd_ping, ping network host);
+MSH_CMD_EXPORT_ALIAS(cmd_ping, ping, ping network host);
 #endif
 #endif /* PKG_NETUTILS_PING */

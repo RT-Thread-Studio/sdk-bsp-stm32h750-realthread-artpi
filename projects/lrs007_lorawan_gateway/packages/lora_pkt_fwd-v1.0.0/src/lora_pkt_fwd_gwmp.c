@@ -51,7 +51,6 @@ Maintainer: Michael Coracin
 #include "loragw_hal.h"
 #include "loragw_usr.h"
 
-#include "clock_time.h"
 #include "lora_pkt_fwd.h"
 
 #ifdef PKG_USING_EASYFLASH

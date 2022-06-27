@@ -1,10 +1,5 @@
 [
  {
-  "path": "/packages/iot/netutils", 
-  "ver": "v1.3.1", 
-  "name": "NETUTILS"
- }, 
- {
   "path": "/packages/iot/lora_pkt_fwd", 
   "ver": "v1.0.0", 
   "name": "LORA_PKT_FWD"

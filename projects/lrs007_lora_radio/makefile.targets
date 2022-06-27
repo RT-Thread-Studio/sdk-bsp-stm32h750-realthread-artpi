@@ -4,4 +4,4 @@ clean2:
 	-@echo ' '
 
 
-*.elf: $(wildcard F:/K-Forest/RTOS/RT-Thread/artpi-master/sdk-artpi-pr/sdk-bsp-stm32h750-realthread-artpi/projects/lrs007_lora_radio/board/linker_scripts/STM32H750XBHx/link.lds)
+*.elf: $(wildcard ../board/linker_scripts/STM32H750XBHx/link.lds)

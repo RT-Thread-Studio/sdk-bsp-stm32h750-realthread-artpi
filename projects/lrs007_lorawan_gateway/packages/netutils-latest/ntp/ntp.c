@@ -21,6 +21,8 @@
  * 2018-02-10     armink       the first version
  * 2020-07-21     Chenxuan     C++ support
  * 2021-05-09     Meco Man     remove timezone function
+ * 2021-07-22     Meco Man     implement workqueue for NTP sync
+ * 2021-08-02     qiyongzhong  fix bug of check timeout
  */
 
 #include <rtthread.h>
@@ -60,62 +62,62 @@ extern int closesocket(int s);
 #if RT_VER_NUM <= 0x40003
 #ifndef NETUTILS_NTP_TIMEZONE
 #define NETUTILS_NTP_TIMEZONE                   8
-#endif
-#endif
+#endif /* NETUTILS_NTP_TIMEZONE */
+#endif /* RT_VER_NUM <= 0x40003 */
 
 #ifdef NETUTILS_NTP_HOSTNAME
 #define NTP_HOSTNAME1                  NETUTILS_NTP_HOSTNAME
 #else
-#define NTP_HOSTNAME1                  NULL
-#endif
+#define NTP_HOSTNAME1                  RT_NULL
+#endif /* NETUTILS_NTP_HOSTNAME */
 
 #ifdef NETUTILS_NTP_HOSTNAME2
 #define NTP_HOSTNAME2                  NETUTILS_NTP_HOSTNAME2
 #else
-#define NTP_HOSTNAME2                  NULL
-#endif
+#define NTP_HOSTNAME2                  RT_NULL
+#endif /* NETUTILS_NTP_HOSTNAME2 */
 
 #ifdef NETUTILS_NTP_HOSTNAME3
 #define NTP_HOSTNAME3                  NETUTILS_NTP_HOSTNAME3
 #else
-#define NTP_HOSTNAME3                  NULL
-#endif
+#define NTP_HOSTNAME3                  RT_NULL
+#endif /* NETUTILS_NTP_HOSTNAME3 */
 
 #define NTP_TIMESTAMP_DELTA            2208988800ull
 
-#define LI(packet)   (uint8_t) ((packet.li_vn_mode & 0xC0) >> 6) /* (li   & 11 000 000) >> 6 */
-#define VN(packet)   (uint8_t) ((packet.li_vn_mode & 0x38) >> 3) /* (vn   & 00 111 000) >> 3 */
-#define MODE(packet) (uint8_t) ((packet.li_vn_mode & 0x07) >> 0) /* (mode & 00 000 111) >> 0 */
+#define LI(packet)   (rt_uint8_t) ((packet.li_vn_mode & 0xC0) >> 6) /* (li   & 11 000 000) >> 6 */
+#define VN(packet)   (rt_uint8_t) ((packet.li_vn_mode & 0x38) >> 3) /* (vn   & 00 111 000) >> 3 */
+#define MODE(packet) (rt_uint8_t) ((packet.li_vn_mode & 0x07) >> 0) /* (mode & 00 000 111) >> 0 */
 
 /* Structure that defines the 48 byte NTP packet protocol */
 typedef struct {
 
-    uint8_t li_vn_mode;      /* Eight bits. li, vn, and mode */
-                             /* li.   Two bits.   Leap indicator */
-                             /* vn.   Three bits. Version number of the protocol */
-                             /* mode. Three bits. Client will pick mode 3 for client */
+    rt_uint8_t li_vn_mode;      /* Eight bits. li, vn, and mode */
+                                /* li.   Two bits.   Leap indicator */
+                                /* vn.   Three bits. Version number of the protocol */
+                                /* mode. Three bits. Client will pick mode 3 for client */
 
-    uint8_t stratum;         /* Eight bits. Stratum level of the local clock */
-    uint8_t poll;            /* Eight bits. Maximum interval between successive messages */
-    uint8_t precision;       /* Eight bits. Precision of the local clock */
+    rt_uint8_t stratum;         /* Eight bits. Stratum level of the local clock */
+    rt_uint8_t poll;            /* Eight bits. Maximum interval between successive messages */
+    rt_uint8_t precision;       /* Eight bits. Precision of the local clock */
 
-    uint32_t rootDelay;      /* 32 bits. Total round trip delay time */
-    uint32_t rootDispersion; /* 32 bits. Max error aloud from primary clock source */
-    uint32_t refId;          /* 32 bits. Reference clock identifier */
+    rt_uint32_t rootDelay;      /* 32 bits. Total round trip delay time */
+    rt_uint32_t rootDispersion; /* 32 bits. Max error aloud from primary clock source */
+    rt_uint32_t refId;          /* 32 bits. Reference clock identifier */
 
-    uint32_t refTm_s;        /* 32 bits. Reference time-stamp seconds */
-    uint32_t refTm_f;        /* 32 bits. Reference time-stamp fraction of a second */
+    rt_uint32_t refTm_s;        /* 32 bits. Reference time-stamp seconds */
+    rt_uint32_t refTm_f;        /* 32 bits. Reference time-stamp fraction of a second */
 
-    uint32_t origTm_s;       /* 32 bits. Originate time-stamp seconds */
-    uint32_t origTm_f;       /* 32 bits. Originate time-stamp fraction of a second */
+    rt_uint32_t origTm_s;       /* 32 bits. Originate time-stamp seconds */
+    rt_uint32_t origTm_f;       /* 32 bits. Originate time-stamp fraction of a second */
 
-    uint32_t rxTm_s;         /* 32 bits. Received time-stamp seconds */
-    uint32_t rxTm_f;         /* 32 bits. Received time-stamp fraction of a second */
+    rt_uint32_t rxTm_s;         /* 32 bits. Received time-stamp seconds */
+    rt_uint32_t rxTm_f;         /* 32 bits. Received time-stamp fraction of a second */
 
-    uint32_t txTm_s;         /* 32 bits and the most important field the client cares about. Transmit time-stamp seconds */
-    uint32_t txTm_f;         /* 32 bits. Transmit time-stamp fraction of a second */
+    rt_uint32_t txTm_s;         /* 32 bits and the most important field the client cares about. Transmit time-stamp seconds */
+    rt_uint32_t txTm_f;         /* 32 bits. Transmit time-stamp fraction of a second */
 
-} ntp_packet;                /* Total: 384 bits or 48 bytes */
+} ntp_packet;                   /* Total: 384 bits or 48 bytes */
 
 static ntp_packet packet = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
@@ -127,7 +129,7 @@ static int sendto_ntp_server(int sockfd, const char *host_name, struct sockaddr_
     int portno = 123;
 
     server = gethostbyname(host_name);
-    if (server == NULL)
+    if (server == RT_NULL)
     {
         LOG_D("No such host(%s)", host_name);
         return -RT_ERROR;
@@ -152,7 +154,7 @@ static int sendto_ntp_server(int sockfd, const char *host_name, struct sockaddr_
 /**
  * Get the UTC time from NTP server
  *
- * @param host_name NTP server host name, NULL: will using default host name
+ * @param host_name NTP server host name, RT_NULL: will using default host name
  *
  * @note this function is not reentrant
  *
@@ -195,9 +197,9 @@ time_t ntp_get_time(const char *host_name)
         const char month[][NTP_INTERNET_MONTH_LEN] =
             {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
         char date[NTP_INTERNET_DATE_LEN] = {0};
-        uint8_t send_data[NTP_INTERNET_BUFF_LEN] = {0};
-        uint8_t index, moth_num = 0;
-        uint16_t check = 0;
+        rt_uint8_t send_data[NTP_INTERNET_BUFF_LEN] = {0};
+        rt_uint8_t index, moth_num = 0;
+        rt_uint16_t check = 0;
 
         /* get build moth value*/
         rt_snprintf(date, NTP_INTERNET_DATE_LEN, "%s", __DATE__);
@@ -218,7 +220,7 @@ time_t ntp_get_time(const char *host_name)
 #if defined(RT_USING_LWIP) && !defined(RT_USING_NETDEV)
             #define netdev netif
             #define netdev_default netif_default
-#endif
+#endif /* defined(RT_USING_LWIP) && !defined(RT_USING_NETDEV) */
             extern struct netdev *netdev_default;
             struct netdev *dev = netdev_default;
 
@@ -246,7 +248,7 @@ time_t ntp_get_time(const char *host_name)
 
         rt_memcpy(((char *)&packet + 4), send_data, NTP_INTERNET_BUFF_LEN);
     }
-#endif /* RT_USING_NETDEV || RT_USING_LWIP */
+#endif /* defined(RT_USING_NETDEV) || defined(RT_USING_LWIP) */
 
 
     /* Create a UDP socket. */
@@ -270,7 +272,7 @@ time_t ntp_get_time(const char *host_name)
         /* use the static default NTP server */
         for (i = 0; i < NTP_SERVER_NUM; i++)
         {
-            if (host_name_buf[i] == NULL || strlen(host_name_buf[i]) == 0)
+            if (host_name_buf[i] == RT_NULL || strlen(host_name_buf[i]) == 0)
                 continue;
 
             if (sendto_ntp_server(sockfd, host_name_buf[i], &serv_addr[server_num]) >= 0)
@@ -287,7 +289,7 @@ time_t ntp_get_time(const char *host_name)
     }
 
     start = rt_tick_get();
-    while (rt_tick_get() <= start + NTP_GET_TIMEOUT * RT_TICK_PER_SECOND)
+    while (rt_tick_get() - start < NTP_GET_TIMEOUT * RT_TICK_PER_SECOND)
     {
         for (i = 0; i < server_num; i++)
         {
@@ -308,7 +310,7 @@ time_t ntp_get_time(const char *host_name)
 
 __exit:
 
-    if (rt_tick_get() <= start + NTP_GET_TIMEOUT * RT_TICK_PER_SECOND)
+    if (rt_tick_get() - start < NTP_GET_TIMEOUT * RT_TICK_PER_SECOND)
     {
         /* These two fields contain the time-stamp seconds as the packet left the NTP server.
            The number of seconds correspond to the seconds passed since 1900.
@@ -336,7 +338,7 @@ __exit:
 /**
  * Get the local time from NTP server
  *
- * @param host_name NTP server host name, NULL: will using default host name
+ * @param host_name NTP server host name, RT_NULL: will using default host name
  *
  * @return >0: success, current local time, offset timezone by NETUTILS_NTP_TIMEZONE
  *         =0: get failed
@@ -358,7 +360,7 @@ time_t ntp_get_local_time(const char *host_name)
 /**
  * Sync current local time to RTC by NTP
  *
- * @param host_name NTP server host name, NULL: will using default host name
+ * @param host_name NTP server host name, RT_NULL: will using default host name
  *
  * @return >0: success
  *         =0: sync failed
@@ -375,9 +377,10 @@ time_t ntp_sync_to_rtc(const char *host_name)
 #ifdef RT_USING_RTC
 #if RT_VER_NUM <= 0x40003
         struct tm *cur_tm;
-        cur_tm = localtime(&cur_time);
+        struct tm cur_tm_t;
+        cur_tm = &cur_tm_t;
+        localtime_r(&cur_time, cur_tm);
         set_time(cur_tm->tm_hour, cur_tm->tm_min, cur_tm->tm_sec);
-        cur_tm = localtime(&cur_time);
         set_date(cur_tm->tm_year + 1900, cur_tm->tm_mon + 1, cur_tm->tm_mday);
 #else
         rt_device_control(rt_device_find("rtc"), RT_DEVICE_CTRL_RTC_SET_TIME, &cur_time);
@@ -394,9 +397,6 @@ time_t ntp_sync_to_rtc(const char *host_name)
 
 #if RT_VER_NUM > 0x40003
 #ifdef NTP_USING_AUTO_SYNC
-#ifndef NTP_AUTO_SYNC_THREAD_STACK_SIZE
-#define NTP_AUTO_SYNC_THREAD_STACK_SIZE           (1500)
-#endif
 /* NTP first sync delay time for network connect, unit: second */
 #ifndef NTP_AUTO_SYNC_FIRST_DELAY
 #define NTP_AUTO_SYNC_FIRST_DELAY                 (30)
@@ -406,52 +406,45 @@ time_t ntp_sync_to_rtc(const char *host_name)
 #define NTP_AUTO_SYNC_PERIOD                      (1L*60L*60L)
 #endif
 
-static void ntp_sync_thread_enrty(void *param)
+static rt_bool_t ntp_check_network(void)
 {
-    /* first sync delay for network connect */
-    rt_thread_delay(NTP_AUTO_SYNC_FIRST_DELAY * RT_TICK_PER_SECOND);
+#ifdef RT_USING_NETDEV
+    struct netdev * netdev = netdev_get_by_family(AF_INET);
+    return (netdev && netdev_is_link_up(netdev));
+#else
+    return RT_TRUE;
+#endif
+}
 
-    while (1)
+static struct rt_work ntp_sync_work;
+static void ntp_sync_work_func(struct rt_work *work, void *work_data)
+{
+    if (ntp_check_network())
     {
-        ntp_sync_to_rtc(NULL);
-        rt_thread_delay(NTP_AUTO_SYNC_PERIOD * RT_TICK_PER_SECOND);
+        ntp_sync_to_rtc(RT_NULL);
+        rt_work_submit(work, rt_tick_from_millisecond(NTP_AUTO_SYNC_PERIOD * 1000));
+    }
+    else
+    {
+        rt_work_submit(work, rt_tick_from_millisecond(5 * 1000));
     }
 }
 
 static int ntp_auto_sync_init(void)
 {
-    static rt_bool_t init_ok = RT_FALSE;
-    rt_thread_t thread;
-
-    if (init_ok)
-    {
-        return 0;
-    }
-
-    thread = rt_thread_create("ntp-sync", ntp_sync_thread_enrty, RT_NULL,
-                NTP_AUTO_SYNC_THREAD_STACK_SIZE, RT_THREAD_PRIORITY_MAX - 2, 20);
-    if (thread)
-    {
-        rt_thread_startup(thread);
-    }
-    else
-    {
-        return -RT_ENOMEM;
-    }
-
-    init_ok = RT_TRUE;
-
+    rt_work_init(&ntp_sync_work, ntp_sync_work_func, RT_NULL);
+    rt_work_submit(&ntp_sync_work, rt_tick_from_millisecond(NTP_AUTO_SYNC_FIRST_DELAY * 1000));
     return RT_EOK;
 }
 INIT_COMPONENT_EXPORT(ntp_auto_sync_init);
-#endif /*NTP_USING_AUTO_SYNC*/
-#endif /*RT_VER_NUM > 0x40003*/
+#endif /* NTP_USING_AUTO_SYNC */
+#endif /* RT_VER_NUM > 0x40003 */
 
 #ifdef FINSH_USING_MSH
 #include <finsh.h>
 static void cmd_ntp_sync(int argc, char **argv)
 {
-    char *host_name = NULL;
+    char *host_name = RT_NULL;
 
     if (argc > 1)
     {

@@ -1,28 +1,14 @@
 /*
- * File      : telnet.c
- * This file is part of RT-Thread RTOS
- * COPYRIGHT (C) 2006-2018, RT-Thread Development Team
+ * Copyright (c) 2006-2022, RT-Thread Development Team
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License along
- *  with this program; if not, write to the Free Software Foundation, Inc.,
- *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
  * Date           Author       Notes
  * 2012-04-01     Bernard      first version
  * 2018-01-25     armink       Fix it on RT-Thread 3.0+
  */
-#include <rtthread.h>
+
 #include <rtdevice.h>
 
 #ifdef PKG_NETUTILS_TELNET
@@ -30,14 +16,21 @@
 #include <sys/socket.h>
 #else
 #include <lwip/sockets.h>
-#endif /* SAL_USING_POSIX */
+#endif /* defined(RT_USING_DFS_NET) || defined(SAL_USING_POSIX) */
 
-#if defined(RT_USING_POSIX)
+#if defined(RT_USING_POSIX_STDIO) /* RT_VER_NUM >= 0x40100 */
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <poll.h>
+#elif defined(RT_USING_POSIX) /* RT_VER_NUM < 0x40100 */
 #include <dfs_posix.h>
 #include <dfs_poll.h>
+#endif /* defined(RT_USING_POSIX_STDIO) */
+
+#if defined(RT_USING_POSIX_STDIO) || defined(RT_USING_POSIX)
 #include <libc.h>
 static int dev_old_flag;
-#endif
+#endif /* defined(RT_USING_POSIX_STDIO) || defined(RT_USING_POSIX) */
 
 #include <finsh.h>
 #include <msh.h>
@@ -201,8 +194,7 @@ static void process_rx(struct telnet_session* telnet, rt_uint8_t *data, rt_size_
         data++;
     }
 
-
-#if !defined(RT_USING_POSIX)
+#if !(defined(RT_USING_POSIX_STDIO) || defined(RT_USING_POSIX))
     rt_size_t rx_length;
     rt_mutex_take(telnet->rx_ringbuffer_lock, RT_WAITING_FOREVER);
     /* get total size */
@@ -214,7 +206,7 @@ static void process_rx(struct telnet_session* telnet, rt_uint8_t *data, rt_size_
     {
         telnet->device.rx_indicate(&telnet->device, rx_length);
     }
-#endif
+#endif /* !(defined(RT_USING_POSIX_STDIO) || defined(RT_USING_POSIX)) */
 
     return;
 }
@@ -225,12 +217,12 @@ static void client_close(struct telnet_session* telnet)
     /* set console */
     rt_console_set_device(RT_CONSOLE_DEVICE_NAME);
     /* set finsh device */
-#if defined(RT_USING_POSIX)
+#if defined(RT_USING_POSIX_STDIO) || defined(RT_USING_POSIX)
     ioctl(libc_stdio_get_console(), F_SETFL, (void *) dev_old_flag);
     libc_stdio_set_console(RT_CONSOLE_DEVICE_NAME, O_RDWR);
 #else
     finsh_set_device(RT_CONSOLE_DEVICE_NAME);
-#endif /* RT_USING_POSIX */
+#endif /* defined(RT_USING_POSIX_STDIO) || defined(RT_USING_POSIX) */
 
     rt_sem_release(telnet->read_notice);
 
@@ -321,20 +313,27 @@ static rt_err_t telnet_control(rt_device_t dev, int cmd, void *args)
         telnet_write,
         telnet_control
     };
-#endif
+#endif /* RT_USING_DEVICE_OPS */
+
 /* telnet server thread entry */
 static void telnet_thread(void* parameter)
 {
 #define RECV_BUF_LEN 64
-
     struct sockaddr_in addr;
     socklen_t addr_size;
     rt_uint8_t recv_buf[RECV_BUF_LEN];
     rt_int32_t recv_len = 0;
+    rt_int32_t keepalive = 1;
 
     if ((telnet->server_fd = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {
         rt_kprintf("telnet: create socket failed\n");
+        return;
+    }
+
+    if(setsockopt(telnet->server_fd, SOL_SOCKET, SO_KEEPALIVE, (void *)&keepalive, sizeof(keepalive)) < 0)
+    {
+        rt_kprintf("telnet:set socket keepalive failed\n");
         return;
     }
 
@@ -365,7 +364,7 @@ static void telnet_thread(void* parameter)
     telnet->device.read     = telnet_read;
     telnet->device.write    = telnet_write;
     telnet->device.control  = telnet_control;
-#endif
+#endif /* RT_USING_DEVICE_OPS */
 
     /* no private */
     telnet->device.user_data = RT_NULL;
@@ -388,8 +387,9 @@ static void telnet_thread(void* parameter)
         /* process the new connection */
         /* set console */
         rt_console_set_device("telnet");
+
         /* set finsh device */
-#if defined(RT_USING_POSIX)
+#if defined(RT_USING_POSIX_STDIO) || defined(RT_USING_POSIX)
         /* backup flag */
         dev_old_flag = ioctl(libc_stdio_get_console(), F_GETFL, (void *) RT_NULL);
         /* add non-block flag */
@@ -406,7 +406,7 @@ static void telnet_thread(void* parameter)
 #else
         /* set finsh device */
         finsh_set_device("telnet");
-#endif /* RT_USING_POSIX */
+#endif /* defined(RT_USING_POSIX_STDIO) || defined(RT_USING_POSIX) */
 
         /* set init state */
         telnet->state = STATE_NORMAL;
@@ -416,8 +416,8 @@ static void telnet_thread(void* parameter)
         finsh_set_echo(0);
         /* output RT-Thread version and shell prompt */
 #ifdef FINSH_USING_MSH
-        msh_exec("version", strlen("version"));
-#endif
+        msh_exec("version", rt_strlen("version"));
+#endif /* FINSH_USING_MSH */
         rt_kprintf(FINSH_PROMPT);
 
         while (1)

@@ -51,7 +51,7 @@ static void iperf_udp_client(void *thread_param)
     {
         return;
     }
-    memset(buffer, 0x00, IPERF_BUFSZ);
+    rt_memset(buffer, 0x00, IPERF_BUFSZ);
     sock = socket(PF_INET, SOCK_DGRAM, 0);
     if(sock < 0)
     {
@@ -286,7 +286,7 @@ void iperf_server(void *thread_param)
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(param.port);
     server_addr.sin_addr.s_addr = INADDR_ANY;
-    memset(&(server_addr.sin_zero), 0x0, sizeof(server_addr.sin_zero));
+    rt_memset(&(server_addr.sin_zero), 0x0, sizeof(server_addr.sin_zero));
 
     if (bind(sock, (struct sockaddr *)&server_addr, sizeof(struct sockaddr)) == -1)
     {
