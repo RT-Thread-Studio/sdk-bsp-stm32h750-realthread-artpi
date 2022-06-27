@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2019, RT-Thread Development Team
+ * Copyright (c) 2006-2022, RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -114,7 +114,7 @@ static struct tftp_client_xfer *tftp_client_xfer_add(struct tftp_server *server,
     {
         if (_private->client_table[i].xfer == NULL)
         {
-            memset(&_private->client_table[i], 0, sizeof(struct tftp_client_xfer));
+            rt_memset(&_private->client_table[i], 0, sizeof(struct tftp_client_xfer));
             _private->client_table[i].xfer = xfer;
             return &_private->client_table[i];
         }
@@ -342,7 +342,7 @@ static struct tftp_client_xfer *tftp_server_request_handle(struct tftp_server *s
 
     _private = server->_private;
     /* Receiving client requests */
-    memset(packet, 0, sizeof(struct tftp_packet));
+    rt_memset(packet, 0, sizeof(struct tftp_packet));
     xfer = tftp_recv_request(_private->server_xfer, packet);
     if (xfer == NULL)
     {
@@ -550,8 +550,8 @@ struct tftp_server *tftp_server_create(const char *root_name, int port)
         return NULL;
     }
     /* init server object */
-    memset(server, 0, mem_len);
-    server->root_name = strdup(root_name);
+    rt_memset(server, 0, mem_len);
+    server->root_name = rt_strdup(root_name);
     if (server->root_name == NULL)
     {
         free(server);
@@ -567,7 +567,7 @@ struct tftp_server *tftp_server_create(const char *root_name, int port)
         free(server);
         return NULL;
     }
-    memset(_private->client_table, 0, mem_len);
+    rt_memset(_private->client_table, 0, mem_len);
     _private->table_num = TFTP_SERVER_CONNECT_MAX;
     return server;
 }

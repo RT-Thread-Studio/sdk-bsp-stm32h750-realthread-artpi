@@ -10,5 +10,7 @@
 #define RT_USING_NEWLIB
 #define STM32H750xx
 #define USE_HAL_DRIVER
+#define _POSIX_C_SOURCE 1
+#define __RTTHREAD__
 
 #endif /*RTCONFIG_PREINC_H__*/

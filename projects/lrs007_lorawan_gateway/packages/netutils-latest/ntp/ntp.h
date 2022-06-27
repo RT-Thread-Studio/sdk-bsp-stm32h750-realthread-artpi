@@ -27,7 +27,7 @@
 #ifndef __NTP_H__
 #define __NTP_H__
 
-#include <time.h>
+#include <sys/time.h>
 
 #ifdef __cplusplus
 extern "C" {

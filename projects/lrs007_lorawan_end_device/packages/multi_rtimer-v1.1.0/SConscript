@@ -14,7 +14,7 @@ if GetDepend(['MULTI_RTIMER_USING_RTC_SYSTIME_SERVICE']):
 
 if GetDepend(['MULTI_RTIMER_USING_TRAGET_MCU_STM32_RTC']):
     src += ['ports/stm32_rtc_adapter/hw_rtc_stm32.c']
-    include_path += ['ports/stm32_rtc_adapter']
+    include_path += [cwd+'/ports/stm32_rtc_adapter']
 
 if GetDepend(['MULTI_RTIMER_USING_TEST_SAMPLE']):
     src += ['samples/multi_rtimer_test_sample.c']

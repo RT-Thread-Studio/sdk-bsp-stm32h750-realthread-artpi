@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2019, RT-Thread Development Team
+ * Copyright (c) 2006-2022, RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -9,7 +9,12 @@
  */
 
 #include <rtthread.h>
+#if RT_VER_NUM >= 0x40100
+#include <unistd.h>
+#include <fcntl.h>
+#else
 #include <dfs_posix.h>
+#endif /* RT_VER_NUM >= 0x40100 */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -250,4 +255,4 @@ _help:
     _tftp_help();
     return -1;
 }
-FINSH_FUNCTION_EXPORT_ALIAS(_tftp_msh, __cmd_tftp, tftp.);
+MSH_CMD_EXPORT_ALIAS(_tftp_msh, tftp, tftp);

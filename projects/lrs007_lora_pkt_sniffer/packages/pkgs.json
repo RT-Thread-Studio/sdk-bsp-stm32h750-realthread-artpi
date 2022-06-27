@@ -10,11 +10,6 @@
   "name": "EASYFLASH"
  }, 
  {
-  "path": "/packages/system/fal", 
-  "ver": "v0.5.0", 
-  "name": "FAL"
- }, 
- {
   "path": "/packages/peripherals/lora_gw_driver_lib", 
   "ver": "v0.3.0", 
   "name": "LORA_GW_DRIVER_LIB"
