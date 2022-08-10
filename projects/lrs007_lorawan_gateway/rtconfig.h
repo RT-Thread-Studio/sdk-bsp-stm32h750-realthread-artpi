@@ -373,6 +373,10 @@
 
 /* peripheral libraries and drivers */
 
+
+/* Kendryte SDK */
+
+/* end of Kendryte SDK */
 #define LORA_GW_DRIVER_LIB_USING_LORA_CHIP_SX1302
 #define LORA_GW_DRIVER_SPI_DEVICE_NAME "lgd1302"
 #define LORA_GW_DRIVER_SPI_BUS_NAME "spi2"
@@ -459,6 +463,7 @@
 
 #define ART_PI_USING_WIFI_6212_LIB
 #define ART_PI_USING_OTA_LIB
+#define ART_PI_USING_FTP_LIB
 /* end of External Libraries */
 #define FIRMWARE_EXEC_USING_QSPI_FLASH
 #define RT_STUDIO_BUILT_IN
