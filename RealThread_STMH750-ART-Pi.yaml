@@ -481,11 +481,11 @@ example_projects:
     source_path_offset: ''
     target_path_offset: ''
     files_and_folders: []
-- project_name: art_pi_lrs007_lora_gw_driver
+- project_name: lrs007_lora_gw_driver
   project_description: creat this peoject if user choose rt-thread project
   project_type: rt-thread|@full|@4.1.0
   builtin_files:
-  - source_path_offset: projects/art_pi_lrs007_lora_gw_driver
+  - source_path_offset: projects/lrs007_lora_gw_driver
     target_path_offset: ''
     files_and_folders:
     - "*"
@@ -502,11 +502,11 @@ example_projects:
     source_path_offset: ''
     target_path_offset: ''
     files_and_folders: []
-- project_name: art_pi_lrs007_lora_loopback
+- project_name: lrs007_lora_loopback
   project_description: creat this peoject if user choose rt-thread project
   project_type: rt-thread|@full|@4.1.0
   builtin_files:
-  - source_path_offset: projects/art_pi_lrs007_lora_loopback
+  - source_path_offset: projects/lrs007_lora_loopback
     target_path_offset: ''
     files_and_folders:
     - "*"
@@ -523,11 +523,11 @@ example_projects:
     source_path_offset: ''
     target_path_offset: ''
     files_and_folders: []
-- project_name: art_pi_lrs007_lora_pkt_sniffer
+- project_name: lrs007_lora_pkt_sniffer
   project_description: creat this peoject if user choose rt-thread project
   project_type: rt-thread|@full|@4.1.0
   builtin_files:
-  - source_path_offset: projects/art_pi_lrs007_lora_pkt_sniffer
+  - source_path_offset: projects/lrs007_lora_pkt_sniffer
     target_path_offset: ''
     files_and_folders:
     - "*"
@@ -544,11 +544,11 @@ example_projects:
     source_path_offset: ''
     target_path_offset: ''
     files_and_folders: []
-- project_name: art_pi_lrs007_lorawan_gateway
+- project_name: lrs007_lorawan_gateway
   project_description: creat this peoject if user choose rt-thread project
   project_type: rt-thread|@full|@4.1.0
   builtin_files:
-  - source_path_offset: projects/art_pi_lrs007_lorawan_gateway
+  - source_path_offset: projects/lrs007_lorawan_gateway
     target_path_offset: ''
     files_and_folders:
     - "*"
